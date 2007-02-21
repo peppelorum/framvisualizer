@@ -55,7 +55,6 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		});
 		
-		
 		JPanel tableAndGraph = new JPanel(new GridLayout(0,2));
 		
 		Container tableContainer = new Container();
@@ -63,14 +62,9 @@ public class GUI extends JFrame implements ActionListener{
 				
 		menuBar.add(createFileMenu());
 		setJMenuBar(menuBar);
-		
-		
-		
+
 		tableVisualizer.setList(table.getList());
-		
-		
-		
-	
+
 		tableContainer.add(table);
 		
 		tableAndGraph.add(new JScrollPane(tableContainer));
@@ -78,7 +72,6 @@ public class GUI extends JFrame implements ActionListener{
 		
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
-		
 		
 		buttonsPanel.add(searchField);
 		buttonsPanel.add(createNewNodeButton());
