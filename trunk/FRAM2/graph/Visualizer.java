@@ -185,7 +185,6 @@ public class Visualizer extends JComponent {
 		Point pointFrom;
 		Point pointTo;
 		if(list.size() > 0) {
-			System.out.println(list.searchConnections().size());
 			
 			for(ConnectionInfo conInfo : list.searchConnections()) {
 
