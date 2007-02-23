@@ -194,19 +194,18 @@ public class Visualizer extends JComponent {
 				pointFrom = nodeFrom.getPort(conInfo.getFrom().getConnectionPort());
 				pointTo = nodeTo.getPort(conInfo.getTo().getConnectionPort());		
 	
-				
-				g.drawLine(pointFrom.x, pointFrom.y, pointTo.x, pointTo.y);
-				
-				Line2D line = new Line2D.Double();
-				line.setLine(pointFrom, pointTo);
-				
-				g.drawString(
-						conInfo.getAspect(), 
-						(int)line.getBounds().getCenterX(), 
-						(int)line.getBounds().getCenterY());
-				
-				//System.out.print(conInfo.getFrom().getNode().getName());
-				//System.out.print(conInfo.getTo().getNode().getName());
+				if(conInfo.getVisibility()){
+					g.drawLine(pointFrom.x, pointFrom.y, pointTo.x, pointTo.y);
+					
+					Line2D line = new Line2D.Double();
+					line.setLine(pointFrom, pointTo);
+					
+					g.drawString(
+							conInfo.getAspect(), 
+							(int)line.getBounds().getCenterX(), 
+							(int)line.getBounds().getCenterY());
+					
+				}
 			}
 			
 			
