@@ -100,17 +100,17 @@ public class Visualizer extends JComponent {
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 
@@ -179,21 +179,27 @@ public class Visualizer extends JComponent {
 		
 		//System.out.println("paint");
 		g.setColor(Color.black);
-
+		
 		GraphNode nodeFrom;
 		GraphNode nodeTo;
 		Point pointFrom;
 		Point pointTo;
 		if(list.size() > 0) {
 			
+			for(GraphNode guinode : guiList) {
+				guinode.paintComponent(g);
+			}
+			
 			for(ConnectionInfo conInfo : list.searchConnections()) {
-
+				
 				nodeFrom = getGuiNode(conInfo.getFrom().getNode());
 				nodeTo = getGuiNode(conInfo.getTo().getNode());
 	
 				pointFrom = nodeFrom.getPort(conInfo.getFrom().getConnectionPort());
 				pointTo = nodeTo.getPort(conInfo.getTo().getConnectionPort());		
 	
+			
+				
 				if(conInfo.getVisibility()){
 					g.drawLine(pointFrom.x, pointFrom.y, pointTo.x, pointTo.y);
 					
@@ -209,9 +215,7 @@ public class Visualizer extends JComponent {
 			}
 			
 			
-			for(GraphNode guinode : guiList) {
-				guinode.paintComponent(g);
-			}
+
 		
 		}
 	}
