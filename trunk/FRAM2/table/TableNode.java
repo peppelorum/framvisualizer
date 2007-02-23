@@ -50,14 +50,11 @@ public class TableNode extends JTableX {
 	
 	private void updateTable() {        
         addAutoComplete(); 
-
         
-        //Sets the cell renderers
-        TableColumn firstColumn= this.getColumnModel().getColumn( 0 );
-        firstColumn.setCellRenderer(new CustomCellRenderer ()); 
-        TableColumn secondColumn= this.getColumnModel().getColumn( 1 );
-        secondColumn.setCellRenderer(new CustomCellRenderer ());
-        
+        for(int i = 0;i<this.getColumnCount();i++){
+        	//Sets the cell renderers
+        	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ()); 
+        }
 	}
 	
 	private void addAutoComplete() {        
