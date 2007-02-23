@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import data.FramNode.connectionPoints;
+
 
 /**
  * FramNodeList is an ArrayList which store all the nodes/functions in the FRAM-network
@@ -188,9 +190,43 @@ public class FramNodeList extends ArrayList<FramNode> {
 		}
 		
 		connections.addAll(temp);
-				
+		filterSearchResult();
+		
 		return connections ;
 	}
+	
+	public void filterSearchResult(){
+		boolean filterOutputOutput = true;
+		boolean filterInputInput = true;
+		boolean filterNonePreCOutput = true;
+		
+		for(int i=0;i<connections.size();i++){
+			
+			if(filterOutputOutput){	
+				if(connections.get(i).getFrom().getConnectionPort() == connectionPoints.Output &&
+						connections.get(i).getTo().getConnectionPort() == connectionPoints.Output){
+					connections.get(i).setVisibility(false);
+				}
+			}
+			if(filterInputInput){
+				if(connections.get(i).getFrom().getConnectionPort() == connectionPoints.Input &&
+						connections.get(i).getTo().getConnectionPort() == connectionPoints.Input){
+					connections.get(i).setVisibility(false);
+				}				
+			}
+			if(filterNonePreCOutput){
+				if((connections.get(i).getFrom().getConnectionPort() == connectionPoints.Preconditions ||
+					connections.get(i).getTo().getConnectionPort() == connectionPoints.Preconditions) &&
+						!(connections.get(i).getTo().getConnectionPort() == connectionPoints.Output ||
+						connections.get(i).getFrom().getConnectionPort() == connectionPoints.Output	)){
+					connections.get(i).setVisibility(false);
+				}				
+			}			
+			
+		}		
+	}
+	
+	
 	
 	public void addListChangedListener(ActionListener listener) {
 		listChangedRecipients.add(listener);
