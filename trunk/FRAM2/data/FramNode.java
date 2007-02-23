@@ -16,12 +16,12 @@ public class FramNode {
 	private FramNodeList list;
 	
 	private String name;
-	private ArrayList<String> input;
-	private ArrayList<String> output;
-	private ArrayList<String> resources;
-	private ArrayList<String> time;
-	private ArrayList<String> control;
-	private ArrayList<String> preconditions;
+	private ArrayList<Aspect> input;
+	private ArrayList<Aspect> output;
+	private ArrayList<Aspect> resources;
+	private ArrayList<Aspect> time;
+	private ArrayList<Aspect> control;
+	private ArrayList<Aspect> preconditions;
 	private ArrayList<ActionListener> nodeChangedRecipients = new ArrayList<ActionListener>();
 	
 	private Point position = new Point(0, 0);
@@ -31,22 +31,22 @@ public class FramNode {
 
 
 	public FramNode(){
-		input = new ArrayList<String>(); 
-		output = new ArrayList<String>(); 
-		resources = new ArrayList<String>(); 
-		time = new ArrayList<String>(); 
-		control = new ArrayList<String>(); 
-		preconditions = new ArrayList<String>(); 
+		input = new ArrayList<Aspect>(); 
+		output = new ArrayList<Aspect>(); 
+		resources = new ArrayList<Aspect>(); 
+		time = new ArrayList<Aspect>(); 
+		control = new ArrayList<Aspect>(); 
+		preconditions = new ArrayList<Aspect>(); 
 	}
 	public FramNode(String name){
 		this.name = name;
 		
-		input = new ArrayList<String>(); 
-		output = new ArrayList<String>(); 
-		resources = new ArrayList<String>(); 
-		time = new ArrayList<String>(); 
-		control = new ArrayList<String>(); 
-		preconditions = new ArrayList<String>(); 
+		input = new ArrayList<Aspect>(); 
+		output = new ArrayList<Aspect>(); 
+		resources = new ArrayList<Aspect>(); 
+		time = new ArrayList<Aspect>(); 
+		control = new ArrayList<Aspect>(); 
+		preconditions = new ArrayList<Aspect>(); 
 		
 	}
 	
@@ -62,28 +62,53 @@ public class FramNode {
 		name = value;
 		nodeChanged("NameChanged");
 	}
+	public void addInput(String value, String comment){
+		input.add(new Aspect(value, comment));
+		nodeChanged("InputAdded");
+	}
+	public void addOutput(String value, String comment){
+		output.add(new Aspect(value, comment));
+		nodeChanged("OutputAdded");
+	}	
+	public void addResources(String value, String comment){
+		resources.add(new Aspect(value, comment));
+		nodeChanged("ResourcesAdded");
+	}
+	public void addTime(String value, String comment){
+		time.add(new Aspect(value, comment));
+		nodeChanged("TimeAdded");
+	}
+	public void addControl(String value, String comment){
+		control.add(new Aspect(value, comment));
+		nodeChanged("ControlAdded");
+	}
+	public void addPrecondition(String value, String comment){
+		preconditions.add(new Aspect(value, comment));
+		nodeChanged("PreconditionsAdded");
+	}
+	
 	public void addInput(String value){
-		input.add(value);
+		input.add(new Aspect(value));
 		nodeChanged("InputAdded");
 	}
 	public void addOutput(String value){
-		output.add(value);
+		output.add(new Aspect(value));
 		nodeChanged("OutputAdded");
 	}	
 	public void addResources(String value){
-		resources.add(value);
+		resources.add(new Aspect(value));
 		nodeChanged("ResourcesAdded");
 	}
 	public void addTime(String value){
-		time.add(value);
+		time.add(new Aspect(value));
 		nodeChanged("TimeAdded");
 	}
 	public void addControl(String value){
-		control.add(value);
+		control.add(new Aspect(value));
 		nodeChanged("ControlAdded");
 	}
 	public void addPrecondition(String value){
-		preconditions.add(value);
+		preconditions.add(new Aspect(value));
 		nodeChanged("PreconditionsAdded");
 	}
 	
@@ -92,22 +117,22 @@ public class FramNode {
 		return name;
 	}
 	
-	public ArrayList<String> getInput(){
+	public ArrayList<Aspect> getInput(){
 		return input;
 	}
-	public ArrayList<String> getOutput(){
+	public ArrayList<Aspect> getOutput(){
 		return output;
 	}	
-	public ArrayList<String> getResources(){
+	public ArrayList<Aspect> getResources(){
 		return resources;
 	}
-	public ArrayList<String> getTime(){
+	public ArrayList<Aspect> getTime(){
 		return time;
 	}
-	public ArrayList<String> getControl(){
+	public ArrayList<Aspect> getControl(){
 		return control;
 	}
-	public ArrayList<String> getPrecondition(){
+	public ArrayList<Aspect> getPrecondition(){
 		return preconditions;
 	}
 	
@@ -141,12 +166,24 @@ public class FramNode {
 	public String[] getAllEntities() {
 		ArrayList<String> allEntities = new ArrayList<String>();
 		
-		allEntities.addAll(getInput());
-		allEntities.addAll(getOutput());
-		allEntities.addAll(getResources());
-		allEntities.addAll(getTime());
-		allEntities.addAll(getControl());
-		allEntities.addAll(getPrecondition());
+		for(Aspect asp : getInput()){
+			allEntities.add(asp.getValue());
+		}
+		for(Aspect asp : getOutput()){
+			allEntities.add(asp.getValue());
+		}
+		for(Aspect asp : getResources()){
+			allEntities.add(asp.getValue());
+		}
+		for(Aspect asp : getTime()){
+			allEntities.add(asp.getValue());
+		}
+		for(Aspect asp : getControl()){
+			allEntities.add(asp.getValue());
+		}
+		for(Aspect asp : getPrecondition()){
+			allEntities.add(asp.getValue());
+		}
 			
 		String[] allEntitiesArray = new String[allEntities.size()];
 		
@@ -157,41 +194,37 @@ public class FramNode {
 	
 	/**
 	 *  Returns an arraylist with all the connections in this node
-	 *  TypeofConnection|attribute e.g.
-	 *  input[0]|newspapers[1]
-	 *  output[0]|pappershred[1]
+	 *  TypeofConnection|aspect|comment
 	 *  
-	 * @param list Array with 2 slots [0]=port [1]=aspect
+	 * @param list Array with 2 slots [0]=port [1]=aspect [2]=comment
 	 * @return Arraylist with an string-array for each connection. 
 	 */
-	
-	
 	
 	public ArrayList<String[]> getAllAspects(){
 		ArrayList<String[]> list = new ArrayList<String[]>();
 		
-		for(String readAttribute : input){
-			String[] attribute =  {connectionPoints.Input.toString(), readAttribute};
+		for(Aspect readAspect : input){
+			String[] attribute =  {connectionPoints.Input.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
-		for(String readAttribute : output){
-			String[] attribute =  {connectionPoints.Output.toString(), readAttribute};
+		for(Aspect readAspect : output){
+			String[] attribute =  {connectionPoints.Output.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
-		for(String readAttribute : resources){
-			String[] attribute =  {connectionPoints.Resources.toString(), readAttribute};
+		for(Aspect readAspect : resources){
+			String[] attribute =  {connectionPoints.Resources.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
-		for(String readAttribute : control){
-			String[] attribute = {connectionPoints.Control.toString(), readAttribute};
+		for(Aspect readAspect : control){
+			String[] attribute = {connectionPoints.Control.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
-		for(String readAttribute : time){
-			String[] attribute = {connectionPoints.Time.toString(), readAttribute};
+		for(Aspect readAspect : time){
+			String[] attribute = {connectionPoints.Time.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
-		for(String readAttribute : preconditions){
-			String[] attribute = {connectionPoints.Preconditions.toString(), readAttribute};
+		for(Aspect readAspect : preconditions){
+			String[] attribute = {connectionPoints.Preconditions.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 
 		}
@@ -200,9 +233,13 @@ public class FramNode {
 		return list;
 	}
 	
+	/**
+	 * returns the connections for a specified port
+	 * @param type
+	 * @param aspect
+	 */
 	
-	
-	public ArrayList<String> getAttribute(connectionPoints type) {
+	public ArrayList<Aspect> getAttribute(connectionPoints type) {
 		if(type == connectionPoints.Input) {
 			return this.getInput();
 		}
@@ -226,29 +263,31 @@ public class FramNode {
 		}
 	}
 	
-	public void setAttribute(connectionPoints type, ArrayList<String> value) {
+	
+	public void setAttribute(connectionPoints type, ArrayList<Aspect> aspect) {
 		if(type == connectionPoints.Input) {
-			this.input = value;
+			
+			this.input = aspect;
 			nodeChanged("InputChanged");
 		}
 		else if(type == connectionPoints.Output) {
-			this.output = value;
+			this.output = aspect;
 			nodeChanged("OutputChanged");
 		}
 		else if(type == connectionPoints.Resources) {
-			this.resources = value;
+			this.resources = aspect;
 			nodeChanged("ResourcesChanged");
 		}
 		else if(type == connectionPoints.Control) {
-			this.control = value;
+			this.control = aspect;
 			nodeChanged("ControlChanged");
 		}
 		else if(type == connectionPoints.Time) {
-			this.time = value;
+			this.time = aspect;
 			nodeChanged("TimeChanged");
 		}
 		else if(type == connectionPoints.Preconditions) {
-			this.preconditions = value;
+			this.preconditions = aspect;
 			nodeChanged("PreconditionsChanged");
 		}
 	}
