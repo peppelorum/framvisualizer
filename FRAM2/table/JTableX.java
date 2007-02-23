@@ -69,11 +69,18 @@ public class JTableX extends JTable {
 	
 	public TableCellEditor getCellEditor(int row, int col)
 	{
+		int modelColumn = convertColumnIndexToModel( col );
+		
+		if (!(modelColumn == 1)){
+			return super.getCellEditor(row,col);
+		}	
+		
 		TableCellEditor tmpEditor = null;
 		if (rm!=null)
 			tmpEditor = rm.getEditor(row);
 		if (tmpEditor!=null)
 			return tmpEditor;
+
 		return super.getCellEditor(row,col);
 	}
 }
