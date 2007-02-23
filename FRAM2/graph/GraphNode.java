@@ -1,6 +1,7 @@
 package graph;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -106,19 +107,21 @@ public class GraphNode extends JComponent {
 			g.fillOval(poly.xpoints[i]-5, poly.ypoints[i]-5, 10, 10);
 		}
 	
-		if(isSelected()) {
+		//if(isSelected()) {
 			g.setColor(Color.white);
-			
+			g.setFont(new Font("Arial", 1, 10));
 			for(connectionPoints conn : FramNode.connectionPoints.values()) {
-				Point loc = getCloserToCenter(getPort(conn), 7);
+				Point loc = getCloserToCenter(getPort(conn), 2);
 				loc.x -= 4;
 				loc.y += 4;
 				g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
 			}			
-		}
+//		}
 		
 		//g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 5, 5);
 		g.setColor(Color.black);
-		g.drawString(node.getName(), getCenter().x + node.getSize() / 3 * 2, getCenter().y);
+		g.setFont(new Font("Times New Roman", 1, 10));
+		g.drawString(node.getName(), getCenter().x-(node.getName().length()*5)/2 , getCenter().y);
+	
 	}
 }
