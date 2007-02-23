@@ -69,7 +69,7 @@ public class TableModel extends DefaultTableModel {
 			
 		};
 		
-		String[] colNames = {"Port", "Aspect"};
+		String[] colNames = {"Port", "Aspect", "Comment"};
 		 this.setColumnIdentifiers(colNames);
 		
 		setNode(node);
@@ -92,7 +92,7 @@ public class TableModel extends DefaultTableModel {
 		// ta bort lyssnaren så att inte båda lyssnarna är igång samtidigt
 		this.removeTableModelListener(currentTableModelListener);
 		
-		this.setColumnCount(2);
+		this.setColumnCount(3);
 		
 		for(int i = 0; i < this.getRowCount(); i++) {
 			this.dataVector.clear();
