@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import data.Aspect;
 import data.FramNode;
 import junit.framework.TestCase;
 
@@ -155,8 +156,9 @@ public class TestFramNode extends TestCase {
     	assertEquals(node.getName(), "PreconditionsAdded");
     	
     	for(FramNode.connectionPoints point : FramNode.connectionPoints.values()) {
-    		ArrayList<String> testList = new ArrayList<String>();
-    		testList.add("test2");
+    		ArrayList<Aspect> testList = new ArrayList<Aspect>();
+    		testList.add(new Aspect("test2"));
+    		
     		node.setAttribute(point, testList);
     		assertEquals(node.getName(), point.toString() + "Changed");
     	}
