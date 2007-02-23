@@ -8,6 +8,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 import data.FramNode.connectionPoints;
@@ -40,8 +41,8 @@ public class TableModel extends DefaultTableModel {
 					node.setName(newValue);
 				}
 				else {
-					ArrayList<String> newValList = new ArrayList<String>();
-					newValList.add(newValue);
+					ArrayList<Aspect> newValList = new ArrayList<Aspect>();
+					newValList.add(new Aspect(newValue));
 					
 					node.setAttribute(connectionPoints.valueOf(changedLabel), newValList);
 				}
@@ -120,11 +121,12 @@ public class TableModel extends DefaultTableModel {
 				connectionPoints.Control };
 		
 		for(connectionPoints cPoint : cPoints) {
-			ArrayList<String> attributes = node.getAttribute(cPoint);
-			for(String attr : attributes) {
+			ArrayList<Aspect> aspects = node.getAttribute(cPoint);
+			for(Aspect aspect : aspects) {
+				String attr = aspect.getValue();
 				rows.add(new Object[] { cPoint.toString(), attr});
 			}
-			if(attributes.size() == 0) {
+			if(aspects.size() == 0) {
 				rows.add(new Object[] { cPoint.toString(), ""});
 			}
 		}
