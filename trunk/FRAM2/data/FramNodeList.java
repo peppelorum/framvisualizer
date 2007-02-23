@@ -152,7 +152,6 @@ public class FramNodeList extends ArrayList<FramNode> {
 			for(String[] connectionFrom : node.getAllAspects()){
 				searchValue = connectionFrom[1];   //connectionFrom[0] contains the port
 				
-				if(!alreadyFound.contains(searchValue)){		//check if the aspect already been searched for
 					alreadyFound.add(searchValue);
 					
 					for(int j=i;j<this.size();j++){
@@ -168,7 +167,6 @@ public class FramNodeList extends ArrayList<FramNode> {
 								}
 							}
 						}	
-					}
 				}
 			}	
 		}
