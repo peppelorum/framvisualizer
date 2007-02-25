@@ -31,12 +31,12 @@ public class TestFramNode extends TestCase {
         test.addTime("testar5");
         test.setName("testar6");
         
-        assertEquals("testar", test.getInput().get(0));       
-        assertEquals("testar1", test.getOutput().get(0));
-        assertEquals("testar2", test.getResources().get(0));
-        assertEquals("testar3", test.getControl().get(0));
-        assertEquals("testar4", test.getPrecondition().get(0));
-        assertEquals("testar5", test.getTime().get(0));
+        assertEquals("testar", test.getInput().get(0).getValue());       
+        assertEquals("testar1", test.getOutput().get(0).getValue());
+        assertEquals("testar2", test.getResources().get(0).getValue());
+        assertEquals("testar3", test.getControl().get(0).getValue());
+        assertEquals("testar4", test.getPrecondition().get(0).getValue());
+        assertEquals("testar5", test.getTime().get(0).getValue());
         
         assertEquals("testar6", test.getName());
 
@@ -58,12 +58,12 @@ public class TestFramNode extends TestCase {
         test.addTime("testar");
         test.setName("testar");
         
-        assertEquals("testar", test.getInput().get(0));       
-        assertEquals("testar", test.getOutput().get(0));
-        assertEquals("testar", test.getResources().get(0));
-        assertEquals("testar", test.getControl().get(0));
-        assertEquals("testar", test.getPrecondition().get(0));
-        assertEquals("testar", test.getTime().get(0));
+        assertEquals("testar", test.getInput().get(0).getValue());       
+        assertEquals("testar", test.getOutput().get(0).getValue());
+        assertEquals("testar", test.getResources().get(0).getValue());
+        assertEquals("testar", test.getControl().get(0).getValue());
+        assertEquals("testar", test.getPrecondition().get(0).getValue());
+        assertEquals("testar", test.getTime().get(0).getValue());
         
         test.addInput("testar2");
         test.addOutput("testar2");
@@ -73,12 +73,12 @@ public class TestFramNode extends TestCase {
         test.addTime("testar2");
         test.setName("testar2");
         
-        assertEquals("testar2", test.getInput().get(1));       
-        assertEquals("testar2", test.getOutput().get(1));
-        assertEquals("testar2", test.getResources().get(1));
-        assertEquals("testar2", test.getControl().get(1));
-        assertEquals("testar2", test.getPrecondition().get(1));
-        assertEquals("testar2", test.getTime().get(1));
+        assertEquals("testar2", test.getInput().get(1).getValue());       
+        assertEquals("testar2", test.getOutput().get(1).getValue());
+        assertEquals("testar2", test.getResources().get(1).getValue());
+        assertEquals("testar2", test.getControl().get(1).getValue());
+        assertEquals("testar2", test.getPrecondition().get(1).getValue());
+        assertEquals("testar2", test.getTime().get(1).getValue());
         
         assertEquals("testar2", test.getName());
 

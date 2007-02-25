@@ -24,12 +24,17 @@ public class TestFramTableModel extends TestCase {
 	public void testCreateNodeCells() {
 		Object[] target = new Object[] {
 				new Object[] { "Name", "Nyhetsbyrå" },
-				new Object[] { "Input", "Nyheter, Nyheter2" },
-				new Object[] { "Output", "Tidningar, Tidningar2" },
-				new Object[] { "Resources", "Papper, Papper2" },
-				new Object[] { "Control", "TT, TT2" },
-				new Object[] { "Time", "Varje dag, Varje dag2" },
+				new Object[] { "Input", "Nyheter" },
+				new Object[] { "Input", "Nyheter2" },
+				new Object[] { "Output", "Tidningar" },
+				new Object[] { "Output", "Tidningar2" },
 				new Object[] { "Preconditions", "" },
+				new Object[] { "Time", "Varje dag" },
+				new Object[] { "Time", "Varje dag2" },
+				new Object[] { "Resources", "Papper" },
+				new Object[] { "Resources", "Papper2" },
+				new Object[] { "Control", "TT" },
+				new Object[] { "Control", "TT2" },
 				new Object[] { "", "" },
 		};
 				
@@ -50,12 +55,17 @@ public class TestFramTableModel extends TestCase {
 		
 		Object[] target = new Object[] {
 				new Object[] { "Name", "Nyhetsbyrå" },
-				new Object[] { "Input", "Nyheter, Nyheter2" },
-				new Object[] { "Output", "Tidningar, Tidningar2" },
-				new Object[] { "Resources", "Papper, Papper2" },
-				new Object[] { "Control", "TT, TT2" },
-				new Object[] { "Time", "Varje dag, Varje dag2" },
+				new Object[] { "Input", "Nyheter" },
+				new Object[] { "Input", "Nyheter2" },
+				new Object[] { "Output", "Tidningar" },
+				new Object[] { "Output", "Tidningar2" },
 				new Object[] { "Preconditions", "" },
+				new Object[] { "Time", "Varje dag" },
+				new Object[] { "Time", "Varje dag2" },
+				new Object[] { "Resources", "Papper" },
+				new Object[] { "Resources", "Papper2" },
+				new Object[] { "Control", "TT" },
+				new Object[] { "Control", "TT2" },
 				new Object[] { "", "" },
 		};
 		
@@ -71,24 +81,17 @@ public class TestFramTableModel extends TestCase {
 	
 	public void testModelChangedListener() {
 		model.setValueAt("NyhetsbyråÄNDRAD", 0, 1);
-		assertEquals(model.getList().get(0).getName(), "NyhetsbyråÄNDRAD");
+		assertEquals(model.getList().get(0).getName(), "NyhetsbyråÄNDRAD");	
 		
-		model.setValueAt("NyhetsbyråÄNDRAD2", 8, 1);
-		assertEquals(model.getList().get(1).getName(), "NyhetsbyråÄNDRAD2");
+		assertEquals(model.getList().get(0).getOutput().get(0).getValue(), "Tidningar");
 		
-		
-		assertEquals(model.getList().get(2).getOutput().get(0), "Nyheter");
-		
-		model.setValueAt("Dåliga nyheter", 18, 1);
-		assertEquals(model.getList().get(2).getOutput().get(0), "Dåliga nyheter");
+		model.setValueAt("Dåliga nyheter", 3, 1);
+		assertEquals(model.getList().get(0).getOutput().get(0).getValue(), "Dåliga nyheter");
 	}
 	
 	public void testListChangedListener() {
 		model.getList().get(0).setName("namnÄndratFrånListan");		
 		assertEquals("namnÄndratFrånListan", model.getValueAt(0, 1));
-		
-		model.getList().get(1).setName("namn2ÄndratFrånListan");
-		assertEquals("namn2ÄndratFrånListan", model.getValueAt(8, 1));
 		
 	}
 
