@@ -9,18 +9,17 @@ public class TestSave extends TestCase {
 		super(name);
 	}
 	
-	
-	 
 	 public void testOpenedFileIsEqualToSaved(){
 		 FramNodeList sparad = TestFramNodeList.createFramList();
 		 sparad.SaveFile("Functions.xml");
 		 FramNodeList laddad = FramNodeList.LoadFile("Functions.xml");
 		 
-		 checkAllNodes(sparad, laddad);
+		 assertTrue(sparad.equals(laddad));
 		 
 	 }
 	 
 	 public void checkAllNodes(FramNodeList sparad, FramNodeList laddad){
+		 
 		 assertEquals(laddad.size(), sparad.size());
 			
 			for(int i = 0; i< laddad.size(); i++){

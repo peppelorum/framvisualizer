@@ -82,6 +82,16 @@ public class TestFramNodeList extends TestCase {
 		nod3.addTime("Varje dag");
 		nod3.addResources("Tidningar");
 		
+		lista.addListChangedListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("something happened");
+				
+			}
+			
+			
+		});
+		
 		return lista;
 	}
 	

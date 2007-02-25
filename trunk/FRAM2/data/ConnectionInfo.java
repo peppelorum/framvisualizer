@@ -1,7 +1,11 @@
 package data;
 
-public class ConnectionInfo {
+public class ConnectionInfo implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7708319713475166319L;
 	private RelationInfo from;
 	private RelationInfo to;
 	private String aspect = "";

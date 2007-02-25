@@ -12,7 +12,12 @@ import java.util.ArrayList;
  * @author Jonas Haraldsson
  *
  */
-public class FramNode {
+public class FramNode implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4081702271683596160L;
+
 	private FramNodeList list;
 	
 	private String name;
@@ -22,7 +27,7 @@ public class FramNode {
 	private ArrayList<Aspect> time;
 	private ArrayList<Aspect> control;
 	private ArrayList<Aspect> preconditions;
-	private ArrayList<ActionListener> nodeChangedRecipients = new ArrayList<ActionListener>();
+	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	
 	private Point position = new Point(0, 0);
 	private int size = 50;
@@ -31,6 +36,8 @@ public class FramNode {
 
 
 	public FramNode(){
+		init();
+		
 		input = new ArrayList<Aspect>(); 
 		output = new ArrayList<Aspect>(); 
 		resources = new ArrayList<Aspect>(); 
@@ -39,6 +46,8 @@ public class FramNode {
 		preconditions = new ArrayList<Aspect>(); 
 	}
 	public FramNode(String name){
+		init();
+		
 		this.name = name;
 		
 		input = new ArrayList<Aspect>(); 
@@ -48,6 +57,10 @@ public class FramNode {
 		control = new ArrayList<Aspect>(); 
 		preconditions = new ArrayList<Aspect>(); 
 		
+	}
+	
+	public void init() {
+		nodeChangedRecipients = new ArrayList<ActionListener>();
 	}
 	
 	public FramNodeList getList() {
@@ -308,4 +321,27 @@ public class FramNode {
 		}
 	}
 
+	public boolean equals(FramNode node) {
+		if(node == null) {
+			return false;
+		}
+		
+		if(!node.getName().equals(this.getName())) {
+			return false;
+		}
+		
+		
+		for(connectionPoints conn : connectionPoints.values()) {
+			ArrayList<Aspect> myAttribs = this.getAttribute(conn);
+			ArrayList<Aspect> otherAttribs = node.getAttribute(conn);
+			
+			for(int i = 0; i < myAttribs.size(); i++){ 
+				if(!myAttribs.get(i).equals(otherAttribs.get(i))) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
 }

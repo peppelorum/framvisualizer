@@ -2,8 +2,12 @@ package data;
 
 import data.FramNode.connectionPoints;
 
-public class RelationInfo {
+public class RelationInfo implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5282137696278770529L;
 	private FramNode function;
 	private connectionPoints connectionType; //input, output, resources 
 

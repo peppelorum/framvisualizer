@@ -2,6 +2,10 @@ package data;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import data.FramNode.connectionPoints;
@@ -14,23 +18,34 @@ import data.FramNode.connectionPoints;
  *
  */
 
-public class FramNodeList extends ArrayList<FramNode> {
+public class FramNodeList extends ArrayList<FramNode> implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -935987379291262564L;
-	private ArrayList<ActionListener> listChangedRecipients = new ArrayList<ActionListener>();
+	transient private ArrayList<ActionListener> listChangedRecipients;
 	
 	private String name;
-	private ArrayList<ConnectionInfo> connections = new ArrayList<ConnectionInfo>();
+	private ArrayList<ConnectionInfo> connections;
 	
 	public ArrayList<ConnectionInfo> getConnections() {
 		return connections;
 	}
 	
 	public FramNodeList(String name){
+		init();
+		
 		this.name = name;
+	}
+	
+	public void init() {
+		listChangedRecipients = new ArrayList<ActionListener>();
+		connections = new ArrayList<ConnectionInfo>();
+		
+		for(FramNode node : this) {
+			node.init();
+		}
 	}
 	
 	public void setName(String name) {
@@ -93,7 +108,9 @@ public class FramNodeList extends ArrayList<FramNode> {
 	 * @return FramNodeList created from the file
 	 */
 	public static FramNodeList LoadFile(String filename){
-		return Filemanager.loadFile(filename);
+		FramNodeList list = (FramNodeList)Filemanager.loadFile(filename);
+		list.init();
+		return list;
 		
 	}
 	/**
@@ -245,4 +262,60 @@ public class FramNodeList extends ArrayList<FramNode> {
 		}
 	}
 
+	public boolean equals(FramNodeList list) {
+		if(list == null) {
+			return false;
+		}
+		
+		if(!list.getName().equals(this.getName())) {
+			return false;
+		}
+		
+		if(list.size() != this.size()) {
+			return false;
+		}
+		
+		for(int i = 0; i < this.size(); i++) {
+			if(!this.get(i).equals(list.get(i))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Load a FramNodeList from file 
+	 * 
+	 * @param filename 
+	 * @return FrameNodeList
+	 */
+	protected static FramNodeList loadFile(String filename){
+		FramNodeList list;
+		
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(filename);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			list = (FramNodeList)ois.readObject();
+
+			ois.close();
+			fis.close();
+			
+			return list;
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
