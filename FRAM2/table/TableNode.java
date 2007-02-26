@@ -23,6 +23,8 @@ public class TableNode extends JTableX {
 	
 	public TableNode(FramNode node) {
 		setRowEditorModel(new RowEditorModel());
+		setCellEditorModel(new CellEditorModel());
+		
 		nodeChangedListener = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -62,11 +64,20 @@ public class TableNode extends JTableX {
 		auto.setEditable(true);
 		ComboBoxCellEditor editor = new ComboBoxCellEditor(auto);
 		
+		
 		for(int i = 0; i < this.getRowCount(); i++){
 			if(getModel().getValueAt(i,0) != "Name"){
 				getRowEditorModel().addEditorForRow(i, editor);
 			}
 		}
+//		for(int i = 0; i < this.getRowCount(); i++){
+//			if(getModel().getValueAt(i,0) != "Name"){
+//				getCellEditorModel().addEditor(i,1, editor);
+//			}
+//		}
+		
+	
+		
 	}
 	
 	public void cleanUp() {
