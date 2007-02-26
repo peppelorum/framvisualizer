@@ -1,11 +1,11 @@
 package junitTest;
 
-import table.TableModel;
+import table.TableNodeModel;
 import junit.framework.TestCase;
 
 public class TestFramTableModel extends TestCase {
 
-	TableModel model;
+	TableNodeModel model;
 	
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(TestFramTableModel.class);
@@ -14,7 +14,7 @@ public class TestFramTableModel extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		model = new TableModel(TestFramNodeList.createFramList().get(0));
+		model = new TableNodeModel(TestFramNodeList.createFramList().get(0));
 	}
 
 	protected void tearDown() throws Exception {

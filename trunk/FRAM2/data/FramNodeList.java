@@ -128,7 +128,15 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 */
 	
 	public String[] getAllAspects() {
+		return getAllAspects(false);
+	}
+	
+	public String[] getAllAspects(boolean emptyFirst) {
 		ArrayList<String> allEntities = new ArrayList<String>();
+		
+		if(emptyFirst) {
+			allEntities.add("");
+		}
 		
 		for(int i =0; i< this.size(); i++){
 			String[] nodeEntities = this.get(i).getAllEntities();
