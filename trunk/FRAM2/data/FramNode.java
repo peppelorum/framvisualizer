@@ -21,6 +21,7 @@ public class FramNode implements java.io.Serializable {
 	private FramNodeList list;
 	
 	private String name;
+	private String comment;
 	private ArrayList<Aspect> input;
 	private ArrayList<Aspect> output;
 	private ArrayList<Aspect> resources;
@@ -75,6 +76,10 @@ public class FramNode implements java.io.Serializable {
 		name = value;
 		nodeChanged("NameChanged");
 	}
+	public void setComment(String value){
+		comment = value;
+		nodeChanged("CommentChanged");
+	}
 	public void addInput(String value, String comment){
 		input.add(new Aspect(value, comment));
 		nodeChanged("InputAdded");
@@ -128,6 +133,10 @@ public class FramNode implements java.io.Serializable {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public String getComment(){
+		return comment;
 	}
 	
 	public ArrayList<Aspect> getInput(){
