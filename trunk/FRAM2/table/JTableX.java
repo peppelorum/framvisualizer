@@ -99,9 +99,10 @@ public class JTableX extends JTable {
 	{
 		int modelColumn = convertColumnIndexToModel( col );
 		AddRowCellEditor addRow = new AddRowCellEditor(rm.getEditor(row));
-//		if(modelColumn==2){
-//			return addRow;
-//		}
+		if(modelColumn==1){
+
+			return addRow;
+		}
 		
 		if (!(modelColumn == 1) || (modelColumn == 2)){
 			return super.getCellEditor(row,col);
