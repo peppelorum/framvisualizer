@@ -24,7 +24,9 @@ public class Visualizer extends JComponent {
 
 	private FramNodeList list;
 	private FramNode selectedNode;
-	private ArrayList<GraphNode> guiList;
+	private ConnectionInfo selectedLine;
+	private ArrayList<GraphNode> guiNodeList;
+	private ArrayList<GraphLine> guiLineList;
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
 
@@ -70,6 +72,10 @@ public class Visualizer extends JComponent {
 	}
 	public FramNode getSelectedNode() {
 		return selectedNode;
+	}
+	
+	public ConnectionInfo getSelectedLine() {
+		return selectedLine;
 	}
 		
 	private void init() {
@@ -148,7 +154,8 @@ public class Visualizer extends JComponent {
 	}
 
 	private void generateGuiNodes() {
-		guiList = new ArrayList<GraphNode>();
+		guiNodeList = new ArrayList<GraphNode>();
+		guiLineList = new ArrayList<GraphLine>();
 		
 		int spacer = 100;
 		
@@ -157,7 +164,7 @@ public class Visualizer extends JComponent {
 		p.y = 0;
 		int maxX = (int)Math.floor(Math.sqrt(list.size())) * spacer;
 		for(FramNode node : list) {
-			guiList.add(new GraphNode(node, this));
+			guiNodeList.add(new GraphNode(node, this));
 			if(node.getPosition().x == 0 &&
 					node.getPosition().y == 0) {
 				node.setPosition(p);
@@ -170,58 +177,38 @@ public class Visualizer extends JComponent {
 				p.x+= spacer;
 			}
 		}
+		
+		for(ConnectionInfo connection : list.searchConnections()) {
+			guiLineList.add(new GraphLine(connection, this));
+		}
+		
 		repaint();
 	}
 
 	public void paintComponent(Graphics g) {
-		
-		//g.translate(20, 20);
-		
-		//System.out.println("paint");
-		g.setColor(Color.black);
-		
-		GraphNode nodeFrom;
-		GraphNode nodeTo;
-		Point pointFrom;
-		Point pointTo;
 		if(list.size() > 0) {
 			
-			for(GraphNode guinode : guiList) {
+			for(GraphNode guinode : guiNodeList) {
 				guinode.paintComponent(g);
 			}
 			
-			for(ConnectionInfo conInfo : list.searchConnections()) {
-				
-				nodeFrom = getGuiNode(conInfo.getFrom().getNode());
-				nodeTo = getGuiNode(conInfo.getTo().getNode());
-	
-				pointFrom = nodeFrom.getPort(conInfo.getFrom().getConnectionPort());
-				pointTo = nodeTo.getPort(conInfo.getTo().getConnectionPort());		
-	
-			
-				
-				if(conInfo.getVisibility()){
-					g.drawLine(pointFrom.x, pointFrom.y, pointTo.x, pointTo.y);
-					
-					Line2D line = new Line2D.Double();
-					line.setLine(pointFrom, pointTo);
-					
-					g.drawString(
-							conInfo.getAspect(), 
-							(int)line.getBounds().getCenterX(), 
-							(int)line.getBounds().getCenterY());
-					
-				}
+			for(GraphLine guiline : guiLineList) {
+				guiline.paintComponent(g);
+			}			
+
+			for(GraphLine guiline : guiLineList) {
+				guiline.paintNameBubble(g);
 			}
 			
-			
-
+			for(GraphNode guinode : guiNodeList) {
+				guinode.paintNameBubble(g);
+			}
 		
 		}
 	}
 
-	private GraphNode getGuiNode(FramNode node) {
-		for(GraphNode guinode : guiList) {
+	public GraphNode getGuiNode(FramNode node) {
+		for(GraphNode guinode : guiNodeList) {
 			if(node == guinode.getNode()) {
 				return guinode;
 			}
