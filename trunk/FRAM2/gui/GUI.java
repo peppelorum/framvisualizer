@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import table.TableNodeList;
 
@@ -181,7 +182,12 @@ public class GUI extends JFrame implements ActionListener{
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
 		new GUI();
 	}
 }
