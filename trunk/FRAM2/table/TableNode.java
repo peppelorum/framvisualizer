@@ -3,6 +3,7 @@ package table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import data.FramNode;
@@ -18,6 +19,7 @@ public class TableNode extends JTableX {
 	private static final long serialVersionUID = 3518691723356609315L;
 
 	public TableNode() {
+		
 		this(new FramNode(""));
 	}
 	
@@ -44,7 +46,7 @@ public class TableNode extends JTableX {
 		
 		node = newNode;
 
-		setModel(new TableModel(node));
+		setModel(new TableNodeModel(node));
 		node.addNodeChangedListener(nodeChangedListener);
 		
 		updateTable();
@@ -83,7 +85,7 @@ public class TableNode extends JTableX {
 	public void cleanUp() {
 		if(node != null) {
 			node.removeNodeChangedListener(nodeChangedListener);
-			TableModel model = (TableModel)getModel();
+			TableNodeModel model = (TableNodeModel)getModel();
 			model.cleanUp();
 		}
 	}
@@ -103,6 +105,24 @@ public class TableNode extends JTableX {
         System.arraycopy(listAllEntities, 0, listAllEntitiesWithStartingSpace,1,listAllEntitiesLength);
         
         return listAllEntitiesWithStartingSpace;
+	}
+	
+	public TableCellEditor getCellEditor(int row, int col)
+	{
+		if(col == 0) {
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return editor;
+			
+		}
+		if(this.getValueAt(row, 0).toString() == "Name" || col != 1) {
+			return new AddRowCellEditor(super.getCellEditor(row,col));			
+		}
+		else {
+			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
+			combo.setEditable(true);
+			return new AddRowCellEditor(new ComboBoxCellEditor(combo));
+		}
+
 	}
 	
 }
