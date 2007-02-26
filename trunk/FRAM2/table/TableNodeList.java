@@ -71,7 +71,7 @@ public class TableNodeList extends Container {
 	
 	public void updateElements() {
 		for(Component c : this.getComponents()) {
-			TableNode guiNode = (TableNode)c;
+			FramGuiNode guiNode = (FramGuiNode)c;
 			if(!list.contains(guiNode.getNode())) {
 				guiNode.cleanUp();
 				remove(guiNode);
@@ -81,13 +81,13 @@ public class TableNodeList extends Container {
 		for(FramNode node : list) {
 			boolean isHere = false;
 			for(Component c : this.getComponents()) {
-				TableNode guiNode = (TableNode)c;
+				FramGuiNode guiNode = (FramGuiNode)c;
 				if(node == guiNode.getNode()) {
 					isHere = true;
 				}
 			}
 			if(!isHere) {
-				add(new TableNode(node));
+				add(new FramGuiNode(node));
 			}
 		}
 		

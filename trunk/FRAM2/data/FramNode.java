@@ -34,7 +34,7 @@ public class FramNode implements java.io.Serializable {
 	private int size = 50;
 	
 	public static enum connectionPoints { Time, Control, Output, Resources, Preconditions, Input};
-
+	public static enum stegTvaAttribut { AttributEtt, AttribTva, AttribTre };
 
 	public FramNode(){
 		init();

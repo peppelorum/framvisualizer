@@ -119,9 +119,83 @@ public class GraphNode extends JComponent {
 //		}
 		
 		//g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 5, 5);
-		g.setColor(Color.black);
-		g.setFont(new Font("Times New Roman", 1, 10));
-		g.drawString(node.getName(), getCenter().x-(node.getName().length()*5)/2 , getCenter().y);
 	
 	}
+	
+	
+	public void paintNameBubble(Graphics g) {
+		
+		int bubbleHeight = 20;
+		int bubbleWidth = 100;
+		int bubbleRounded = 10;
+		
+		if(isSelected()) {
+			bubbleHeight = 100;
+		}
+		
+		// define coordinates for bubble
+		Rectangle bubbleRect = new Rectangle(
+				getCenter().x + (node.getSize()/2),
+				getCenter().y - (node.getSize()),
+				bubbleWidth,
+				bubbleHeight);
+		
+		Polygon triAngle = new Polygon();
+		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + 3);
+		triAngle.addPoint(getCenter().x, getCenter().y);
+		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + (node.getSize()/3));
+		
+		// fill bubble background
+		g.setColor(Color.white);
+		g.fillRoundRect(
+				bubbleRect.x, 
+				bubbleRect.y, 
+				bubbleRect.width, 
+				bubbleRect.height, 
+				bubbleRounded, 
+				bubbleRounded);
+		
+		// draw bubble outline
+		g.setColor(Color.black);
+		g.drawRoundRect(
+				bubbleRect.x, 
+				bubbleRect.y, 
+				bubbleRect.width, 
+				bubbleRect.height, 
+				bubbleRounded, 
+				bubbleRounded);
+		
+		
+		// fill and draw triangle
+		g.setColor(Color.white);
+		g.fillPolygon(triAngle);
+		g.setColor(Color.black);
+		g.drawLine(
+				triAngle.xpoints[0], 
+				triAngle.ypoints[0], 
+				triAngle.xpoints[1], 
+				triAngle.ypoints[1]);
+		g.drawLine(
+				triAngle.xpoints[2], 
+				triAngle.ypoints[2], 
+				triAngle.xpoints[1], 
+				triAngle.ypoints[1]);
+
+		// draw name
+		g.setFont(new Font("Arial", 1, 12));
+		g.drawString(
+				node.getName(), 
+				bubbleRect.x + 15,
+				bubbleRect.y + 15);
+		
+		if(isSelected()) {
+			g.setFont(new Font("Arial", 1, 10));
+			g.drawString(
+					node.getComment(), 
+					bubbleRect.x + 15,
+					bubbleRect.y + 30);
+		}
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package data;
 
+import java.awt.Rectangle;
+
 public class ConnectionInfo implements java.io.Serializable {
 
 	/**
