@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,26 +40,52 @@ public class GUI extends JFrame implements ActionListener{
     
     private TableNodeList table = new TableNodeList();
     private Visualizer tableVisualizer = new Visualizer();
+    private JPanel tableAndGraph = new JPanel(new GridLayout(0,2));
+    private Container tableContainer = new Container();
     
 	public GUI(){
 		
 		this.setSize(600, 500);
 		
 		Container contentPane = getContentPane();
+		
+		
 		contentPane.setLayout(new BorderLayout());
 		
 		JMenuBar menuBar = new JMenuBar();	
 		JTextField searchField = new JTextField(20);
 		searchField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	            JTextField textfield = (JTextField)e.getSource();
-				System.out.println(textfield.getText());
+				
+				TableNodeList searchedTableList = new TableNodeList();
+				JTextField textfield = (JTextField)e.getSource();
+				String search = textfield.getText();
+				
+				System.out.println(search);
+				System.out.println(search.length());
+				FramNodeList searchedList = table.getList().getAllAspectsAndComments(search);
+				
+				if (search.length() == 0){
+					tableContainer.remove(0);
+					tableContainer.add(table);
+					tableVisualizer.setList(table.getList());
+				} else {
+					searchedTableList.setList(searchedList);
+					
+					tableContainer.remove(0);
+					tableContainer.add(searchedTableList);
+					tableVisualizer.setList(searchedList);
+				}
+				//Rectangle r = tableContainer.getBounds();
+				validate();
+				repaint();
+
 			}
 		});
 		
-		JPanel tableAndGraph = new JPanel(new GridLayout(0,2));
 		
-		Container tableContainer = new Container();
+		
+		
 		tableContainer.setLayout(new BoxLayout(tableContainer, BoxLayout.Y_AXIS));
 				
 		menuBar.add(createFileMenu());
