@@ -1,16 +1,16 @@
 package table;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import javax.swing.*;
-import javax.swing.AbstractCellEditor;
-import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
 
 @SuppressWarnings("serial")
 public class ComboBoxCellEditor extends AbstractCellEditor implements ActionListener, TableCellEditor, Serializable {
     
     private JComboBox comboBox;
+   
     
     public ComboBoxCellEditor(JComboBox comboBox) {
         this.comboBox = comboBox;
@@ -51,8 +51,8 @@ public class ComboBoxCellEditor extends AbstractCellEditor implements ActionList
     }
     
     // Implementing TableCellEditor
-    public java.awt.Component getTableCellEditorComponent(javax.swing.JTable table, Object value, boolean isSelected, int row, int column) {
-        setValue(value);
+    public java.awt.Component getTableCellEditorComponent(javax.swing.JTable table, Object value, boolean isSelected, int row, int column) {   	
+    	setValue(value);
         return comboBox;
     }
     
