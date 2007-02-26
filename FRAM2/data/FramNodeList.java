@@ -146,6 +146,39 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		return allEntitiesArray;
 	}
 	
+	/**
+	 * Returns an arraylist<string> with all the nodes that contains a name, aspect or comment that you've searched for
+	 * 
+	 * @return arraylist<string>
+	 */
+	
+	public FramNodeList getAllAspectsAndComments(String searchedFor) {
+		FramNodeList ret = new FramNodeList("temp");
+		
+		for(int i =0; i< this.size(); i++){
+			
+			String name = this.get(i).getName();
+			
+			if(name.toLowerCase().startsWith(searchedFor.toLowerCase())){
+				ret.add(this.get(i));
+			}
+			ArrayList<String[]> aspects = this.get(i).getAllAspects();
+			for(int j = 0; j < aspects.size(); j++) {
+				
+				if (aspects.get(j)[1].toString().toLowerCase().startsWith(searchedFor.toLowerCase())){
+					ret.add(this.get(i));
+					break;
+				}
+				if (aspects.get(j)[2].toString().toLowerCase().startsWith(searchedFor.toLowerCase())){
+					ret.add(this.get(i));
+					break;
+				}
+			}
+		}
+		
+		return ret;
+	}
+	
 	
 	/**
 	 * Finds all the connections in the network and creates an arraylist with objects containing info as function name, connection port and aspect
