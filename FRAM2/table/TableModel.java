@@ -26,7 +26,7 @@ public class TableModel extends DefaultTableModel {
 	}
 	
 	/**
-	 * 
+	 * Listener for changes in a node table, this listener propagates changes from the jtable back to the framnode and framnodelist
 	 */
 	private TableModelListener currentTableModelListener = new TableModelListener() {
 
@@ -36,13 +36,15 @@ public class TableModel extends DefaultTableModel {
 				int changedRow = e.getFirstRow();
 				String newValue = getValueAt(changedRow, 1).toString();
 				
+				String newComment = getValueAt(changedRow, 2).toString();
+				
 				String changedLabel = getValueAt(changedRow, 0).toString();
 				if(changedLabel == "Name") {
 					node.setName(newValue);
 				}
 				else {
 					ArrayList<Aspect> newValList = new ArrayList<Aspect>();
-					newValList.add(new Aspect(newValue));
+					newValList.add(new Aspect(newValue, newComment));
 					
 					node.setAttribute(connectionPoints.valueOf(changedLabel), newValList);
 				}
@@ -124,10 +126,11 @@ public class TableModel extends DefaultTableModel {
 			ArrayList<Aspect> aspects = node.getAttribute(cPoint);
 			for(Aspect aspect : aspects) {
 				String attr = aspect.getValue();
-				rows.add(new Object[] { cPoint.toString(), attr});
+				String comment = aspect.getComment();
+				rows.add(new Object[] { cPoint.toString(), attr, comment});
 			}
 			if(aspects.size() == 0) {
-				rows.add(new Object[] { cPoint.toString(), ""});
+				rows.add(new Object[] { cPoint.toString(), "", ""});
 			}
 		}
 		
