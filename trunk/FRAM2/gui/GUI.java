@@ -182,11 +182,6 @@ public class GUI extends JFrame implements ActionListener{
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch(Exception e){
-            e.printStackTrace();
-        }
 
 		new GUI();
 	}
