@@ -41,6 +41,7 @@ public class TableModel extends DefaultTableModel {
 				String changedLabel = getValueAt(changedRow, 0).toString();
 				if(changedLabel == "Name") {
 					node.setName(newValue);
+					node.setComment(newComment);
 				}
 				else {
 					ArrayList<Aspect> newValList = new ArrayList<Aspect>();
@@ -112,7 +113,7 @@ public class TableModel extends DefaultTableModel {
 	public Object[] createNodeCells(FramNode node) {
 	
 		ArrayList<Object> rows = new ArrayList<Object>();
-		rows.add(new Object[] { "Name", node.getName()});
+		rows.add(new Object[] { "Name", node.getName(), node.getComment()});
 		
 		connectionPoints[] cPoints = { 
 				connectionPoints.Input, 
