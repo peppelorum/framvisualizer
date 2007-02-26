@@ -39,6 +39,8 @@ public class FramNode implements java.io.Serializable {
 	public FramNode(){
 		init();
 		
+		comment = "";
+		
 		input = new ArrayList<Aspect>(); 
 		output = new ArrayList<Aspect>(); 
 		resources = new ArrayList<Aspect>(); 
@@ -50,6 +52,7 @@ public class FramNode implements java.io.Serializable {
 		init();
 		
 		this.name = name;
+		comment = "";
 		
 		input = new ArrayList<Aspect>(); 
 		output = new ArrayList<Aspect>(); 
