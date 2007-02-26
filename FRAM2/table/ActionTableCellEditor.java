@@ -48,8 +48,11 @@ public abstract class ActionTableCellEditor implements ActionListener, TableCell
     } 
  
     public boolean isCellEditable(EventObject anEvent){ 
-        return editor.isCellEditable(anEvent); 
-    } 
+       if(editor !=null){
+    	return editor.isCellEditable(anEvent); 
+       }
+       return true;
+       } 
  
     public boolean shouldSelectCell(EventObject anEvent){ 
         return editor.shouldSelectCell(anEvent); 
@@ -73,9 +76,11 @@ public abstract class ActionTableCellEditor implements ActionListener, TableCell
  
     public final void actionPerformed(ActionEvent e){ 
         editor.cancelCellEditing(); 
-        editCell(table, row, column); 
+        selectCell(table, row, column); 
     } 
  
-    protected abstract void editCell(JTable table, int row, int column); 
+    protected abstract void editCell(JTable table, int row, int column);
+    
+    protected abstract void selectCell(JTable table, int row, int column); 
 }
 

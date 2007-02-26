@@ -21,6 +21,7 @@ public class CellEditorModel
 				data.remove(i);
 			}
 		}
+		System.out.println("vad?");
 	}
 	public TableCellEditor getEditor(int row, int col)
 	{

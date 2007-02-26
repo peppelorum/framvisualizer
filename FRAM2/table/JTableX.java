@@ -17,21 +17,21 @@ public class JTableX extends JTable {
 		cellm = null;
 	}
 	
-	public JTableX(TableModel tm)
+	public JTableX(TableNodeModel tm)
 	{
 		super(tm);
 		rm = null;
 		cellm = null;
 	}
 	
-	public JTableX(TableModel tm, TableColumnModel cm)
+	public JTableX(TableNodeModel tm, TableColumnModel cm)
 	{
 		super(tm,cm);
 		rm = null;
 		cellm = null;
 	}
 	
-	public JTableX(TableModel tm, TableColumnModel cm,
+	public JTableX(TableNodeModel tm, TableColumnModel cm,
 			ListSelectionModel sm)
 	{
 		super(tm,cm,sm);
@@ -61,13 +61,13 @@ public class JTableX extends JTable {
 	}
 	
 	// new constructor
-	public JTableX(TableModel tm, RowEditorModel rm)
+	public JTableX(TableNodeModel tm, RowEditorModel rm)
 	{
 		super(tm,null,null);
 		this.rm = rm;
 		cellm = null;
 	}
-	public JTableX(TableModel tm, CellEditorModel cellm)
+	public JTableX(TableNodeModel tm, CellEditorModel cellm)
 	{
 		super(tm,null,null);
 		this.cellm = cellm;
@@ -95,26 +95,34 @@ public class JTableX extends JTable {
 		return rm;
 	}
 	
-	public TableCellEditor getCellEditor(int row, int col)
-	{
-		int modelColumn = convertColumnIndexToModel( col );
-		AddRowCellEditor addRow = new AddRowCellEditor(rm.getEditor(row));
-		if(modelColumn==1){
-
-			return addRow;
-		}
-		
-		if (!(modelColumn == 1) || (modelColumn == 2)){
-			return super.getCellEditor(row,col);
-		}
-		
-		
-		TableCellEditor tmpEditor = null;
-		if (rm!=null)
-			tmpEditor = rm.getEditor(row);
-		if (tmpEditor!=null)
-			return tmpEditor;
-
-		return super.getCellEditor(row,col);
-	}
+	
+	
+//	public TableCellEditor getCellEditor(int row, int col)
+//	{
+//		if(this.getValueAt(row, 0).toString() == "Name") {
+//			return super.getCellEditor(row,col);			
+//		}
+//		else {
+//			return new AddRowCellEditor(new ComboBoxCellEditor(new ComboBoxAutoComplete(new Object[]{ "test", "test2" })));
+//		}
+//		
+////		int modelColumn = convertColumnIndexToModel( col );
+////		AddRowCellEditor addRow = new AddRowCellEditor(rm.getEditor(row));
+//////		if(modelColumn==1){
+//////			return addRow;
+//////		}
+////		
+////		if (!(modelColumn == 1) || (modelColumn == 2)){
+////			return super.getCellEditor(row,col);
+////		}
+////		
+////		
+////		TableCellEditor tmpEditor = null;
+////		if (rm!=null)
+////			tmpEditor = rm.getEditor(row);
+////		if (tmpEditor!=null)
+////			return tmpEditor;
+////
+////		return super.getCellEditor(row,col);
+//	}
 }

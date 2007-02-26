@@ -3,6 +3,7 @@ package table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -44,10 +45,17 @@ public class TableNodeModel extends DefaultTableModel {
 					node.setComment(newComment);
 				}
 				else {
+					FramNode.connectionPoints conn = connectionPoints.valueOf(changedLabel);
 					ArrayList<Aspect> newValList = new ArrayList<Aspect>();
-					newValList.add(new Aspect(newValue, newComment));
 					
-					node.setAttribute(connectionPoints.valueOf(changedLabel), newValList);
+					for(int i = 0; i < getRowCount(); i++) {
+						if(getValueAt(i, 0).toString().equals(conn.toString())) {
+							newValList.add(new Aspect(
+									getValueAt(i, 1).toString(), 
+									getValueAt(i,2).toString()));
+						}
+					}					
+					node.setAttribute(conn, newValList);
 				}
 			}
 		}
