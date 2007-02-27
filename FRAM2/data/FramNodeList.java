@@ -82,9 +82,26 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	public boolean remove(FramNode o) {
 		boolean result = super.remove(o);
 		
+		removeAllConnectionsForNode(o);
+		
 		this.listChanged("NodeRemoved");
 		
 		return result;
+	}
+	
+	private void removeAllConnectionsForNode(FramNode node) {
+		ArrayList<ConnectionInfo> toRemove = new ArrayList<ConnectionInfo>(); 
+		
+		for(ConnectionInfo connInfo : connections) {
+			if(connInfo.getFrom().getNode() == node || 
+					connInfo.getTo().getNode() == node) {
+				toRemove.add(connInfo);
+			}
+		}
+		
+		for(ConnectionInfo connInfo : toRemove) {
+			connections.remove(connInfo);
+		}
 	}
 	
 	/**
