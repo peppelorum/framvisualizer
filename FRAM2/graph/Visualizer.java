@@ -30,6 +30,9 @@ public class Visualizer extends JComponent {
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
 
+	private Point offset = new Point(100,100);
+	private Point originalOffset;
+	
 	/**
 	 * 
 	 */
@@ -49,6 +52,8 @@ public class Visualizer extends JComponent {
 	
 	public FramNode getNodeAt(Point position) {
 		FramNode node = null;
+		
+		
 		
 		for(FramNode n : list) {
 			if(n.getRectangle().contains(position)) {
@@ -83,9 +88,12 @@ public class Visualizer extends JComponent {
 
 			public void mouseDragged(MouseEvent arg0) {
 				FramNode node = getSelectedNode();
+				Point newLocation = addOffset(arg0.getPoint());
+				
+				int xDiff = newLocation.x - mouseDownPoint.x;
+				int yDiff = newLocation.y - mouseDownPoint.y;
+				
 				if(node != null) {
-					int xDiff = arg0.getX() - mouseDownPoint.x;
-					int yDiff = arg0.getY() - mouseDownPoint.y;
 					
 					node.setPosition(new Point(
 							nodeOriginalPoint.x + xDiff,
@@ -95,7 +103,17 @@ public class Visualizer extends JComponent {
 					
 				}
 				else {
+										
+					mouseDownPoint.x -= offset.x;
+					mouseDownPoint.y -= offset.y;
 					
+					offset.x = originalOffset.x + xDiff;
+					offset.y = originalOffset.y + yDiff;
+					
+					mouseDownPoint.x += offset.x;
+					mouseDownPoint.y += offset.y;
+					
+					repaint();
 				}
 				
 			}
@@ -124,8 +142,10 @@ public class Visualizer extends JComponent {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
-				mouseDownPoint = (Point)arg0.getPoint().clone();
-				FramNode node = getNodeAt(mouseDownPoint);
+				mouseDownPoint = addOffset(arg0.getPoint());
+				FramNode node = getNodeAt(removeOffset(removeOffset(mouseDownPoint)));
+								
+				originalOffset = (Point)offset.clone();
 				
 				selectNode(node);
 				repaint();
@@ -163,8 +183,8 @@ public class Visualizer extends JComponent {
 		int spacer = 100;
 		
 		Point p = new Point();
-		p.x = 0;
-		p.y = 0;
+		p.x = -offset.x;
+		p.y = -offset.y;
 		int maxX = (int)Math.floor(Math.sqrt(list.size())) * spacer;
 		for(FramNode node : list) {
 			guiNodeList.add(new GraphNode(node, this));
@@ -189,6 +209,8 @@ public class Visualizer extends JComponent {
 	}
 
 	public void paintComponent(Graphics g) {
+		g.translate(offset.x, offset.y);
+		
 		if(list.size() > 0) {
 			
 			for(GraphNode guinode : guiNodeList) {
@@ -218,5 +240,23 @@ public class Visualizer extends JComponent {
 		}
 
 		return null;
+	}
+	
+	public Point addOffset(Point input) {
+		Point changed = (Point)input.clone();
+		
+		changed.x += offset.x;
+		changed.y += offset.y;
+		
+		return changed;
+	}
+	
+	public Point removeOffset(Point input) {
+		Point changed = (Point)input.clone();
+		
+		changed.x -= offset.x;
+		changed.y -= offset.y;
+		
+		return changed;
 	}
 }
