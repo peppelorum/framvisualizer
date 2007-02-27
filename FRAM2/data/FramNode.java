@@ -28,6 +28,7 @@ public class FramNode implements java.io.Serializable {
 	private ArrayList<Aspect> time;
 	private ArrayList<Aspect> control;
 	private ArrayList<Aspect> preconditions;
+	private ArrayList<FramStegTvaMappning> steg2Mappings;
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	
 	private Point position = new Point(0, 0);
@@ -38,21 +39,15 @@ public class FramNode implements java.io.Serializable {
 
 	public FramNode(){
 		init();
-		
-		comment = "";
-		
-		input = new ArrayList<Aspect>(); 
-		output = new ArrayList<Aspect>(); 
-		resources = new ArrayList<Aspect>(); 
-		time = new ArrayList<Aspect>(); 
-		control = new ArrayList<Aspect>(); 
-		preconditions = new ArrayList<Aspect>(); 
 	}
 	public FramNode(String name){
 		init();
 		
-		this.name = name;
-		comment = "";
+		setName(name);
+	}
+	
+	public void init() {
+		nodeChangedRecipients = new ArrayList<ActionListener>();
 		
 		input = new ArrayList<Aspect>(); 
 		output = new ArrayList<Aspect>(); 
@@ -61,10 +56,10 @@ public class FramNode implements java.io.Serializable {
 		control = new ArrayList<Aspect>(); 
 		preconditions = new ArrayList<Aspect>(); 
 		
-	}
-	
-	public void init() {
-		nodeChangedRecipients = new ArrayList<ActionListener>();
+		steg2Mappings = new ArrayList<FramStegTvaMappning>();
+		
+		setComment("");
+		setName("");
 	}
 	
 	public FramNodeList getList() {
