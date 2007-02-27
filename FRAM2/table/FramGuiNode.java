@@ -61,22 +61,7 @@ public class FramGuiNode extends Container {
 		    }
 		};
 		
-		tableStepTwo = new JTable(){
-			public TableCellEditor getCellEditor(int row, int col)
-			{
-				if(col == 0) {
-					TableCellEditor editor = super.getCellEditor(row,col);
-					return editor;
-					
-				}
-				else {
-					ComboBoxAutoComplete combo = new ComboBoxAutoComplete(FramNode.stepTwoDefaultValues);
-					combo.setEditable(true);
-					return new ComboBoxCellEditor(combo);
-				}
-
-			}
-		};
+		tableStepTwo = new FramCPCTable();
 				
 		DefaultTableModel model = (DefaultTableModel)tableStepTwo.getModel();
 		model.setColumnCount(FramNode.connectionPoints.values().length+2);

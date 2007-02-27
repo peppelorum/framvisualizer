@@ -21,6 +21,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
@@ -40,9 +41,9 @@ public class GUI extends JFrame implements ActionListener{
     private JButton newNode;
     private JButton repaintButton;
     
-    private TableNodeList table = new TableNodeList();
-    private Visualizer tableVisualizer = new Visualizer();
-    private JPanel tableAndGraph = new JPanel(new GridLayout(0,2));
+    private TableNodeList framTableEditor = new TableNodeList();
+    private Visualizer framVisualizer = new Visualizer();
+    private JSplitPane tableAndGraph;
     private Container tableContainer = new Container();
     
     private JCheckBox toggleStepTwoVisible;
@@ -67,18 +68,18 @@ public class GUI extends JFrame implements ActionListener{
 				
 				System.out.println(search);
 				System.out.println(search.length());
-				FramNodeList searchedList = table.getList().getAllAspectsAndComments(search);
+				FramNodeList searchedList = framTableEditor.getList().getAllAspectsAndComments(search);
 				
 				if (search.length() == 0){
 					tableContainer.remove(0);
-					tableContainer.add(table);
-					tableVisualizer.setList(table.getList());
+					tableContainer.add(framTableEditor);
+					framVisualizer.setList(framTableEditor.getList());
 				} else {
 					searchedTableList.setList(searchedList);
 					
 					tableContainer.remove(0);
 					tableContainer.add(searchedTableList);
-					tableVisualizer.setList(searchedList);
+					framVisualizer.setList(searchedList);
 				}
 				//Rectangle r = tableContainer.getBounds();
 				validate();
@@ -95,13 +96,13 @@ public class GUI extends JFrame implements ActionListener{
 		menuBar.add(createFileMenu());
 		setJMenuBar(menuBar);
 
-		tableVisualizer.setList(table.getList());
+		framVisualizer.setList(framTableEditor.getList());
 
-		tableContainer.add(table);
+		tableContainer.add(framTableEditor);
 		
-		tableAndGraph.add(new JScrollPane(tableContainer));
-		tableAndGraph.add(tableVisualizer);
-		
+		tableAndGraph = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
+		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
+		tableAndGraph.setRightComponent(framVisualizer);		
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
 		
@@ -118,7 +119,7 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public void deleteSelectedNode() {
-		table.getList().remove(tableVisualizer.getSelectedNode());
+		framTableEditor.getList().remove(framVisualizer.getSelectedNode());
 	}
 	
 	private JCheckBox createShowStepTwoCheckBox() {
@@ -128,7 +129,7 @@ public class GUI extends JFrame implements ActionListener{
 		toggleStepTwoVisible.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				table.setStepTwoVisible(toggleStepTwoVisible.isSelected());
+				framTableEditor.setStepTwoVisible(toggleStepTwoVisible.isSelected());
 			}
 			
 		});
@@ -158,9 +159,9 @@ public class GUI extends JFrame implements ActionListener{
 				do{
 					name = "Ny Nod" + " " + i;
 					i++;
-				}while(table.getList().getAllNames().contains(name));
+				}while(framTableEditor.getList().getAllNames().contains(name));
 				
-				table.add(new FramNode(name));
+				framTableEditor.add(new FramNode(name));
 			}
         });
         return newNode;
@@ -180,7 +181,7 @@ public class GUI extends JFrame implements ActionListener{
    		 
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
-	            table.getList().SaveFile(file.getPath());
+	            framTableEditor.getList().SaveFile(file.getPath());
 	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
     	}else if(e.getActionCommand()=="Load"){
@@ -190,8 +191,8 @@ public class GUI extends JFrame implements ActionListener{
     		int returnVal = fc.showOpenDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
     			File file = fc.getSelectedFile();
-    			table.setList(FramNodeList.LoadFile(file.getPath()));
-    			tableVisualizer.setList(table.getList());
+    			framTableEditor.setList(FramNodeList.LoadFile(file.getPath()));
+    			framVisualizer.setList(framTableEditor.getList());
 
     		}
     	}

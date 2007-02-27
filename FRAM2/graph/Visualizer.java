@@ -94,6 +94,9 @@ public class Visualizer extends JComponent {
 					repaint();
 					
 				}
+				else {
+					
+				}
 				
 			}
 
