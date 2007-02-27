@@ -39,15 +39,6 @@ public class FramNode implements java.io.Serializable {
 
 	public FramNode(){
 		init();
-	}
-	public FramNode(String name){
-		init();
-		
-		setName(name);
-	}
-	
-	public void init() {
-		nodeChangedRecipients = new ArrayList<ActionListener>();
 		
 		input = new ArrayList<Aspect>(); 
 		output = new ArrayList<Aspect>(); 
@@ -60,6 +51,25 @@ public class FramNode implements java.io.Serializable {
 		
 		setComment("");
 		setName("");
+	}
+	public FramNode(String name){
+		init();
+				
+		input = new ArrayList<Aspect>(); 
+		output = new ArrayList<Aspect>(); 
+		resources = new ArrayList<Aspect>(); 
+		time = new ArrayList<Aspect>(); 
+		control = new ArrayList<Aspect>(); 
+		preconditions = new ArrayList<Aspect>(); 
+		
+		steg2Mappings = new ArrayList<FramStegTvaMappning>();
+		
+		setComment("");
+		setName(name);
+	}
+	
+	public void init() {
+		nodeChangedRecipients = new ArrayList<ActionListener>();
 	}
 	
 	public FramNodeList getList() {
