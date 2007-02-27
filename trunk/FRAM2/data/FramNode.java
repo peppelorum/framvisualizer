@@ -58,8 +58,33 @@ public class FramNode implements java.io.Serializable {
 	private Point position = new Point(0, 0);
 	private int size = 50;
 	
+	public static String[] stepTwoDefaultValues = new String[] {
+		"",
+		"Adequate",
+		"Inadequate",
+		"Efficient",
+		"Inefficient",
+		"Compatible",
+		"Fewer than capacity",
+		"Matching current capacity",
+		"More than capacity",
+		"Temporarily inadequate",
+		"Adjusted (day time)"
+	};
+	
 	public static enum connectionPoints { Time, Control, Output, Resources, Preconditions, Input};
-	public static enum stegTvaAttribut { AttributEtt, AttribTva, AttribTre };
+	public static enum stegTvaAttribut { 
+		Available_resources, 
+		Training_experience, 
+		Quality_communication,
+		HMI_operational_support,
+		Access_procedures_methods,
+		Conditions_of_work,
+		Number_of_goals_and_conflict_resolution,
+		Available_time_and_time_preasure,
+		Circadian_rytm_stress,
+		Crew_collaboration_quality,
+		Quality_and_support_of_organization };
 
 	public FramNode(){
 		init();

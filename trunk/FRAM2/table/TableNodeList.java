@@ -21,6 +21,7 @@ public class TableNodeList extends Container {
 	private FramNodeList list;
 	
 	private ActionListener listChangedListener;
+	private boolean stepTwoVisible;
 	
 	
 	public TableNodeList(FramNodeList list) {
@@ -50,7 +51,7 @@ public class TableNodeList extends Container {
 		this.setList(new FramNodeList("ny"));
 	}
 	
-	public void add(FramNode item){
+	public void add(FramNode item){		
 		list.add(item);
 	}
 	
@@ -87,11 +88,12 @@ public class TableNodeList extends Container {
 			}
 			if(!isHere) {
 				add(new FramGuiNode(node));
+				
 			}
 		}
 		
-		validate();
-		repaint();
+		setStepTwoVisible(getStepTwoVisible());
+		refresh();
 	}
 	
 	private void cleanUp() {
@@ -100,4 +102,23 @@ public class TableNodeList extends Container {
 		}
 	}
 
+	public void setStepTwoVisible (boolean value) {
+		stepTwoVisible = value;
+		
+		for(Component c : this.getComponents()) {
+			FramGuiNode guiNode = (FramGuiNode)c;
+			guiNode.setStepTwoVisible(stepTwoVisible);
+		}
+		
+		refresh();
+	}
+	
+	public boolean getStepTwoVisible() {
+		return stepTwoVisible;
+	}
+	
+	private void refresh() {
+		validate();
+		repaint();
+	}
 }

@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -26,7 +27,9 @@ public class FramGuiNode extends Container {
 
 	private FramNode node;
 	private TableNode tableNode;
-	
+	private JTable tableStepTwo;
+		
+
 	public FramGuiNode(FramNode node) {
 		
 		this.setVisible(true);
@@ -58,10 +61,25 @@ public class FramGuiNode extends Container {
 		    }
 		};
 		
-		JTable table = new JTable();
+		tableStepTwo = new JTable(){
+			public TableCellEditor getCellEditor(int row, int col)
+			{
+				if(col == 0) {
+					TableCellEditor editor = super.getCellEditor(row,col);
+					return editor;
+					
+				}
+				else {
+					ComboBoxAutoComplete combo = new ComboBoxAutoComplete(FramNode.stepTwoDefaultValues);
+					combo.setEditable(true);
+					return new ComboBoxCellEditor(combo);
+				}
+
+			}
+		};
 				
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		model.setColumnCount(FramNode.connectionPoints.values().length+1);
+		DefaultTableModel model = (DefaultTableModel)tableStepTwo.getModel();
+		model.setColumnCount(FramNode.connectionPoints.values().length+2);
 				
 		for(FramNode.stegTvaAttribut attrib : FramNode.stegTvaAttribut.values()) {
 
@@ -79,15 +97,19 @@ public class FramGuiNode extends Container {
 		TableColumn column;
 		
 	
-        for(int i = 0;i<table.getColumnCount();i++){
+        for(int i = 0;i<tableStepTwo.getColumnCount();i++){
         	if(i==0) {
-        		table.getColumnModel().getColumn(i).setHeaderValue("");
+        		tableStepTwo.getColumnModel().getColumn(i).setHeaderValue("");
         		//TableCellRenderer headerRenderer = table.getColumnModel().getColumn(i).getHeaderRenderer();
         		//table.getColumnModel().getColumn(i).setCellRenderer(readOnlyRenderer);
         	}
+        	else if(i > FramNode.connectionPoints.values().length) {
+        		tableStepTwo.getColumnModel().getColumn(i).setHeaderValue(
+            			"Misc");
+        	}
         	else {
         		// set header
-        		table.getColumnModel().getColumn(i).setHeaderValue(
+        		tableStepTwo.getColumnModel().getColumn(i).setHeaderValue(
         			FramNode.connectionPoints.values()[i-1].toString());
         	}
         }
@@ -103,8 +125,8 @@ public class FramGuiNode extends Container {
 //			table.getColumnModel().getColumn(arg0)
 //		}
 		
-        this.add(table.getTableHeader());
-		this.add(table);
+        this.add(tableStepTwo.getTableHeader());
+		this.add(tableStepTwo);
 	
 	}
 	
@@ -114,5 +136,14 @@ public class FramGuiNode extends Container {
 
 	public void cleanUp() {
 		tableNode.cleanUp();
+	}
+	
+	public void setStepTwoVisible (boolean value) {		
+		tableStepTwo.setVisible(value);
+		tableStepTwo.getTableHeader().setVisible(value);
+	}
+	
+	public boolean getStepTwoVisible() {
+		return tableStepTwo.isVisible();
 	}
 }

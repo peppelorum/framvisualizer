@@ -13,6 +13,7 @@ import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -21,6 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
 import table.TableNodeList;
@@ -42,6 +44,8 @@ public class GUI extends JFrame implements ActionListener{
     private Visualizer tableVisualizer = new Visualizer();
     private JPanel tableAndGraph = new JPanel(new GridLayout(0,2));
     private Container tableContainer = new Container();
+    
+    private JCheckBox toggleStepTwoVisible;
     
 	public GUI(){
 		
@@ -101,6 +105,7 @@ public class GUI extends JFrame implements ActionListener{
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
 		
+		buttonsPanel.add(createShowStepTwoCheckBox());
 		buttonsPanel.add(searchField);
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createDeleteButton());
@@ -114,6 +119,21 @@ public class GUI extends JFrame implements ActionListener{
 	
 	public void deleteSelectedNode() {
 		table.getList().remove(tableVisualizer.getSelectedNode());
+	}
+	
+	private JCheckBox createShowStepTwoCheckBox() {
+		toggleStepTwoVisible = new JCheckBox();
+		
+		toggleStepTwoVisible.setText("Show step 2");
+		toggleStepTwoVisible.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				table.setStepTwoVisible(toggleStepTwoVisible.isSelected());
+			}
+			
+		});
+		
+		return toggleStepTwoVisible;
 	}
 	
 	private JButton createDeleteButton() {
