@@ -1,3 +1,27 @@
+/**
+
+ 	A visualizer for FRAM (Functional Resonance Accident Model).
+ 	This tool helps modelling the the FRAM table and visualize it.
+	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	http://sourceforge.net/projects/framvisualizer/
+	
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  
+ **/
+
 package data;
 
 import java.awt.Point;
@@ -192,7 +216,12 @@ public class FramNode implements java.io.Serializable {
 				getSize());
 	}
 	
-	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return All unique values for each aspect in a node
+	 */
 	public String[] getAllEntities() {
 		ArrayList<String> allEntities = new ArrayList<String>();
 		
@@ -223,10 +252,10 @@ public class FramNode implements java.io.Serializable {
 	}
 	
 	/**
-	 *  Returns an arraylist with all the connections in this node
-	 *  TypeofConnection|aspect|comment
+	 *  Returns an arraylist with all the aspects in this node
+	 *  TypeofPort|value|comment
 	 *  
-	 * @param list Array with 2 slots [0]=port [1]=aspect [2]=comment
+	 * @param list Array with 3 slots [0]=port [1]=value [2]=comment
 	 * @return Arraylist with an string-array for each connection. 
 	 */
 	
