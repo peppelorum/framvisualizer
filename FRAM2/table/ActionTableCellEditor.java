@@ -16,7 +16,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
 public abstract class ActionTableCellEditor implements ActionListener, TableCellEditor{
-	 public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("dotdotdot.gif")); 
+	 public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.gif")); 
     private TableCellEditor editor; 
     private JButton customEditorButton = new JButton(PLUS_ICON); 
     protected JTable table; 
