@@ -1,11 +1,18 @@
 package table;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import data.FramNode;
@@ -31,31 +38,34 @@ public class FramGuiNode extends Container {
 		
 		this.add(tableNode);
 		
+		DefaultTableCellRenderer readOnlyRenderer = new DefaultTableCellRenderer(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1982231618663302618L;
+
+			public Component getTableCellRendererComponent
+		       (JTable table, Object value, boolean isSelected,
+		       boolean hasFocus, int row, int column) 
+		    {		        
+		        if(row == 0 || column == 0) {
+		        	setBackground(Color.getHSBColor(0F, 0F, 0.9F));
+		        	setFont(new Font("Dialog",Font.BOLD,12));
+		        	this.setForeground(Color.black);
+		        }
+		      		        
+		        return this;
+		    }
+		};
+		
 		JTable table = new JTable();
-		TableColumn column = new TableColumn();
-		column.setHeaderValue("Attribute");
-		table.addColumn(column);
-		for(FramNode.connectionPoints conn : FramNode.connectionPoints.values()) {
-			column = new TableColumn();
-			column.setHeaderValue(conn.toString());
-			table.addColumn(column);
-		}
-		
+				
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		
-		model.setColumnCount(table.getColumnCount());
-		
-		Vector<String> row = new Vector<String>();
-		row.add("");
-		
-		for(FramNode.connectionPoints conn : FramNode.connectionPoints.values()) {
-			row.add(conn.toString());
-		}
-		
-		model.addRow(row);
-		
+		model.setColumnCount(FramNode.connectionPoints.values().length+1);
+				
 		for(FramNode.stegTvaAttribut attrib : FramNode.stegTvaAttribut.values()) {
-			
+
+			Vector<String> row = new Vector<String>();
 			row = new Vector<String>();
 			row.add(attrib.toString());
 			
@@ -66,6 +76,34 @@ public class FramGuiNode extends Container {
 			model.addRow(row);
 		}
 		
+		TableColumn column;
+		
+	
+        for(int i = 0;i<table.getColumnCount();i++){
+        	if(i==0) {
+        		table.getColumnModel().getColumn(i).setHeaderValue("");
+        		//TableCellRenderer headerRenderer = table.getColumnModel().getColumn(i).getHeaderRenderer();
+        		//table.getColumnModel().getColumn(i).setCellRenderer(readOnlyRenderer);
+        	}
+        	else {
+        		// set header
+        		table.getColumnModel().getColumn(i).setHeaderValue(
+        			FramNode.connectionPoints.values()[i-1].toString());
+        	}
+        }
+		
+        
+		//table.getColumnModel().getColumn(0).setHeaderValue("Attribute");
+		
+//		for(FramNode.connectionPoints conn : FramNode.connectionPoints.values()) {
+//			column = new TableColumn();
+//			column.setHeaderValue(conn.toString());
+//			column.setCellRenderer(customRenderer);
+//			table.addColumn(column);
+//			table.getColumnModel().getColumn(arg0)
+//		}
+		
+        this.add(table.getTableHeader());
 		this.add(table);
 	
 	}
