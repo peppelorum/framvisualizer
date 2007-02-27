@@ -131,4 +131,8 @@ public class FramGuiNode extends Container {
 	public boolean getStepTwoVisible() {
 		return tableStepTwo.isVisible();
 	}
+	
+	public TableNode getTableNode() {
+		return tableNode;
+	}
 }

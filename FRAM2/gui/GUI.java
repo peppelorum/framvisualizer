@@ -26,8 +26,10 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
+import table.FramCPCTable;
 import table.TableNodeList;
 
+import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -43,12 +45,28 @@ public class GUI extends JFrame implements ActionListener{
     
     private TableNodeList framTableEditor = new TableNodeList();
     private Visualizer framVisualizer = new Visualizer();
+    private FramCPCTable framCPCTable = new FramCPCTable();
     private JSplitPane tableAndGraph;
+    private JSplitPane split2;
     private Container tableContainer = new Container();
     
     private JCheckBox toggleStepTwoVisible;
     
 	public GUI(){
+		framTableEditor.addSelectedAspectChangedListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				TableNodeList nodeList = (TableNodeList)e.getSource();
+				Aspect a = nodeList.getSelectedAspect();
+				if(a != null) {
+					framCPCTable.setCPC(a.getCPC());
+				}
+				else {
+					framCPCTable.setCPC(null);
+				}
+			}
+			
+		});
 		
 		this.setSize(600, 500);
 		
@@ -99,10 +117,19 @@ public class GUI extends JFrame implements ActionListener{
 		framVisualizer.setList(framTableEditor.getList());
 
 		tableContainer.add(framTableEditor);
-		
+				
 		tableAndGraph = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
+		tableAndGraph.setDividerLocation(300);
 		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
-		tableAndGraph.setRightComponent(framVisualizer);		
+		
+		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		split2.setDividerLocation(300);
+		split2.setTopComponent(framVisualizer);
+		split2.setBottomComponent(framCPCTable);
+		
+		tableAndGraph.setRightComponent(split2);
+		
+		//tableAndGraph.setRightComponent(framVisualizer);		
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
 		

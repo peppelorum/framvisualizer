@@ -4,9 +4,11 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 
+import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -23,8 +25,12 @@ public class TableNodeList extends Container {
 	private ActionListener listChangedListener;
 	private boolean stepTwoVisible;
 	
+	private Aspect selectedAspect;
+	
+	private ArrayList<ActionListener> selectedAspectChangedRecipients;
 	
 	public TableNodeList(FramNodeList list) {
+		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
 		listChangedListener = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -39,6 +45,7 @@ public class TableNodeList extends Container {
 	}
 	
 	public TableNodeList(){
+		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
 		listChangedListener = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -96,6 +103,23 @@ public class TableNodeList extends Container {
 		refresh();
 	}
 	
+	public Component add(Component c) {
+		if(c instanceof FramGuiNode) {
+			FramGuiNode guiNode = (FramGuiNode)c;
+			guiNode.getTableNode().addSelectedChangedListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					TableNode tableNode = (TableNode)e.getSource();
+					setSelectedAspect(tableNode.getSelectedAspect());
+					
+				}
+				
+			});
+		}
+		
+		return super.add(c);
+	}
+	
 	private void cleanUp() {
 		if(list != null) {
 			list.removeListChangedListener(listChangedListener);
@@ -120,5 +144,28 @@ public class TableNodeList extends Container {
 	private void refresh() {
 		validate();
 		repaint();
+	}
+	
+	private void setSelectedAspect(Aspect value) {
+		this.selectedAspect = value;
+		selectedAspectChanged();
+	}
+	
+	public Aspect getSelectedAspect() {
+		return selectedAspect;
+	}
+		
+	public void addSelectedAspectChangedListener(ActionListener listener) {
+		this.selectedAspectChangedRecipients.add(listener);
+	}
+	
+	public void removeSelectedAspectChangedListener(ActionListener listener) {
+		this.selectedAspectChangedRecipients.remove(listener);
+	}
+	
+	public void selectedAspectChanged() {
+		for(ActionListener listener : this.selectedAspectChangedRecipients) {
+			listener.actionPerformed(new ActionEvent(this, 0, ""));
+		}
 	}
 }
