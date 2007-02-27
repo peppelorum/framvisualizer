@@ -1,3 +1,11 @@
+/**
+ * $Id$
+ *
+ * Used to test the functionality of using CVS keywords
+ * in Java source code files.
+ * 
+ */
+
 package gui;
 
 import graph.Visualizer;
