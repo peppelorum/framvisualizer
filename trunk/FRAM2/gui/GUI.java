@@ -1,11 +1,3 @@
-/**
- * $Id$
- *
- * Used to test the functionality of using CVS keywords
- * in Java source code files.
- * 
- */
-
 package gui;
 
 import graph.Visualizer;
@@ -64,7 +56,7 @@ public class GUI extends JFrame implements ActionListener{
 		JTextField searchField = new JTextField(20);
 		searchField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+			
 				TableNodeList searchedTableList = new TableNodeList();
 				JTextField textfield = (JTextField)e.getSource();
 				String search = textfield.getText();
@@ -111,7 +103,6 @@ public class GUI extends JFrame implements ActionListener{
 		
 		buttonsPanel.add(searchField);
 		buttonsPanel.add(createNewNodeButton());
-		buttonsPanel.add(createRepaintButton());
 		buttonsPanel.add(createDeleteButton());
 		
 		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
@@ -135,19 +126,6 @@ public class GUI extends JFrame implements ActionListener{
 		});
 		
 		return buttonDelete;
-	}
-	
-	private JButton createRepaintButton(){
-		repaintButton = new JButton();
-		repaintButton.setText("repaint");
-		repaintButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				validate();
-				
-			}
-		});
-		return repaintButton;
-	
 	}
 	
 	private JButton createNewNodeButton(){
