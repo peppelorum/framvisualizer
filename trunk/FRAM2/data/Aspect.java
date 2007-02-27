@@ -38,6 +38,7 @@ public class Aspect implements java.io.Serializable {
 	private static final long serialVersionUID = 8030263320025000436L;
 	private String value;
 	private String comment;
+	private CPC cpc;
 	
 	public Aspect(String value){
 		this.value = value;
