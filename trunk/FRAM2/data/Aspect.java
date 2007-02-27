@@ -43,11 +43,13 @@ public class Aspect implements java.io.Serializable {
 	public Aspect(String value){
 		this.value = value;
 		this.comment = "";
+		cpc = new CPC();
 	}
 	
 	public Aspect(String value, String comment){
 		this.value = value;
 		this.comment = comment;
+		cpc = new CPC();
 	}
 	
 	public void setComment(String comment) {
@@ -61,6 +63,9 @@ public class Aspect implements java.io.Serializable {
 	}
 	public String getValue() {
 		return value;
+	}
+	public CPC getCPC() {
+		return cpc;
 	}
 	
 	public boolean equals(Aspect aspect) {

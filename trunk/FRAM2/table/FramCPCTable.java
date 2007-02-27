@@ -12,16 +12,27 @@ public class FramCPCTable extends JTable {
 	 */
 	private static final long serialVersionUID = -7411835284939157285L;
 	
+	private CPC cpc;
+	
 	public FramCPCTable(){
-		
 		
 	}
 	
 	public FramCPCTable(CPC cpc){
-	
-		setModel(new FramCPCTableModel(cpc));
+		setCPC(cpc);
 	}
 
+	public void setCPC(CPC value) {
+		this.cpc = value;
+		
+		if(cpc == null) {
+			
+		} 
+		else {
+			setModel(new FramCPCTableModel(cpc));
+		}
+	}
+	
 	public TableCellEditor getCellEditor(int row, int col)
 	{
 		if(col == 0) {

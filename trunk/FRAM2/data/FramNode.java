@@ -376,6 +376,16 @@ public class FramNode implements java.io.Serializable {
 		}
 	}
 
+	public Aspect getAspect(String type, String name) {		
+		for(Aspect a : this.getAttribute(connectionPoints.valueOf(type))) {
+			if(a.getValue().equals(name)) {
+				return a;
+			}
+		}
+		
+		return null;
+	}
+	
 	public void addNodeChangedListener(ActionListener listener) {
 		this.nodeChangedRecipients.add(listener);
 	}
