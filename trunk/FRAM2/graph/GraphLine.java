@@ -47,7 +47,7 @@ public class GraphLine extends JComponent {
 	public Line2D getLine() {
 		GraphNode nodeFrom = parent.getGuiNode(connection.getFrom().getNode());
 		GraphNode nodeTo = parent.getGuiNode(connection.getTo().getNode());
-
+		
 		Point pointFrom = nodeFrom.getPort(connection.getFrom().getConnectionPort());
 		Point pointTo = nodeTo.getPort(connection.getTo().getConnectionPort());		
 

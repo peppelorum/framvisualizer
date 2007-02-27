@@ -104,6 +104,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonsPanel.add(searchField);
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createRepaintButton());
+		buttonsPanel.add(createDeleteButton());
 		
 		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
@@ -112,8 +113,23 @@ public class GUI extends JFrame implements ActionListener{
 		this.setVisible(true);
 	}
 	
-	private JButton createRepaintButton(){
+	public void deleteSelectedNode() {
+		table.getList().remove(tableVisualizer.getSelectedNode());
+	}
 	
+	private JButton createDeleteButton() {
+		JButton buttonDelete = new JButton();
+		buttonDelete.setText("Delete node");
+		buttonDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteSelectedNode();
+			}
+		});
+		
+		return buttonDelete;
+	}
+	
+	private JButton createRepaintButton(){
 		repaintButton = new JButton();
 		repaintButton.setText("repaint");
 		repaintButton.addActionListener(new ActionListener() {

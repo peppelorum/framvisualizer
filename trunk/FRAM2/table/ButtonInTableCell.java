@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.EventObject;
 
 import javax.swing.Icon;
@@ -12,17 +13,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
-public abstract class ActionTableCellEditor implements ActionListener, TableCellEditor{
+import data.Aspect;
+import data.FramNode;
+
+public class ButtonInTableCell implements ActionListener, TableCellEditor{
 	 public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.gif")); 
     private TableCellEditor editor; 
     private JButton customEditorButton = new JButton(PLUS_ICON); 
     protected JTable table; 
     protected int row, column; 
     
-    public ActionTableCellEditor(TableCellEditor editor){ 
+    public ButtonInTableCell(TableCellEditor editor){ 
         this.editor = editor; 
         customEditorButton.addActionListener(this); 
  
@@ -79,8 +84,29 @@ public abstract class ActionTableCellEditor implements ActionListener, TableCell
         selectCell(table, row, column); 
     } 
  
-    protected abstract void editCell(JTable table, int row, int column);
+    protected void editCell(JTable table, int row, int column){ 
+        JTextArea textArea = new JTextArea(10, 50); 
+        Object value = table.getValueAt(row, column); 
+       
+        if(value!=null){ 
+            textArea.setText((String)value); 
+            textArea.setCaretPosition(0); 
+        } 
+        
+        TableNode tablenode = (TableNode)table;
+    	
+    	FramNode.connectionPoints conn = FramNode.connectionPoints.valueOf(table.getValueAt(row, 0).toString());
+    	
+    	FramNode node = tablenode.getNode();
+    	ArrayList<Aspect> aspList = node.getAttribute(conn);
+    	aspList.add(new Aspect(""));
+    	node.setAttribute(conn, aspList);
+    }
     
-    protected abstract void selectCell(JTable table, int row, int column); 
+	protected void selectCell(JTable table, int row, int column) {
+		if(column > 0) {
+			editCell(table, row, column);
+		}
+	} 
 }
 
