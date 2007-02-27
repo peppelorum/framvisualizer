@@ -1,3 +1,27 @@
+/**
+
+ 	A visualizer for FRAM (Functional Resonance Accident Model).
+ 	This tool helps modelling the the FRAM table and visualize it.
+	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	http://sourceforge.net/projects/framvisualizer/
+	
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  
+ **/
+
 package data;
 
 import java.awt.event.ActionEvent;
@@ -12,7 +36,9 @@ import data.FramNode.connectionPoints;
 
 
 /**
- * FramNodeList is an ArrayList which store all the nodes/functions in the FRAM-network
+ * FramNodeList is an ArrayList which store all the nodes/functions in the FRAM-network.
+ * It also contains functionality as how to find connections in the network, filter these connections,
+ * search for nodes that contains certain values, and fileloader.
  * 
  * @author Jonas Haraldsson
  *
@@ -89,6 +115,13 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		return result;
 	}
 	
+	/**
+	 * Removes all connections in the list of all connections for a certain node, 
+	 * operates on the whole network
+	 * 
+	 * @param node FramNode
+	 */
+	
 	private void removeAllConnectionsForNode(FramNode node) {
 		ArrayList<ConnectionInfo> toRemove = new ArrayList<ConnectionInfo>(); 
 		
@@ -132,12 +165,12 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	}
 	/**
 	 * 
-	 * @param list The FramNodeList which is to be saved
 	 * @param filename 
 	 */
 	public void SaveFile(String filename){
 		Filemanager.saveFile(this, filename);
 	}
+	
 	/**
 	 * Returns an arraylist<string> with all the currently used aspects in the network
 	 * 
@@ -161,7 +194,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 				if(!allEntities.contains(nodeEntities[j])) {
 					allEntities.add(nodeEntities[j]);			
 				}
-			}			
+			}
 		}
 			
 		String[] allEntitiesArray = new String[allEntities.size()];
@@ -172,9 +205,11 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	}
 	
 	/**
-	 * Returns an arraylist<string> with all the nodes that contains a name, aspect or comment that you've searched for
+	 * Used in the filter/search box
 	 * 
-	 * @return arraylist<string>
+	 * Returns an FramNodeList with all the nodes that contains a name, aspect or comment that you've searched for
+	 * 
+	 * @return FramNodeList filtered result 
 	 */
 	
 	public FramNodeList getAllAspectsAndComments(String searchedFor) {
@@ -214,7 +249,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 * 
 	 * After it searched all the aspects in the first node it continues and does the same thing with the next node.
 	 *
-	 *Then it checks how the new search result diff from an earlier and updates it.
+	 * Then it checks how the new search result diff from an earlier and updates it.
 	 */
 	
 	public ArrayList<ConnectionInfo> searchConnections(){
@@ -265,12 +300,17 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		}
 		
 		connections.addAll(temp);
-		filterSearchResult();
+		filterConnections();
 		
 		return connections ;
 	}
 	
-	public void filterSearchResult(){
+	/**
+	 * Filters the connections for a node, (removes output to output connections etc).
+	 *
+	 */
+	
+	public void filterConnections(){
 		boolean filterOutputOutput = true;
 		boolean filterInputInput = true;
 		boolean filterNonePreCOutput = true;
@@ -320,7 +360,21 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		}
 	}
 
-	public boolean equals(FramNodeList list) {
+	/**
+	 * Compares the current list with another list and checkes if they are identical
+	 * 
+	 * @param Object
+	 */
+	
+	public boolean equals(Object obj) {
+		FramNodeList list;
+		
+		if(obj instanceof FramNodeList){
+			list = (FramNodeList)obj;
+		}
+		else{
+			return false;
+		}
 		if(list == null) {
 			return false;
 		}
@@ -340,40 +394,5 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		}
 		
 		return true;
-	}
-	
-	/**
-	 * Load a FramNodeList from file 
-	 * 
-	 * @param filename 
-	 * @return FrameNodeList
-	 */
-	protected static FramNodeList loadFile(String filename){
-		FramNodeList list;
-		
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream(filename);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-
-			list = (FramNodeList)ois.readObject();
-
-			ois.close();
-			fis.close();
-			
-			return list;
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 }
