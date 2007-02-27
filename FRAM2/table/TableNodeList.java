@@ -42,7 +42,6 @@ public class TableNodeList extends Container {
 
 			public void actionPerformed(ActionEvent e) {
 				updateElements();
-				
 			}
 			
 		};
@@ -69,7 +68,7 @@ public class TableNodeList extends Container {
 	}
 	
 	
-	public void updateElements() {
+	private void updateElements() {
 		for(Component c : this.getComponents()) {
 			FramGuiNode guiNode = (FramGuiNode)c;
 			if(!list.contains(guiNode.getNode())) {
@@ -92,6 +91,7 @@ public class TableNodeList extends Container {
 		}
 		
 		validate();
+		repaint();
 	}
 	
 	private void cleanUp() {
