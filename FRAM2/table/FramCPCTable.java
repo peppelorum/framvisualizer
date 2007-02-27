@@ -3,6 +3,7 @@ package table;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
+import data.CPC;
 import data.FramNode;
 
 public class FramCPCTable extends JTable {
@@ -10,6 +11,16 @@ public class FramCPCTable extends JTable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7411835284939157285L;
+	
+	public FramCPCTable(){
+		
+		
+	}
+	
+	public FramCPCTable(CPC cpc){
+	
+		setModel(new FramCPCTableModel(cpc));
+	}
 
 	public TableCellEditor getCellEditor(int row, int col)
 	{
