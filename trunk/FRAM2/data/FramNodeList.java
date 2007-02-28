@@ -78,7 +78,51 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		return name;
 	}
 	
+	public void moveUpNode (FramNode node){
+		int curPos = 0;
+		int newPos = 0;
+		
+		for(int i = 0; i < this.size(); i++){
+			if (this.get(i).getName().equalsIgnoreCase(node.getName())) {
+				curPos = i;
+				break;
+			}
+		}
+		newPos = curPos -1;
+		
+		System.out.println(curPos);
+		System.out.println(newPos);
+		//if (newPos > 0) {
+		
+		this.set(curPos, this.get(newPos));
+		this.set(newPos, node);
+		
+		FramNode tmp;
+		for(int i =0; i< this.size(); i++){
+			tmp = this.get(i);
+			this.remove(tmp);
+			this.add(tmp);
+		}
+		
+		
+				
+		
+		
+		//}
+	}
+	
 	public boolean add(FramNode o) {
+		
+		int i = 1;
+		String name;
+		do{
+			name = "Ny Nod" + " " + i;
+			i++;
+		}while(this.getAllNames().contains(name));
+		
+//		framNodeEditorList.add(new FramNode(name));
+		o.setName(name);
+		
 		boolean result = super.add(o);
 		if(result) {
 			o.setList(this);
