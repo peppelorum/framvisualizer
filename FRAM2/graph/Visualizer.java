@@ -182,11 +182,16 @@ public class Visualizer extends JComponent {
 				
 				originalOffset = (Point)offset.clone();
 				
-				if(node != null){
-					selectNode(node);
-				}else if(cInfo != null){
-					selectConnection(cInfo);
-				}
+					if(cInfo != null){
+						selectConnection(cInfo);
+						selectedNode = null;
+					}else if(node != null){
+						selectNode(node);
+						selectedLine =null;
+					}else{
+						selectedLine =null;
+						selectedNode = null;
+					}
 				
 				repaint();
 				
@@ -194,9 +199,6 @@ public class Visualizer extends JComponent {
 
 			public void mouseReleased(MouseEvent arg0) {
 				
-				selectedLine = null;
-				selectedNode = null;
-				mouseDownPoint = null;
 			}
 			
 		});
