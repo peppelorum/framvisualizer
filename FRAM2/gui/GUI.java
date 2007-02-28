@@ -24,6 +24,7 @@
 
 package gui;
 
+import graph.GraphLine;
 import graph.Visualizer;
 
 import java.awt.BorderLayout;
@@ -154,6 +155,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonsPanel.add(searchField);
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createDeleteButton());
+		buttonsPanel.add(createShowLabelsButton());
 		
 		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
@@ -188,6 +190,22 @@ public class GUI extends JFrame implements ActionListener{
 			}
         });
         return newNode;
+	}
+	private JButton createShowLabelsButton() {
+		JButton buttonShowLabels = new JButton();
+		buttonShowLabels.setText("Toggle labels");
+		buttonShowLabels.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(GraphLine.isShowBubbles()){
+					GraphLine.setShowBubbles(false);
+				}else{
+					GraphLine.setShowBubbles(true);
+				}
+				repaint();
+			}
+		});
+		
+		return buttonShowLabels;
 	}
 	
 	 /**
