@@ -154,7 +154,7 @@ public class GraphNode extends JComponent {
 		int bubbleRounded = 10;
 		
 		if(isSelected()) {
-			bubbleHeight = 100;
+			bubbleHeight = 20;
 		}
 		
 		// define coordinates for bubble
