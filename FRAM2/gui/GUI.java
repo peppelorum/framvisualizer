@@ -60,7 +60,7 @@ public class GUI extends JFrame implements ActionListener{
 			
 		});
 		
-		this.setSize(600, 500);
+		this.setSize(900, 600);
 		
 		Container contentPane = getContentPane();
 		
@@ -111,7 +111,7 @@ public class GUI extends JFrame implements ActionListener{
 		tableContainer.add(framTableEditor);
 				
 		tableAndGraph = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
-		tableAndGraph.setDividerLocation(300);
+		tableAndGraph.setDividerLocation(450);
 		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
 		
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
