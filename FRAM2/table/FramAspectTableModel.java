@@ -44,7 +44,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	
 	public boolean isCellEditable(int row, int col)
 	{
-		if (col==0 || this.getValueAt(row,0)=="")
+		if ((col==0 && row !=0 )|| this.getValueAt(row,0)=="")
 			return false;
 		return true;
 	}
