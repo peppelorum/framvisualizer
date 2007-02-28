@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 import data.Aspect;
 import data.FramNode;
@@ -83,6 +84,8 @@ public class FramAspectTable extends JTable {
 		node.addNodeChangedListener(nodeChangedListener);
 		
 		updateTable();
+		
+
 	}
 	
 	private void updateTable() {     
@@ -91,6 +94,17 @@ public class FramAspectTable extends JTable {
         	//Sets the cell renderers
         	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ()); 
         }
+        
+        System.out.println(this.getColumnModel().getColumn(0).getHeaderValue().toString());
+        
+        this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumn col = this.getColumnModel().getColumn(0);
+        int width = 90;
+        col.setMinWidth(width);
+        col.setMaxWidth(width);
+        col.setPreferredWidth(width);
+        
+
 	}
 	
 	public void cleanUp() {
