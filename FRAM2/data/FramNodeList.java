@@ -257,12 +257,30 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 			
 		for(int i=0;i<this.size();i++){
 			node = this.get(i);
-			for(String[] connectionFrom : node.getAllAspects()){
+			for(int currentFromAspect=0; currentFromAspect<node.getAllAspects().size();currentFromAspect++){
+				String[] connectionFrom = node.getAllAspects().get(currentFromAspect);
+				
 				searchValue = connectionFrom[1];   //connectionFrom[0] contains the port
 				
 					alreadyFound.add(searchValue);
+					//find the connections within nodes
+					for(int currentToAspect=currentFromAspect+1; currentToAspect<node.getAllAspects().size(); currentToAspect++){
+						String[] connectionTo = node.getAllAspects().get(currentToAspect);
+						if(searchValue.equals(connectionTo[1])){
+							RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
+							RelationInfo toNode = fromNode;
+							
+							if(!searchValue.equals("") && 												//Removes matches for "" searches
+									!(fromNode.getFunctionName().equals(toNode.getFunctionName()) &&
+											fromNode.getConnectionPort().equals(toNode.getConnectionPort()))){   //Filters out the connection to itself at the same port
+								
+								foundConnections.add(new ConnectionInfo(fromNode,toNode, searchValue));
+							}
+						}
+					}
 					
-					for(int j=i;j<this.size();j++){
+					//Only searches the other nodes, not within one self
+					for(int j=i+1;j<this.size();j++){			
 						for(String[] connectionTo : this.get(j).getAllAspects() ){
 							if(searchValue.equals(connectionTo[1])){
 								RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
