@@ -93,7 +93,7 @@ public class FramNodeEditorList extends Container {
 				}
 			}
 			if(!isHere) {
-				add(new FramNodeEditor(node));
+				add(new FramNodeEditor(node, list));
 				
 			}
 		}
