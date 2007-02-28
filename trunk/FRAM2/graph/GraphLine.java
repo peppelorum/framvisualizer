@@ -98,6 +98,10 @@ public class GraphLine extends JComponent {
 		if(!connection.getVisibility()) {
 			return;
 		}
+		// calculate length of name
+		g.setFont(new Font("Arial", 1, 9));
+		connection.setBubbleWidth(8 + g.getFontMetrics().stringWidth(connection.getAspect()));
+
 		
 		int bubbleHeight = connection.getBubbleHeight();
 		int bubbleWidth = connection.getBubbleWidth();
@@ -130,12 +134,12 @@ public class GraphLine extends JComponent {
 				bubbleRounded, 
 				bubbleRounded);
 		
-		// draw name
-		g.setFont(new Font("Arial", 1, 9));
+		//draw name
 		g.drawString(
 				connection.getAspect(), 
 				bubbleRect.x+5,
 				bubbleRect.y+8);
+	
 	}	
 	
 }
