@@ -23,7 +23,7 @@ public class CustomCellRenderer extends DefaultTableCellRenderer
 //        System.out.println("CustomRender");
         if(value == "Network name"){
         	cell.setFont(new Font("Dialog",Font.PLAIN,14));
-        }else if(value == "Name"){
+        }else if(row == 0){
         	cell.setFont(new Font("Dialog",Font.BOLD,12));
         	cell.setBackground(Color.lightGray);
         }else if(table.getModel().getValueAt(row, 0) == "Name"){
