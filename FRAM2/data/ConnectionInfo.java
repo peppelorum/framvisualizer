@@ -72,7 +72,7 @@ public class ConnectionInfo implements java.io.Serializable {
 		return visibility;
 	}
 	public void setAspect(String aspect){
-		this.aspect = aspect;
+		this.aspect = aspect;		
 	}
 	public void setVisibility(boolean visibility){
 		this.visibility = visibility;
@@ -101,6 +101,9 @@ public class ConnectionInfo implements java.io.Serializable {
 	}
 	public int getBubbleWidth() {
 		return bubbleWidth;
+	}
+	public void setBubbleWidth(int bubbleWidth) {
+		this.bubbleWidth = bubbleWidth;
 	}
 	
 	public Rectangle getRectangle() {
