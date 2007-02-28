@@ -24,6 +24,9 @@
 
 package data;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+
 /**
  * 
  * Stores and handles the connections between two nodes.
@@ -40,6 +43,10 @@ public class ConnectionInfo implements java.io.Serializable {
 	private String aspect = "";
 	private boolean visibility = true;
 	
+	private Point position = new Point(0, 0);
+	private boolean moved = false;
+	private int bubbleHeight = 10;
+	private int bubbleWidth = 40;
 	
 	public ConnectionInfo(RelationInfo from, RelationInfo to){
 		this.from = from;
@@ -76,6 +83,38 @@ public class ConnectionInfo implements java.io.Serializable {
 		
 		return this.getAspect().equals(object2.getAspect()) && 
 		this.getFrom().compareTo(object2.getFrom()) && this.getTo().compareTo(object2.getTo());
+	}
+	
+	
+	//Graphics
+	public Point getPosition() {
+		return position;
+	}
+	
+	public void setPosition(Point value) {
+		position.x = value.x;
+		position.y = value.y;
+	}
+	
+	public int getBubbleHeight() {
+		return bubbleHeight;
+	}
+	public int getBubbleWidth() {
+		return bubbleWidth;
+	}
+	
+	public Rectangle getRectangle() {
+		return new Rectangle(
+				getPosition().x- bubbleWidth/2,
+				getPosition().y- bubbleHeight/2,
+				getBubbleWidth(),
+				getBubbleHeight());
+	}
+	public void setMoved(boolean moved) {
+		this.moved = moved;
+	}
+	public boolean isMoved() {
+		return moved;
 	}
 	
 }
