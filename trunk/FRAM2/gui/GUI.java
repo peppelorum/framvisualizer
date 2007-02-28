@@ -37,7 +37,7 @@ public class GUI extends JFrame implements ActionListener{
 	private final JFileChooser fc = new JFileChooser();
     private JButton newNode;
     
-    private FramNodeEditorList framTableEditor = new FramNodeEditorList();
+    private FramNodeEditorList framNodeEditorList = new FramNodeEditorList();
     private Visualizer framVisualizer = new Visualizer();
     private FramCPCTable framCPCTable = new FramCPCTable();
     private JSplitPane tableAndGraph;
@@ -45,7 +45,7 @@ public class GUI extends JFrame implements ActionListener{
     private Container tableContainer = new Container();
         
 	public GUI(){
-		framTableEditor.addSelectedAspectChangedListener(new ActionListener(){
+		framNodeEditorList.addSelectedAspectChangedListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();
@@ -78,12 +78,12 @@ public class GUI extends JFrame implements ActionListener{
 				
 				System.out.println(search);
 				System.out.println(search.length());
-				FramNodeList searchedList = framTableEditor.getList().getAllAspectsAndComments(search);
+				FramNodeList searchedList = framNodeEditorList.getList().getAllAspectsAndComments(search);
 				
 				if (search.length() == 0){
 					tableContainer.remove(0);
-					tableContainer.add(framTableEditor);
-					framVisualizer.setList(framTableEditor.getList());
+					tableContainer.add(framNodeEditorList);
+					framVisualizer.setList(framNodeEditorList.getList());
 				} else {
 					searchedTableList.setList(searchedList);
 					
@@ -106,9 +106,9 @@ public class GUI extends JFrame implements ActionListener{
 		menuBar.add(createFileMenu());
 		setJMenuBar(menuBar);
 
-		framVisualizer.setList(framTableEditor.getList());
+		framVisualizer.setList(framNodeEditorList.getList());
 
-		tableContainer.add(framTableEditor);
+		tableContainer.add(framNodeEditorList);
 				
 		tableAndGraph = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
 		tableAndGraph.setDividerLocation(450);
@@ -137,7 +137,7 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public void deleteSelectedNode() {
-		framTableEditor.getList().remove(framVisualizer.getSelectedNode());
+		framNodeEditorList.getList().remove(framVisualizer.getSelectedNode());
 	}
 	
 
@@ -163,9 +163,9 @@ public class GUI extends JFrame implements ActionListener{
 				do{
 					name = "Ny Nod" + " " + i;
 					i++;
-				}while(framTableEditor.getList().getAllNames().contains(name));
+				}while(framNodeEditorList.getList().getAllNames().contains(name));
 				
-				framTableEditor.add(new FramNode(name));
+				framNodeEditorList.add(new FramNode(name));
 			}
         });
         return newNode;
@@ -185,7 +185,7 @@ public class GUI extends JFrame implements ActionListener{
    		 
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
-	            framTableEditor.getList().SaveFile(file.getPath());
+	            framNodeEditorList.getList().SaveFile(file.getPath());
 	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
     	}else if(e.getActionCommand()=="Load"){
@@ -195,8 +195,8 @@ public class GUI extends JFrame implements ActionListener{
     		int returnVal = fc.showOpenDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
     			File file = fc.getSelectedFile();
-    			framTableEditor.setList(FramNodeList.LoadFile(file.getPath()));
-    			framVisualizer.setList(framTableEditor.getList());
+    			framNodeEditorList.setList(FramNodeList.LoadFile(file.getPath()));
+    			framVisualizer.setList(framNodeEditorList.getList());
 
     		}
     	}
