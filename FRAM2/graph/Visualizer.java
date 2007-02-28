@@ -39,7 +39,11 @@ import data.ConnectionInfo;
 import data.FramNode;
 import data.FramNodeList;
 
-
+/**
+ * Visualize the nodes and connections, also handles mouse captures (panning, moving etc)
+ * 
+ *
+ */
 public class Visualizer extends JComponent {
 
 
@@ -145,13 +149,16 @@ public class Visualizer extends JComponent {
 				int xDiff = newLocation.x - mouseDownPoint.x;
 				int yDiff = newLocation.y - mouseDownPoint.y;
 				
+				//Move node
 				if(node != null) {					
 					node.setPosition(new Point(
 							nodeOriginalPoint.x + xDiff,
 							nodeOriginalPoint.y + yDiff));
 					
+					
 					repaint();
 					
+				//move connection label
 				}else if(cInfo != null){
 					
 					cInfo.setPosition(new Point(
@@ -160,6 +167,7 @@ public class Visualizer extends JComponent {
 					cInfo.setMoved(true);
 					repaint();
 				}
+				//panning
 				else {
 										
 					mouseDownPoint.x -= offset.x;
