@@ -1,3 +1,27 @@
+/**
+
+ 	A visualizer for FRAM (Functional Resonance Accident Model).
+ 	This tool helps modelling the the FRAM table and visualize it.
+	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	http://sourceforge.net/projects/framvisualizer/
+	
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  
+ **/
+
 package gui;
 
 import graph.Visualizer;
@@ -13,6 +37,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -76,8 +101,8 @@ public class GUI extends JFrame implements ActionListener{
 				JTextField textfield = (JTextField)e.getSource();
 				String search = textfield.getText();
 				
-				System.out.println(search);
-				System.out.println(search.length());
+//				System.out.println(search);
+//				System.out.println(search.length());
 				FramNodeList searchedList = framNodeEditorList.getList().getAllAspectsAndComments(search);
 				
 				if (search.length() == 0){
@@ -104,6 +129,7 @@ public class GUI extends JFrame implements ActionListener{
 		tableContainer.setLayout(new BoxLayout(tableContainer, BoxLayout.Y_AXIS));
 				
 		menuBar.add(createFileMenu());
+		menuBar.add(createHelpMenu());
 		setJMenuBar(menuBar);
 
 		framVisualizer.setList(framNodeEditorList.getList());
@@ -192,8 +218,28 @@ public class GUI extends JFrame implements ActionListener{
     			framVisualizer.setList(framNodeEditorList.getList());
 
     		}
+    	}else if(e.getActionCommand()=="About"){
+    		JFrame aboutFrame = new JFrame();
+    		JPanel panel = new JPanel();
+    		aboutFrame.add(panel);
+    		JLabel text = new JLabel("<html><h3>FRAM Visualizer</h3>" +
+    				"<p>FRAM Visualizer is an open-source tool to help model <br>system with FRAM (Functional Resonance Accident Model). </p>" +
+    				"<p><br>First developed at Linköping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladén<br></p>" +
+    				"<p><br>FRAM Visualizer is licensed under GNU General Public License (GPL)</p>"+
+    				"<p>https://sourceforge.net/projects/framvisualizer/</p>" +
+    				"<p><br>Copyright (C) 2007  Peppe Bergqvist peppe@peppesbodega.nu, <br>" +
+    				"Fredrik Gustafsson fregu808@student.liu.se,<br>" +
+    				"Jonas Haraldsson haraldsson@gmail.com, <br> " +
+    				"Gustav Ladén gusla438@student.liu.se</p></html>");
+
+    		panel.add(text);
+    		aboutFrame.setSize(150, 200);
+    		aboutFrame.pack();
+    		aboutFrame.setVisible(true);
+    		aboutFrame.setFocusable(true);
     	}
     }
+    
     
     /**
      * Creates a filter to get .xml for the filechooser dialog
@@ -222,6 +268,15 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		menuItem = new JMenuItem("Save");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+		return menu;
+	}
+	private JMenu createHelpMenu(){
+		JMenu menu;
+		JMenuItem menuItem;	
+		menu = new JMenu("Help");		
+		menuItem = new JMenuItem("About");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		return menu;
