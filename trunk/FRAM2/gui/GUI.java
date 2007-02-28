@@ -5,15 +5,12 @@ import graph.Visualizer;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -23,11 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.UIManager;
 
 import table.FramCPCTable;
-import table.TableNodeList;
+import table.FramNodeEditorList;
 
 import data.Aspect;
 import data.FramNode;
@@ -41,22 +36,19 @@ public class GUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = -2294328777692036637L;
 	private final JFileChooser fc = new JFileChooser();
     private JButton newNode;
-    private JButton repaintButton;
     
-    private TableNodeList framTableEditor = new TableNodeList();
+    private FramNodeEditorList framTableEditor = new FramNodeEditorList();
     private Visualizer framVisualizer = new Visualizer();
     private FramCPCTable framCPCTable = new FramCPCTable();
     private JSplitPane tableAndGraph;
     private JSplitPane split2;
     private Container tableContainer = new Container();
-    
-    private JCheckBox toggleStepTwoVisible;
-    
+        
 	public GUI(){
 		framTableEditor.addSelectedAspectChangedListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
-				TableNodeList nodeList = (TableNodeList)e.getSource();
+				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();
 				Aspect a = nodeList.getSelectedAspect();
 				if(a != null) {
 					framCPCTable.setCPC(a.getCPC());
@@ -80,7 +72,7 @@ public class GUI extends JFrame implements ActionListener{
 		searchField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				TableNodeList searchedTableList = new TableNodeList();
+				FramNodeEditorList searchedTableList = new FramNodeEditorList();
 				JTextField textfield = (JTextField)e.getSource();
 				String search = textfield.getText();
 				
@@ -125,7 +117,7 @@ public class GUI extends JFrame implements ActionListener{
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		split2.setDividerLocation(300);
 		split2.setTopComponent(framVisualizer);
-		split2.setBottomComponent(framCPCTable);
+		split2.setBottomComponent(new JScrollPane(framCPCTable));
 		
 		tableAndGraph.setRightComponent(split2);
 		
@@ -133,7 +125,6 @@ public class GUI extends JFrame implements ActionListener{
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout());
 		
-		buttonsPanel.add(createShowStepTwoCheckBox());
 		buttonsPanel.add(searchField);
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createDeleteButton());
@@ -149,21 +140,7 @@ public class GUI extends JFrame implements ActionListener{
 		framTableEditor.getList().remove(framVisualizer.getSelectedNode());
 	}
 	
-	private JCheckBox createShowStepTwoCheckBox() {
-		toggleStepTwoVisible = new JCheckBox();
-		
-		toggleStepTwoVisible.setText("Show step 2");
-		toggleStepTwoVisible.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e) {
-				framTableEditor.setStepTwoVisible(toggleStepTwoVisible.isSelected());
-			}
-			
-		});
-		
-		return toggleStepTwoVisible;
-	}
-	
 	private JButton createDeleteButton() {
 		JButton buttonDelete = new JButton();
 		buttonDelete.setText("Delete node");

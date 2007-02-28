@@ -24,8 +24,6 @@
 
 package data;
 
-import java.awt.Rectangle;
-
 /**
  * 
  * Stores and handles the connections between two nodes.

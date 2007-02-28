@@ -155,11 +155,11 @@ public class TestFramNode extends TestCase {
     	node.addPrecondition("test");
     	assertEquals(node.getName(), "PreconditionsAdded");
     	
-    	for(FramNode.connectionPoints point : FramNode.connectionPoints.values()) {
+    	for(FramNode.NodePort point : FramNode.NodePort.values()) {
     		ArrayList<Aspect> testList = new ArrayList<Aspect>();
     		testList.add(new Aspect("test2"));
     		
-    		node.setAttribute(point, testList);
+    		node.setAttributes(point, testList);
     		assertEquals(node.getName(), point.toString() + "Changed");
     	}
     }

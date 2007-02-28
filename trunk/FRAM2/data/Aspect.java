@@ -39,17 +39,18 @@ public class Aspect implements java.io.Serializable {
 	private String value;
 	private String comment;
 	private CPC cpc;
+	private FramNode parent;
 	
 	public Aspect(String value){
 		this.value = value;
 		this.comment = "";
-		cpc = new CPC();
+		cpc = new CPC(this);
 	}
 	
 	public Aspect(String value, String comment){
 		this.value = value;
 		this.comment = comment;
-		cpc = new CPC();
+		cpc = new CPC(this);
 	}
 	
 	public void setComment(String comment) {
@@ -82,5 +83,12 @@ public class Aspect implements java.io.Serializable {
 		}
 		
 		return true;
+	}
+	
+	public void setParent(FramNode newParent) {
+		parent = newParent;
+	}
+	public FramNode getParent() {
+		return parent;
 	}
 }

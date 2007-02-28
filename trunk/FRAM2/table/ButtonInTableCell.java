@@ -93,14 +93,14 @@ public class ButtonInTableCell implements ActionListener, TableCellEditor{
             textArea.setCaretPosition(0); 
         } 
         
-        TableNode tablenode = (TableNode)table;
+        FramAspectTable tablenode = (FramAspectTable)table;
     	
-    	FramNode.connectionPoints conn = FramNode.connectionPoints.valueOf(table.getValueAt(row, 0).toString());
+    	FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
     	
     	FramNode node = tablenode.getNode();
-    	ArrayList<Aspect> aspList = node.getAttribute(conn);
+    	ArrayList<Aspect> aspList = node.getAttributes(conn);
     	aspList.add(new Aspect(""));
-    	node.setAttribute(conn, aspList);
+    	node.setAttributes(conn, aspList);
     }
     
 	protected void selectCell(JTable table, int row, int column) {

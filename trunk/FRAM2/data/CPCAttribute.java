@@ -29,19 +29,19 @@ public class CPCAttribute implements Serializable {
 		return comment;
 	}
 
-	public void setType(String value) {
-		if(!CPC.typeExists(value)) {
+	public void setType(String val) {
+		if(!CPC.typeExists(val)) {
 			throw new Error("CPC type doesn't exist");
 		}
-		type = value;
+		this.type = val;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setValue(String val) {
+		this.value = val;
 	}
 
-	public void setComment(String value) {
-		comment = value;
+	public void setComment(String val) {
+		this.comment = val;
 	}
 
 	public String[] toArray() {
