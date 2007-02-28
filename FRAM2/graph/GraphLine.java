@@ -13,11 +13,12 @@ import javax.swing.JComponent;
 
 import data.ConnectionInfo;
 
-
+/**
+ * Graphline defines how the lines between nodes are drawn and how the label in the middle looks
+ * It relies on information in the ConnectionInfo class to know which size the label should have and where to put it
+ *
+ */
 public class GraphLine extends JComponent {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4452948217399228756L;
 	private ConnectionInfo connection;
 	private Visualizer parent;
@@ -115,7 +116,11 @@ public class GraphLine extends JComponent {
 				bubbleHeight);
 		
 		// fill bubble background
-		g.setColor(Color.white);
+		if(isSelected()){
+			g.setColor(Color.GRAY);
+		}else{
+			g.setColor(Color.white);
+		}
 		g.fillRoundRect(
 				bubbleRect.x, 
 				bubbleRect.y, 
