@@ -46,6 +46,16 @@ public class GraphLine extends JComponent {
 	private ConnectionInfo connection;
 	private Visualizer parent;
 
+	private static boolean showBubbles = true;
+	
+	public static void setShowBubbles(boolean value) {
+		showBubbles = value;
+	}
+	
+	public static boolean isShowBubbles() {
+		return showBubbles;
+	}
+	
 	public GraphLine(ConnectionInfo connection, Visualizer parent) {
 		this.connection = connection;
 		this.parent = parent;
@@ -119,7 +129,7 @@ public class GraphLine extends JComponent {
 	
 	
 	public void paintNameBubble(Graphics g) {
-		if(!connection.getVisibility()) {
+		if(!connection.getVisibility() || !showBubbles) {
 			return;
 		}
 		// calculate length of name
