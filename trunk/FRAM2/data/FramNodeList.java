@@ -307,24 +307,8 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 				searchValue = connectionFrom[1];   //connectionFrom[0] contains the port
 				
 					alreadyFound.add(searchValue);
-					//find the connections within nodes
-					for(int currentToAspect=currentFromAspect+1; currentToAspect<node.getAllAspects().size(); currentToAspect++){
-						String[] connectionTo = node.getAllAspects().get(currentToAspect);
-						if(searchValue.equals(connectionTo[1])){
-							RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
-							RelationInfo toNode = fromNode;
-							
-							if(!searchValue.equals("") && 												//Removes matches for "" searches
-									!(fromNode.getFunctionName().equals(toNode.getFunctionName()) &&
-											fromNode.getConnectionPort().equals(toNode.getConnectionPort()))){   //Filters out the connection to itself at the same port
-								
-								foundConnections.add(new ConnectionInfo(fromNode,toNode, searchValue));
-							}
-						}
-					}
-					
-					//Only searches the other nodes, not within one self
-					for(int j=i+1;j<this.size();j++){			
+
+					for(int j=i;j<this.size();j++){			
 						for(String[] connectionTo : this.get(j).getAllAspects() ){
 							if(searchValue.equals(connectionTo[1])){
 								RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
@@ -340,6 +324,8 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 				}
 			}	
 		}
+		
+
 		
 		//This part is so we can save set variables like visibilty for a certain connection between several searches
 		ArrayList<ConnectionInfo> temp = new ArrayList<ConnectionInfo>();
@@ -359,8 +345,34 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		
 		connections.addAll(temp);
 		filterConnections();
+		removeDuplicates();
+		
+
+
 		
 		return connections ;
+	}
+	
+	/**
+	 * 	Removes duplicate hits within a node, such as
+	 *	Output (value) -> Input (value)
+	 *	Input (value) -> Output(value) <--- duplicate
+	 *
+	 */
+	private void removeDuplicates(){
+		for(int i=0;i<connections.size();i++){
+			ConnectionInfo cInfo = connections.get(i);
+			for(int j=i+1;j<connections.size();j++){
+				ConnectionInfo cInfo2 = connections.get(j);
+
+				if(cInfo.getAspect().equals(cInfo.getAspect()) &&
+						cInfo.getFrom().getConnectionPort().equals(cInfo2.getTo().getConnectionPort()) &&
+						cInfo.getTo().getConnectionPort().equals(cInfo2.getFrom().getConnectionPort()))
+				{
+					connections.remove(j);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -368,7 +380,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 *
 	 */
 	
-	public void filterConnections(){
+	private void filterConnections(){
 		boolean filterOutputOutput = true;
 		boolean filterInputInput = true;
 		boolean filterNonePreCOutput = true;
