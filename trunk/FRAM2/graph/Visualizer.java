@@ -31,6 +31,9 @@ public class Visualizer extends JComponent {
 	private Point offset = new Point(50, 50);
 	private Point originalOffset;
 	
+	
+	private Point connectionOriginalPoint;
+	
 	/**
 	 * 
 	 */
@@ -50,9 +53,7 @@ public class Visualizer extends JComponent {
 	
 	public FramNode getNodeAt(Point position) {
 		FramNode node = null;
-		
-		
-		
+				
 		for(FramNode n : list) {
 			if(n.getRectangle().contains(position)) {
 				node = n;
@@ -63,16 +64,43 @@ public class Visualizer extends JComponent {
 		return node;
 	}
 	
+	public ConnectionInfo getConnectionAt(Point position){
+		ConnectionInfo cInfo = null;
+		
+		for(ConnectionInfo c : list.getConnections()){
+			if(c.getRectangle().contains(position)){
+				cInfo = c;
+				break;
+			}
+		}
+		
+		return cInfo;
+	}
+	
 	private void selectNode(FramNode node) {
 		if(node == null) {
 			selectedNode = null;
 			nodeOriginalPoint = null;
 		}
 		else {
+			selectedLine = null;
 			selectedNode = node;
 			nodeOriginalPoint = (Point)node.getPosition().clone();
 		}
 	}
+	private void selectConnection(ConnectionInfo cInfo) {
+		if(cInfo == null) {
+			selectedLine = null;
+			selectedNode = null;
+			nodeOriginalPoint = null;
+		}
+		else {
+			selectedNode = null;
+			selectedLine = cInfo;
+			connectionOriginalPoint = (Point)cInfo.getPosition().clone();
+		}
+	}
+	
 	public FramNode getSelectedNode() {
 		return selectedNode;
 	}
@@ -86,19 +114,27 @@ public class Visualizer extends JComponent {
 
 			public void mouseDragged(MouseEvent arg0) {
 				FramNode node = getSelectedNode();
+				ConnectionInfo cInfo = getSelectedLine();
+				
 				Point newLocation = addOffset(arg0.getPoint());
 				
 				int xDiff = newLocation.x - mouseDownPoint.x;
 				int yDiff = newLocation.y - mouseDownPoint.y;
 				
-				if(node != null) {
-					
+				if(node != null) {					
 					node.setPosition(new Point(
 							nodeOriginalPoint.x + xDiff,
 							nodeOriginalPoint.y + yDiff));
 					
 					repaint();
 					
+				}else if(cInfo != null){
+					
+					cInfo.setPosition(new Point(
+							connectionOriginalPoint.x + xDiff,
+							connectionOriginalPoint.y + yDiff));
+					cInfo.setMoved(true);
+					repaint();
 				}
 				else {
 										
@@ -142,17 +178,25 @@ public class Visualizer extends JComponent {
 			public void mousePressed(MouseEvent arg0) {
 				mouseDownPoint = addOffset(arg0.getPoint());
 				FramNode node = getNodeAt(removeOffset(removeOffset(mouseDownPoint)));
-								
+				ConnectionInfo cInfo = getConnectionAt(removeOffset(removeOffset(mouseDownPoint)));
+				
 				originalOffset = (Point)offset.clone();
 				
-				selectNode(node);
+				if(node != null){
+					selectNode(node);
+				}else if(cInfo != null){
+					selectConnection(cInfo);
+				}
+				
 				repaint();
 				
 			}
 
 			public void mouseReleased(MouseEvent arg0) {
-				mouseDownPoint = null;
 				
+				selectedLine = null;
+				selectedNode = null;
+				mouseDownPoint = null;
 			}
 			
 		});
