@@ -26,13 +26,9 @@ package data;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-import data.FramNode.connectionPoints;
+import data.FramNode.NodePort;
 
 
 /**
@@ -318,22 +314,22 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		for(int i=0;i<connections.size();i++){
 			
 			if(filterOutputOutput){	
-				if(connections.get(i).getFrom().getConnectionPort() == connectionPoints.Output &&
-						connections.get(i).getTo().getConnectionPort() == connectionPoints.Output){
+				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Output &&
+						connections.get(i).getTo().getConnectionPort() == NodePort.Output){
 					connections.get(i).setVisibility(false);
 				}
 			}
 			if(filterInputInput){
-				if(connections.get(i).getFrom().getConnectionPort() == connectionPoints.Input &&
-						connections.get(i).getTo().getConnectionPort() == connectionPoints.Input){
+				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Input &&
+						connections.get(i).getTo().getConnectionPort() == NodePort.Input){
 					connections.get(i).setVisibility(false);
 				}				
 			}
 			if(filterNonePreCOutput){
-				if((connections.get(i).getFrom().getConnectionPort() == connectionPoints.Preconditions ||
-					connections.get(i).getTo().getConnectionPort() == connectionPoints.Preconditions) &&
-						!(connections.get(i).getTo().getConnectionPort() == connectionPoints.Output ||
-						connections.get(i).getFrom().getConnectionPort() == connectionPoints.Output	)){
+				if((connections.get(i).getFrom().getConnectionPort() == NodePort.Preconditions ||
+					connections.get(i).getTo().getConnectionPort() == NodePort.Preconditions) &&
+						!(connections.get(i).getTo().getConnectionPort() == NodePort.Output ||
+						connections.get(i).getFrom().getConnectionPort() == NodePort.Output	)){
 					connections.get(i).setVisibility(false);
 				}				
 			}			

@@ -10,7 +10,7 @@ import java.awt.Rectangle;
 import javax.swing.JComponent;
 
 import data.FramNode;
-import data.FramNode.connectionPoints;
+import data.FramNode.NodePort;
 
 
 public class GraphNode extends JComponent {
@@ -55,12 +55,12 @@ public class GraphNode extends JComponent {
 		return poly;
 	}
 	
-	public Point getPort(FramNode.connectionPoints connPoint) {
+	public Point getPort(FramNode.NodePort connPoint) {
 		Point p = null;
 		Polygon poly = getPolygon();
 		
-		for(int i = 0; i < FramNode.connectionPoints.values().length; i++) {
-			if(connPoint == FramNode.connectionPoints.values()[i]) {
+		for(int i = 0; i < FramNode.NodePort.values().length; i++) {
+			if(connPoint == FramNode.NodePort.values()[i]) {
 				p = new Point(
 						poly.xpoints[i],
 						poly.ypoints[i]);
@@ -110,7 +110,7 @@ public class GraphNode extends JComponent {
 		//if(isSelected()) {
 			g.setColor(Color.white);
 			g.setFont(new Font("Arial", 1, 10));
-			for(connectionPoints conn : FramNode.connectionPoints.values()) {
+			for(NodePort conn : FramNode.NodePort.values()) {
 				Point loc = getCloserToCenter(getPort(conn), 2);
 				loc.x -= 4;
 				loc.y += 4;

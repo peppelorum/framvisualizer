@@ -8,6 +8,7 @@ public class CPC implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 9034461918811470582L;
+	private Aspect parent;
 	
 	public static boolean typeExists(String type) {
 		for(String t : CPC_TYPES) {
@@ -20,22 +21,23 @@ public class CPC implements Serializable {
 	}
 	
 	public static final String[] CPC_TYPES = new String[]{
-		"Available_resources",
-		"Training_experience",
-		"Quality_communication",
-		"HMI_operational_support",
-		"Access_procedures_methods",
-		"Conditions_of_work",
-		"Number_of_goals_and_conflict_resolution",
-		"Available_time_and_time_preasure",
-		"Circadian_rytm_stress",
-		"Crew_collaboration_quality",
-		"Quality_and_support_of_organization"
+		"Available resources",
+		"Training experience",
+		"Quality communication",
+		"HMI and operational support",
+		"Access procedures and methods",
+		"Conditions of work",
+		"Number of goals and conflict resolution",
+		"Available time and time preasure",
+		"Circadian rytm, stress",
+		"Crew collaboration quality",
+		"Quality and support of organization"
 	};
 	
 	private ArrayList<CPCAttribute> list;
 	
-	public CPC() {
+	public CPC(Aspect parent) {
+		this.parent = parent;
 		list = new ArrayList<CPCAttribute>();
 	}
 	public void setAttribute(String type, String value, String comment){
@@ -44,14 +46,15 @@ public class CPC implements Serializable {
 			attrib.setValue(value);
 			attrib.setComment(comment);
 		}
-		
-		list.add(new CPCAttribute(type, value, comment));
+		else {
+			list.add(new CPCAttribute(type, value, comment));
+		}
 	}
 	
 	public boolean hasAttribute(String type) {
 		for(CPCAttribute attrib : list) {
 			if(attrib.getType().equals(type)) {
-				return false;
+				return true;
 			}
 		}
 		
@@ -66,6 +69,10 @@ public class CPC implements Serializable {
 		}
 		
 		return null;
+	}
+	
+	public Aspect getParent() {
+		return parent;
 	}
 
 }

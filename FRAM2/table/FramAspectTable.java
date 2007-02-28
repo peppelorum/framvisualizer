@@ -8,12 +8,11 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
 
 import data.Aspect;
 import data.FramNode;
 
-public class TableNode extends JTable {
+public class FramAspectTable extends JTable {
 
 	private FramNode node;
 	private ActionListener nodeChangedListener;
@@ -25,12 +24,12 @@ public class TableNode extends JTable {
 	 */
 	private static final long serialVersionUID = 3518691723356609315L;
 
-	public TableNode() {
+	public FramAspectTable() {
 		
 		this(new FramNode(""));
 	}
 	
-	public TableNode(FramNode node) {
+	public FramAspectTable(FramNode node) {
 		selectedChangedRecipients = new ArrayList<ActionListener>(); 
 		
 		nodeChangedListener = new ActionListener() {
@@ -80,7 +79,7 @@ public class TableNode extends JTable {
 		
 		node = newNode;
 
-		setModel(new TableNodeModel(node));
+		setModel(new FramAspectTableModel(node));
 		node.addNodeChangedListener(nodeChangedListener);
 		
 		updateTable();
@@ -97,7 +96,7 @@ public class TableNode extends JTable {
 	public void cleanUp() {
 		if(node != null) {
 			node.removeNodeChangedListener(nodeChangedListener);
-			TableNodeModel model = (TableNodeModel)getModel();
+			FramAspectTableModel model = (FramAspectTableModel)getModel();
 			model.cleanUp();
 		}
 	}

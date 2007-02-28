@@ -16,7 +16,11 @@ public class FramCPCTableModel extends DefaultTableModel {
 	
 		this.cpc = cpc;
 		
-		String[] colNames = {"Attribute", "Value", "Comment"};
+		String title = "CPC attributes for '" + 
+			cpc.getParent().getValue() + 
+			"' on node '" + cpc.getParent().getParent().getName() + "'";
+		
+		String[] colNames = {title, "Value", "Comment"};
 		this.setColumnIdentifiers(colNames);
 		this.setColumnCount(3);
 		

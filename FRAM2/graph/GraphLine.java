@@ -4,15 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
 
 import data.ConnectionInfo;
-import data.FramNode;
-import data.FramNode.connectionPoints;
 
 
 public class GraphLine extends JComponent {

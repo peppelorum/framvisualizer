@@ -52,7 +52,6 @@ public class FramNode implements java.io.Serializable {
 	private ArrayList<Aspect> time;
 	private ArrayList<Aspect> control;
 	private ArrayList<Aspect> preconditions;
-	private ArrayList<FramStegTvaMappning> steg2Mappings;
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	
 	private Point position = new Point(0, 0);
@@ -72,19 +71,7 @@ public class FramNode implements java.io.Serializable {
 		"Adjusted (day time)"
 	};
 	
-	public static enum connectionPoints { Time, Control, Output, Resources, Preconditions, Input};
-	public static enum stegTvaAttribut { 
-		Available_resources, 
-		Training_experience, 
-		Quality_communication,
-		HMI_operational_support,
-		Access_procedures_methods,
-		Conditions_of_work,
-		Number_of_goals_and_conflict_resolution,
-		Available_time_and_time_preasure,
-		Circadian_rytm_stress,
-		Crew_collaboration_quality,
-		Quality_and_support_of_organization };
+	public static enum NodePort { Time, Control, Output, Resources, Preconditions, Input};
 
 	public FramNode(){
 		init();
@@ -95,9 +82,7 @@ public class FramNode implements java.io.Serializable {
 		time = new ArrayList<Aspect>(); 
 		control = new ArrayList<Aspect>(); 
 		preconditions = new ArrayList<Aspect>(); 
-		
-		steg2Mappings = new ArrayList<FramStegTvaMappning>();
-		
+				
 		setComment("");
 		setName("");
 	}
@@ -110,9 +95,7 @@ public class FramNode implements java.io.Serializable {
 		time = new ArrayList<Aspect>(); 
 		control = new ArrayList<Aspect>(); 
 		preconditions = new ArrayList<Aspect>(); 
-		
-		steg2Mappings = new ArrayList<FramStegTvaMappning>();
-		
+				
 		setComment("");
 		setName(name);
 	}
@@ -250,23 +233,10 @@ public class FramNode implements java.io.Serializable {
 	public String[] getAllEntities() {
 		ArrayList<String> allEntities = new ArrayList<String>();
 		
-		for(Aspect asp : getInput()){
-			allEntities.add(asp.getValue());
-		}
-		for(Aspect asp : getOutput()){
-			allEntities.add(asp.getValue());
-		}
-		for(Aspect asp : getResources()){
-			allEntities.add(asp.getValue());
-		}
-		for(Aspect asp : getTime()){
-			allEntities.add(asp.getValue());
-		}
-		for(Aspect asp : getControl()){
-			allEntities.add(asp.getValue());
-		}
-		for(Aspect asp : getPrecondition()){
-			allEntities.add(asp.getValue());
+		for(FramNode.NodePort conn : FramNode.NodePort.values()) {
+			for(Aspect asp : this.getAttributes(conn)){
+				allEntities.add(asp.getValue());
+			}
 		}
 			
 		String[] allEntitiesArray = new String[allEntities.size()];
@@ -288,27 +258,27 @@ public class FramNode implements java.io.Serializable {
 		ArrayList<String[]> list = new ArrayList<String[]>();
 		
 		for(Aspect readAspect : input){
-			String[] attribute =  {connectionPoints.Input.toString(), readAspect.getValue(), readAspect.getComment()};
+			String[] attribute =  {NodePort.Input.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
 		for(Aspect readAspect : output){
-			String[] attribute =  {connectionPoints.Output.toString(), readAspect.getValue(), readAspect.getComment()};
+			String[] attribute =  {NodePort.Output.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
 		for(Aspect readAspect : resources){
-			String[] attribute =  {connectionPoints.Resources.toString(), readAspect.getValue(), readAspect.getComment()};
+			String[] attribute =  {NodePort.Resources.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
 		for(Aspect readAspect : control){
-			String[] attribute = {connectionPoints.Control.toString(), readAspect.getValue(), readAspect.getComment()};
+			String[] attribute = {NodePort.Control.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
 		for(Aspect readAspect : time){
-			String[] attribute = {connectionPoints.Time.toString(), readAspect.getValue(), readAspect.getComment()};
+			String[] attribute = {NodePort.Time.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 		}
 		for(Aspect readAspect : preconditions){
-			String[] attribute = {connectionPoints.Preconditions.toString(), readAspect.getValue(), readAspect.getComment()};
+			String[] attribute = {NodePort.Preconditions.toString(), readAspect.getValue(), readAspect.getComment()};
 			list.add(attribute);
 
 		}
@@ -323,24 +293,24 @@ public class FramNode implements java.io.Serializable {
 	 * @param aspect
 	 */
 	
-	public ArrayList<Aspect> getAttribute(connectionPoints type) {
-		if(type == connectionPoints.Input) {
-			return this.getInput();
+	public ArrayList<Aspect> getAttributes(NodePort type) {
+		if(type == NodePort.Input) {
+			return input;
 		}
-		else if(type == connectionPoints.Output) {
-			return this.getOutput();
+		else if(type == NodePort.Output) {
+			return output;
 		}
-		else if(type == connectionPoints.Resources) {
-			return this.getResources();
+		else if(type == NodePort.Resources) {
+			return resources;
 		}
-		else if(type == connectionPoints.Control) {
-			return this.getControl();
+		else if(type == NodePort.Control) {
+			return control;
 		}
-		else if(type == connectionPoints.Time) {
-			return this.getTime();
+		else if(type == NodePort.Time) {
+			return time;
 		}
-		else if(type == connectionPoints.Preconditions) {
-			return this.getPrecondition();
+		else if(type == NodePort.Preconditions) {
+			return preconditions;
 		}
 		else {
 			return null;
@@ -348,36 +318,40 @@ public class FramNode implements java.io.Serializable {
 	}
 	
 	
-	public void setAttribute(connectionPoints type, ArrayList<Aspect> aspect) {
-		if(type == connectionPoints.Input) {
+	public void setAttributes(NodePort type, ArrayList<Aspect> aspects) {
+		for(Aspect a : aspects) {
+			a.setParent(this);
+		}
+		
+		if(type == NodePort.Input) {
 			
-			this.input = aspect;
+			this.input = aspects;
 			nodeChanged("InputChanged");
 		}
-		else if(type == connectionPoints.Output) {
-			this.output = aspect;
+		else if(type == NodePort.Output) {
+			this.output = aspects;
 			nodeChanged("OutputChanged");
 		}
-		else if(type == connectionPoints.Resources) {
-			this.resources = aspect;
+		else if(type == NodePort.Resources) {
+			this.resources = aspects;
 			nodeChanged("ResourcesChanged");
 		}
-		else if(type == connectionPoints.Control) {
-			this.control = aspect;
+		else if(type == NodePort.Control) {
+			this.control = aspects;
 			nodeChanged("ControlChanged");
 		}
-		else if(type == connectionPoints.Time) {
-			this.time = aspect;
+		else if(type == NodePort.Time) {
+			this.time = aspects;
 			nodeChanged("TimeChanged");
 		}
-		else if(type == connectionPoints.Preconditions) {
-			this.preconditions = aspect;
+		else if(type == NodePort.Preconditions) {
+			this.preconditions = aspects;
 			nodeChanged("PreconditionsChanged");
 		}
 	}
 
 	public Aspect getAspect(String type, String name) {		
-		for(Aspect a : this.getAttribute(connectionPoints.valueOf(type))) {
+		for(Aspect a : this.getAttributes(NodePort.valueOf(type))) {
 			if(a.getValue().equals(name)) {
 				return a;
 			}
@@ -412,9 +386,9 @@ public class FramNode implements java.io.Serializable {
 		}
 		
 		
-		for(connectionPoints conn : connectionPoints.values()) {
-			ArrayList<Aspect> myAttribs = this.getAttribute(conn);
-			ArrayList<Aspect> otherAttribs = node.getAttribute(conn);
+		for(NodePort conn : NodePort.values()) {
+			ArrayList<Aspect> myAttribs = this.getAttributes(conn);
+			ArrayList<Aspect> otherAttribs = node.getAttributes(conn);
 			
 			for(int i = 0; i < myAttribs.size(); i++){ 
 				if(!myAttribs.get(i).equals(otherAttribs.get(i))) {

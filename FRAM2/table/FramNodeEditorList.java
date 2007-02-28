@@ -13,7 +13,7 @@ import data.FramNode;
 import data.FramNodeList;
 
 
-public class TableNodeList extends Container {
+public class FramNodeEditorList extends Container {
 
 	/**
 	 * 
@@ -23,13 +23,12 @@ public class TableNodeList extends Container {
 	private FramNodeList list;
 	
 	private ActionListener listChangedListener;
-	private boolean stepTwoVisible;
 	
 	private Aspect selectedAspect;
 	
 	private ArrayList<ActionListener> selectedAspectChangedRecipients;
 	
-	public TableNodeList(FramNodeList list) {
+	public FramNodeEditorList(FramNodeList list) {
 		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
 		listChangedListener = new ActionListener() {
 
@@ -44,7 +43,7 @@ public class TableNodeList extends Container {
 		
 	}
 	
-	public TableNodeList(){
+	public FramNodeEditorList(){
 		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
 		listChangedListener = new ActionListener() {
 
@@ -78,7 +77,7 @@ public class TableNodeList extends Container {
 	
 	private void updateElements() {
 		for(Component c : this.getComponents()) {
-			FramGuiNode guiNode = (FramGuiNode)c;
+			FramNodeEditor guiNode = (FramNodeEditor)c;
 			if(!list.contains(guiNode.getNode())) {
 				guiNode.cleanUp();
 				remove(guiNode);
@@ -88,28 +87,27 @@ public class TableNodeList extends Container {
 		for(FramNode node : list) {
 			boolean isHere = false;
 			for(Component c : this.getComponents()) {
-				FramGuiNode guiNode = (FramGuiNode)c;
+				FramNodeEditor guiNode = (FramNodeEditor)c;
 				if(node == guiNode.getNode()) {
 					isHere = true;
 				}
 			}
 			if(!isHere) {
-				add(new FramGuiNode(node));
+				add(new FramNodeEditor(node));
 				
 			}
 		}
 		
-		setStepTwoVisible(getStepTwoVisible());
 		refresh();
 	}
 	
 	public Component add(Component c) {
-		if(c instanceof FramGuiNode) {
-			FramGuiNode guiNode = (FramGuiNode)c;
+		if(c instanceof FramNodeEditor) {
+			FramNodeEditor guiNode = (FramNodeEditor)c;
 			guiNode.getTableNode().addSelectedChangedListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					TableNode tableNode = (TableNode)e.getSource();
+					FramAspectTable tableNode = (FramAspectTable)e.getSource();
 					setSelectedAspect(tableNode.getSelectedAspect());
 					
 				}
@@ -124,21 +122,6 @@ public class TableNodeList extends Container {
 		if(list != null) {
 			list.removeListChangedListener(listChangedListener);
 		}
-	}
-
-	public void setStepTwoVisible (boolean value) {
-		stepTwoVisible = value;
-		
-		for(Component c : this.getComponents()) {
-			FramGuiNode guiNode = (FramGuiNode)c;
-			guiNode.setStepTwoVisible(stepTwoVisible);
-		}
-		
-		refresh();
-	}
-	
-	public boolean getStepTwoVisible() {
-		return stepTwoVisible;
 	}
 	
 	private void refresh() {

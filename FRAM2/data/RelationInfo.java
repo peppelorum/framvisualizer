@@ -1,6 +1,6 @@
 package data;
 
-import data.FramNode.connectionPoints;
+import data.FramNode.NodePort;
 
 public class RelationInfo implements java.io.Serializable {
 
@@ -9,11 +9,11 @@ public class RelationInfo implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -5282137696278770529L;
 	private FramNode function;
-	private connectionPoints connectionType; //input, output, resources 
+	private NodePort connectionType; //input, output, resources 
 
 	public RelationInfo(FramNode function, String connectionType){
 		this.function = function;
-		this.connectionType = connectionPoints.valueOf(connectionType);
+		this.connectionType = NodePort.valueOf(connectionType);
 	}
 		
 	public String getFunctionName(){
@@ -24,7 +24,7 @@ public class RelationInfo implements java.io.Serializable {
 		return function;
 	}
 	
-	public connectionPoints getConnectionPort(){
+	public NodePort getConnectionPort(){
 		return connectionType;
 	}
 	

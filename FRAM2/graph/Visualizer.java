@@ -1,6 +1,5 @@
 package graph;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -8,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -30,7 +28,7 @@ public class Visualizer extends JComponent {
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
 
-	private Point offset = new Point(100,100);
+	private Point offset = new Point(50, 50);
 	private Point originalOffset;
 	
 	/**
@@ -183,8 +181,8 @@ public class Visualizer extends JComponent {
 		int spacer = 100;
 		
 		Point p = new Point();
-		p.x = -offset.x;
-		p.y = -offset.y;
+		p.x = 0;
+		p.y = 0;
 		int maxX = (int)Math.floor(Math.sqrt(list.size())) * spacer;
 		for(FramNode node : list) {
 			guiNodeList.add(new GraphNode(node, this));

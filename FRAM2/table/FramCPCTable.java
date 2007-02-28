@@ -26,16 +26,20 @@ public class FramCPCTable extends JTable {
 		this.cpc = value;
 		
 		if(cpc == null) {
-			
+			if(this.getColumnModel().getColumnCount() > 0) {
+				this.getColumnModel().getColumn(0).setHeaderValue("");
+			}
+			this.setVisible(false);
 		} 
 		else {
+			this.setVisible(true);
 			setModel(new FramCPCTableModel(cpc));
 		}
 	}
 	
 	public TableCellEditor getCellEditor(int row, int col)
 	{
-		if(col == 0) {
+		if(col != 1) {
 			TableCellEditor editor = super.getCellEditor(row,col);
 			return editor;
 			

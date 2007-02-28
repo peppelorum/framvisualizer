@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import data.ConnectionInfo;
 import data.FramNode;
 import data.RelationInfo;
-import data.FramNode.connectionPoints;
+import data.FramNode.NodePort;
 
 
 import junit.framework.TestCase;
@@ -39,23 +39,23 @@ public class TestFindRelations extends TestCase {
 	public void testStringToConnectionType() {
 		
 		assertEquals(
-				connectionPoints.Input, 
-				connectionPoints.valueOf("Input"));
+				NodePort.Input, 
+				NodePort.valueOf("Input"));
 		assertEquals(
-				connectionPoints.Output, 
-				connectionPoints.valueOf("Output"));
+				NodePort.Output, 
+				NodePort.valueOf("Output"));
 		assertEquals(
-				connectionPoints.Resources, 
-				connectionPoints.valueOf("Resources"));
+				NodePort.Resources, 
+				NodePort.valueOf("Resources"));
 		assertEquals(
-				connectionPoints.Control, 
-				connectionPoints.valueOf("Control"));
+				NodePort.Control, 
+				NodePort.valueOf("Control"));
 		assertEquals(
-				connectionPoints.Time, 
-				connectionPoints.valueOf("Time"));
+				NodePort.Time, 
+				NodePort.valueOf("Time"));
 		assertEquals(
-				connectionPoints.Preconditions, 
-				connectionPoints.valueOf("Preconditions"));
+				NodePort.Preconditions, 
+				NodePort.valueOf("Preconditions"));
 		
 	}
 	

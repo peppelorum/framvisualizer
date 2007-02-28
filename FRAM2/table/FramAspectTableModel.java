@@ -3,7 +3,6 @@ package table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -12,10 +11,10 @@ import javax.swing.table.DefaultTableModel;
 import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
-import data.FramNode.connectionPoints;
+import data.FramNode.NodePort;
 
 
-public class TableNodeModel extends DefaultTableModel {
+public class FramAspectTableModel extends DefaultTableModel {
 	
 	private ActionListener nodeChangedListener;
 	
@@ -45,7 +44,7 @@ public class TableNodeModel extends DefaultTableModel {
 					node.setComment(newComment);
 				}
 				else {
-					FramNode.connectionPoints conn = connectionPoints.valueOf(changedLabel);
+					FramNode.NodePort conn = NodePort.valueOf(changedLabel);
 					ArrayList<Aspect> newValList = new ArrayList<Aspect>();
 					
 					for(int i = 0; i < getRowCount(); i++) {
@@ -55,7 +54,7 @@ public class TableNodeModel extends DefaultTableModel {
 									getValueAt(i,2).toString()));
 						}
 					}					
-					node.setAttribute(conn, newValList);
+					node.setAttributes(conn, newValList);
 				}
 			}
 		}
@@ -64,11 +63,11 @@ public class TableNodeModel extends DefaultTableModel {
 	private static final long serialVersionUID = 9008215613909069521L;
 	FramNode node;
 	
-	public TableNodeModel() {
+	public FramAspectTableModel() {
 		this(new FramNode(""));
 	}
 	
-	public TableNodeModel(FramNode node) {
+	public FramAspectTableModel(FramNode node) {
 		nodeChangedListener = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -123,16 +122,16 @@ public class TableNodeModel extends DefaultTableModel {
 		ArrayList<Object> rows = new ArrayList<Object>();
 		rows.add(new Object[] { "Name", node.getName(), node.getComment()});
 		
-		connectionPoints[] cPoints = { 
-				connectionPoints.Input, 
-				connectionPoints.Output,
-				connectionPoints.Preconditions,
-				connectionPoints.Time,
-				connectionPoints.Resources,
-				connectionPoints.Control };
+		NodePort[] cPoints = { 
+				NodePort.Input, 
+				NodePort.Output,
+				NodePort.Preconditions,
+				NodePort.Time,
+				NodePort.Resources,
+				NodePort.Control };
 		
-		for(connectionPoints cPoint : cPoints) {
-			ArrayList<Aspect> aspects = node.getAttribute(cPoint);
+		for(NodePort cPoint : cPoints) {
+			ArrayList<Aspect> aspects = node.getAttributes(cPoint);
 			for(Aspect aspect : aspects) {
 				String attr = aspect.getValue();
 				String comment = aspect.getComment();
@@ -142,12 +141,6 @@ public class TableNodeModel extends DefaultTableModel {
 				rows.add(new Object[] { cPoint.toString(), "", ""});
 			}
 		}
-		
-		//for(FramNode.connectionPoints point : FramNode.connectionPoints.values()) {
-//			rows.add(new Object[] { point.toString(), node.getAttribute(point)});
-		//}
-		
-		rows.add(new Object[] { "", ""});
 		
 		return rows.toArray();
 		
