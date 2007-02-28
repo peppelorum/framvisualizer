@@ -157,15 +157,8 @@ public class GUI extends JFrame implements ActionListener{
         newNode = new JButton();
         newNode.setText("New node");
         newNode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = 1;
-				String name;
-				do{
-					name = "Ny Nod" + " " + i;
-					i++;
-				}while(framNodeEditorList.getList().getAllNames().contains(name));
-				
-				framNodeEditorList.add(new FramNode(name));
+			public void actionPerformed(ActionEvent e) {	
+				framNodeEditorList.add(new FramNode());
 			}
         });
         return newNode;

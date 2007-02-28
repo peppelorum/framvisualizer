@@ -34,13 +34,11 @@ public class FramAspectTableModel extends DefaultTableModel {
 			if(node != null) {
 			
 				int changedRow = e.getFirstRow();
-				String newValue = getValueAt(changedRow, 1).toString();
-				
-				String newComment = getValueAt(changedRow, 2).toString();
-				
 				String changedLabel = getValueAt(changedRow, 0).toString();
-				if(changedLabel == "Name") {
-					node.setName(newValue);
+				String newComment = getValueAt(changedRow, 2).toString();
+		
+				if(changedRow == 0) {
+					node.setName(changedLabel);
 					node.setComment(newComment);
 				}
 				else {
@@ -79,7 +77,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 			
 		};
 		
-		String[] colNames = {"Port", "Aspect", "Comment"};
+		String[] colNames = {"Port", "Aspect", "Comment", "Actions"};
 		 this.setColumnIdentifiers(colNames);
 		
 		setNode(node);
@@ -102,7 +100,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 		// ta bort lyssnaren så att inte båda lyssnarna är igång samtidigt
 		this.removeTableModelListener(currentTableModelListener);
 		
-		this.setColumnCount(3);
+		this.setColumnCount(4);
 		
 		for(int i = 0; i < this.getRowCount(); i++) {
 			this.dataVector.clear();
@@ -120,7 +118,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	public Object[] createNodeCells(FramNode node) {
 	
 		ArrayList<Object> rows = new ArrayList<Object>();
-		rows.add(new Object[] { "Name", node.getName(), node.getComment()});
+		rows.add(new Object[] { node.getName(), "", node.getComment()});
 		
 		NodePort[] cPoints = { 
 				NodePort.Input, 

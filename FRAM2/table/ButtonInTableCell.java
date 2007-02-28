@@ -21,7 +21,7 @@ import data.Aspect;
 import data.FramNode;
 
 public class ButtonInTableCell implements ActionListener, TableCellEditor{
-	 public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.gif")); 
+	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.gif")); 
     private TableCellEditor editor; 
     private JButton customEditorButton = new JButton(PLUS_ICON); 
     protected JTable table; 
@@ -84,14 +84,14 @@ public class ButtonInTableCell implements ActionListener, TableCellEditor{
         selectCell(table, row, column); 
     } 
  
-    protected void editCell(JTable table, int row, int column){ 
-        JTextArea textArea = new JTextArea(10, 50); 
-        Object value = table.getValueAt(row, column); 
+    protected void editCell(JTable table, int row, int column){
+        JTextArea textArea = new JTextArea(10, 50);
+        Object value = table.getValueAt(row, column);
        
-        if(value!=null){ 
-            textArea.setText((String)value); 
-            textArea.setCaretPosition(0); 
-        } 
+        if(value!=null){
+            textArea.setText((String)value);
+            textArea.setCaretPosition(0);
+        }
         
         FramAspectTable tablenode = (FramAspectTable)table;
     	

@@ -3,6 +3,7 @@ package table;
 import java.awt.Container;
 import javax.swing.BoxLayout;
 import data.FramNode;
+import data.FramNodeList;
 
 public class FramNodeEditor extends Container {
 
@@ -15,14 +16,14 @@ public class FramNodeEditor extends Container {
 	private FramAspectTable tableNode;
 
 
-	public FramNodeEditor(FramNode node) {
+	public FramNodeEditor(FramNode node, FramNodeList list) {
 
 		this.setVisible(true);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		this.node = node;
 
-		tableNode = new FramAspectTable(node);
+		tableNode = new FramAspectTable(node, list);
 
 		this.add(tableNode);
 

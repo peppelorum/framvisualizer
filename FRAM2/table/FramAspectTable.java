@@ -12,10 +12,12 @@ import javax.swing.table.TableColumn;
 
 import data.Aspect;
 import data.FramNode;
+import data.FramNodeList;
 
 public class FramAspectTable extends JTable {
 
 	private FramNode node;
+	private FramNodeList list;
 	private ActionListener nodeChangedListener;
 	private Aspect selectedAspect;
 	private ArrayList<ActionListener> selectedChangedRecipients;
@@ -27,10 +29,11 @@ public class FramAspectTable extends JTable {
 
 	public FramAspectTable() {
 		
-		this(new FramNode(""));
+		this(new FramNode(""), new FramNodeList(""));
 	}
 	
-	public FramAspectTable(FramNode node) {
+	public FramAspectTable(FramNode node, FramNodeList listInput) {
+		list = listInput;
 		selectedChangedRecipients = new ArrayList<ActionListener>(); 
 		
 		nodeChangedListener = new ActionListener() {
@@ -95,16 +98,12 @@ public class FramAspectTable extends JTable {
         	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ()); 
         }
         
-        System.out.println(this.getColumnModel().getColumn(0).getHeaderValue().toString());
-        
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumn col = this.getColumnModel().getColumn(0);
         int width = 90;
         col.setMinWidth(width);
         col.setMaxWidth(width);
         col.setPreferredWidth(width);
-        
-
 	}
 	
 	public void cleanUp() {
@@ -118,19 +117,47 @@ public class FramAspectTable extends JTable {
 	
 	public TableCellEditor getCellEditor(int row, int col)
 	{
-		if(col == 0) {
+		//System.out.println(this.getValueAt(row, 0).toString());
+		if (col == 3 && row == 0){
+			
+//			TableCellEditor editor = new ButtonEditor(new JCheckBox());
+//			return editor;
+			
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return new ButtonInAspectTableHeader(editor, list, node);
+		} else if (col == 0 || row == 0) {
 			TableCellEditor editor = super.getCellEditor(row,col);
 			return editor;
-			
-		}
-		if(this.getValueAt(row, 0).toString() == "Name" || col != 1) {
-			return new ButtonInTableCell(super.getCellEditor(row,col));			
-		}
-		else {
+		} else if (col == 2){
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return editor;
+		} else if (col == 3){
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return new ButtonInTableCell(editor);
+		} else if(col == 1){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
-			return new ButtonInTableCell(new ComboBoxCellEditor(combo));
+			return new ComboBoxCellEditor(combo);
+		} else {
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return editor;
 		}
+		
+		
+		
+//		if(col == 0) {
+//			TableCellEditor editor = super.getCellEditor(row,col);
+//			return editor;
+//			
+//		}
+//		if(this.getValueAt(row, 0).toString().equalsIgnoreCase("Name") || col != 1) {
+//			return new ButtonInTableCell(super.getCellEditor(row,col));			
+//		}
+//		else {
+//			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
+//			combo.setEditable(true);
+//			return new ButtonInTableCell(new ComboBoxCellEditor(combo));
+//		}
 
 	}
 	
@@ -145,9 +172,11 @@ public class FramAspectTable extends JTable {
 	private void selectedChanged() {
 		String type = (String)this.getValueAt(this.getSelectedRow(), 0);
 		String name = (String)this.getValueAt(this.getSelectedRow(), 1);
-		
-		Aspect aspect = node.getAspect(type, name);
-		setSelectedAspect(aspect);
+			
+		if (this.getSelectedRow() != 0) {
+			Aspect aspect = node.getAspect(type, name);
+			setSelectedAspect(aspect);
+		}
 		
 		ActionEvent event = new ActionEvent(this, 0, "");
 		
