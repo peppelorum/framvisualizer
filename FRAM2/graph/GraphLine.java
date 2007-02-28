@@ -3,8 +3,10 @@ package graph;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
@@ -33,46 +35,63 @@ public class GraphLine extends JComponent {
 		return connection;
 	}
 
-	public Point getCenter() {
-		Line2D line = getLine();
-				
-		return new Point(
-				(int)line.getBounds().getCenterX(), 
-				(int)line.getBounds().getCenterY());
+	public Point getCenter() {		
+		//connection.setMoved(false);
+		if(connection.isMoved()){
+			return connection.getPosition();
+
+		}else{
+			GeneralPath line = getLine();
+			
+			Point middle = new Point(
+					(int)line.getBounds().getCenterX(), 
+					(int)line.getBounds().getCenterY());
+			connection.setPosition(middle);
+			return middle;
+		}
 	}
 
-	public Line2D getLine() {
+	public GeneralPath getLine() {
 		GraphNode nodeFrom = parent.getGuiNode(connection.getFrom().getNode());
 		GraphNode nodeTo = parent.getGuiNode(connection.getTo().getNode());
 		
 		Point pointFrom = nodeFrom.getPort(connection.getFrom().getConnectionPort());
-		Point pointTo = nodeTo.getPort(connection.getTo().getConnectionPort());		
+		Point pointTo = nodeTo.getPort(connection.getTo().getConnectionPort());	
+		Point middle = connection.getPosition();
+		
+		
+		//polyline
+		float xPoints[] = {(float)pointFrom.getX(),(float)middle.getX(),(float)pointTo.getX()};
+		float yPoints[] = {(float)pointFrom.getY(),(float)middle.getY(),(float)pointTo.getY()};
+		
+		GeneralPath polyline = 
+			new GeneralPath(GeneralPath.WIND_EVEN_ODD, xPoints.length);
+		
+		polyline.moveTo(xPoints[0], yPoints[0]);
 
-		Line2D line = new Line2D.Double();
-		line.setLine(pointFrom, pointTo);
-	
-		return line;
+		for (int index = 1; index < xPoints.length; index++) {
+		 	 polyline.lineTo(xPoints[index], yPoints[index]);
+		}
+		
+		return polyline;
 	}
 	
 	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
 		if(!connection.getVisibility()) {
 			return;
 		}
 		
 		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.1F));
 		if(isSelected()) {
-			g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.5F));				
+			g.setColor(Color.BLUE);				
 		}
-
-		Line2D line = getLine();
 		
-		g.drawLine(
-				(int)line.getX1(), 
-				(int)line.getY1(), 
-				(int)line.getX2(), 
-				(int)line.getY2());
-	
-	}
+		getCenter();
+		GeneralPath line = getLine();
+		
+		g2.draw(line);
+		}
 	
 	
 	public void paintNameBubble(Graphics g) {
@@ -80,14 +99,14 @@ public class GraphLine extends JComponent {
 			return;
 		}
 		
-		int bubbleHeight = 10;
-		int bubbleWidth = 40;
+		int bubbleHeight = connection.getBubbleHeight();
+		int bubbleWidth = connection.getBubbleWidth();
 		int bubbleRounded = 5;
 		
 		// define coordinates for bubble
 		Rectangle bubbleRect = new Rectangle(
-				getCenter().x - bubbleWidth/2,
-				getCenter().y - bubbleHeight/2,
+				(int)connection.getPosition().getX() - bubbleWidth/2,
+				(int)connection.getPosition().getY()- bubbleHeight/2,
 				bubbleWidth,
 				bubbleHeight);
 		
