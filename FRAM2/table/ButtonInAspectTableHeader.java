@@ -29,7 +29,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.EventObject;
 
 import javax.swing.Icon;
@@ -41,7 +40,6 @@ import javax.swing.JTextArea;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
-import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -156,7 +154,7 @@ public class ButtonInAspectTableHeader implements ActionListener, TableCellEdito
 		
 		//FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
 		
-		FramNode node = tablenode.getNode();
+		//FramNode node = tablenode.getNode();
 		//ArrayList<Aspect> aspList = node.getAttributes(conn);
 		//aspList.add(new Aspect(""));
 		//node.setAttributes(conn, aspList);
