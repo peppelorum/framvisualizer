@@ -45,12 +45,10 @@ public class FramNodeEditorList extends Container {
 	private static final long serialVersionUID = 1011531247926476853L;
 	
 	private FramNodeList list;
-	
 	private ActionListener listChangedListener;
-	
 	private Aspect selectedAspect;
-	
 	private ArrayList<ActionListener> selectedAspectChangedRecipients;
+	private FramNodeEditor selectedNodeEditor;
 	
 	public FramNodeEditorList(FramNodeList list) {
 		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
@@ -117,7 +115,7 @@ public class FramNodeEditorList extends Container {
 				}
 			}
 			if(!isHere) {
-				add(new FramNodeEditor(node, list));
+				add(new FramNodeEditor(node, this));
 				
 			}
 		}
@@ -155,7 +153,7 @@ public class FramNodeEditorList extends Container {
 	
 	private void setSelectedAspect(Aspect value) {
 		this.selectedAspect = value;
-		selectedAspectChanged();
+		fireAction("Selected aspect changed");
 	}
 	
 	public Aspect getSelectedAspect() {
@@ -170,9 +168,50 @@ public class FramNodeEditorList extends Container {
 		this.selectedAspectChangedRecipients.remove(listener);
 	}
 	
-	public void selectedAspectChanged() {
+	public void fireAction(String action) {
 		for(ActionListener listener : this.selectedAspectChangedRecipients) {
-			listener.actionPerformed(new ActionEvent(this, 0, ""));
+			listener.actionPerformed(new ActionEvent(this, 0, action));
 		}
+	}
+	
+	public FramNode getSelectedNode() {
+		if(getSelectedNodeEditor() != null) {
+			return getSelectedNodeEditor().getNode();
+		}
+		
+		return null;
+	}
+	
+	public FramNodeEditor getSelectedNodeEditor() {
+		return selectedNodeEditor;
+	}
+		
+	public void setSelectedNodeEditor(FramNodeEditor value) {
+		if(selectedNodeEditor != null) {
+			selectedNodeEditor.deSelected();
+			selectedNodeEditor = null;
+		}
+		
+		if(selectedNodeEditor != value) {
+			selectedNodeEditor = value;
+			fireAction("Selected node changed");
+			value.selected();
+		}
+	}
+	
+	public void setSelectedNode(FramNode node) {
+		setSelectedNodeEditor(getEditorForNode(node));
+	}
+	
+	public FramNodeEditor getEditorForNode(FramNode node) {
+		for(Component c : this.getComponents()) {
+			if(c instanceof FramNodeEditor) {
+				FramNodeEditor e = (FramNodeEditor)c;
+				if(e.getNode() == node) {
+					return e;
+				}
+			} 
+		}
+		return null;
 	}
 }

@@ -107,6 +107,11 @@ public class Visualizer extends JComponent {
 	}
 	
 	public void selectNode(FramNode node) {
+		boolean triggerEvent = true;
+		if(node == selectedNode) {
+			triggerEvent = false;
+		}
+		
 		if(node == null) {
 			selectedNode = null;
 			nodeOriginalPoint = null;
@@ -117,7 +122,9 @@ public class Visualizer extends JComponent {
 			nodeOriginalPoint = (Point)node.getPosition().clone();
 		}
 		
-		triggerSelectedChanged();
+		if(triggerEvent) {
+			triggerSelectedChanged();
+		}
 	}
 	private void selectConnection(ConnectionInfo cInfo) {
 		if(cInfo == null) {
@@ -355,5 +362,7 @@ public class Visualizer extends JComponent {
 		for(ActionListener listener : selectedChangedRecipients) {
 			listener.actionPerformed(event);
 		}
+		
+		repaint();
 	}
 }

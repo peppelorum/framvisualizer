@@ -51,6 +51,7 @@ public class ButtonInTableCell implements ActionListener, TableCellEditor{
     protected JTable table; 
     protected int row, column; 
     
+   
     public ButtonInTableCell(TableCellEditor editor){ 
         this.editor = editor; 
         customEditorButton.addActionListener(this); 

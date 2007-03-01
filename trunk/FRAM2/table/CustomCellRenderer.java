@@ -28,6 +28,7 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -38,6 +39,8 @@ public class CustomCellRenderer extends DefaultTableCellRenderer
 	 */
 	private static final long serialVersionUID = 565106872194092865L;
 
+
+	
 	public Component getTableCellRendererComponent
        (JTable table, Object value, boolean isSelected,
        boolean hasFocus, int row, int column) 
@@ -56,7 +59,7 @@ public class CustomCellRenderer extends DefaultTableCellRenderer
         }else{
         	cell.setBackground(Color.white);
         }
-      
-        return cell;
+                
+        return this;
     }
 }

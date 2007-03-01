@@ -24,12 +24,20 @@
 
 package table;
 
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.LayoutManager;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import data.FramNode;
 import data.FramNodeList;
 
-public class FramNodeEditor extends Container {
+public class FramNodeEditor extends JPanel {
 
 	/**
 	 * 
@@ -39,32 +47,32 @@ public class FramNodeEditor extends Container {
 	private FramNode node;
 	private FramAspectTable tableNode;
 	
-	private boolean visible = true;
+	//private boolean visible = true;
+	
+	private FramNodeEditorList editorParent;
 
-
-	public FramNodeEditor(FramNode node, FramNodeList list) {
-
+	public FramNodeEditor(FramNode node, FramNodeEditorList editorList) {
+		
+		this.editorParent = editorList;
+		
 		this.setVisible(true);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		this.node = node;
-
-		tableNode = new FramAspectTable(node, list);
+		tableNode = new FramAspectTable(node, editorList.getList(), this);
 
 		this.add(tableNode);
 
+		deSelected();
 	}
 
 	public FramNode getNode() {
 		return node;
 	}
 	
-	public void setVisibility(boolean value){
-		this.visible = value;	
-	}
 	
 	public boolean getVisibility(){
-		return visible;	
+		return this.isVisible();	
 	}
 
 	public void cleanUp() {
@@ -73,5 +81,26 @@ public class FramNodeEditor extends Container {
 
 	public FramAspectTable getTableNode() {
 		return tableNode;
+	}
+	
+	public boolean isSelected() {
+		return editorParent.getSelectedNodeEditor() == this;
+	}
+	
+	public void select() {
+		editorParent.setSelectedNodeEditor(this);
+	}
+	
+	public void selected() {
+		this.setBorder(BorderFactory.createLineBorder (Color.blue, 2));
+	}
+	
+	public void deSelected() {
+		this.setEnabled(false);
+		this.setBorder(BorderFactory.createLineBorder(Color.getHSBColor(0f,0f,0.9f), 2));
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
 	}
 }
