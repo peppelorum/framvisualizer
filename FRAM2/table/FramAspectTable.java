@@ -143,12 +143,13 @@ public class FramAspectTable extends JTable {
 	private void updateTable() {     
 		
         for(int i = 0;i<this.getColumnCount();i++){
+        	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());
         	//Sets the cell renderers
-        	if (i == 3) {
-        		this.getColumnModel().getColumn( i ).setCellRenderer(new ButtonRenderer());
-        	} else {
-            	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());        		
-        	}
+//        	if (i == 3) {
+//        		this.getColumnModel().getColumn( i ).setCellRenderer(new ButtonRenderer());
+//        	} else {
+//            	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());        		
+//        	}
  
         }
         
@@ -171,47 +172,15 @@ public class FramAspectTable extends JTable {
 	
 	public TableCellEditor getCellEditor(int row, int col)
 	{
-		//System.out.println(this.getValueAt(row, 0).toString());
-		if (col == 3 && row == 0){
-			
-//			TableCellEditor editor = new ButtonEditor(new JCheckBox());
-//			return editor;
-			
-			TableCellEditor editor = super.getCellEditor(row,col);
-			return new ButtonEditor(editor, list, node);
-		} else if (col == 0 || row == 0) {
-			TableCellEditor editor = super.getCellEditor(row,col);
-			return editor;
-		} else if (col == 2){
-			TableCellEditor editor = super.getCellEditor(row,col);
-			return editor;
-		} else if (col == 3){
-			TableCellEditor editor = super.getCellEditor(row,col);
-			return new ButtonInTableCell(editor);
-		} else if(col == 1){
+		if(col == 1){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
-			return new ComboBoxCellEditor(combo);
-		} else {
-			TableCellEditor editor = super.getCellEditor(row,col);
-			return editor;
+			return new ButtonInTableCell(new ComboBoxCellEditor(combo));
+		}
+		else {
+			return super.getCellEditor(row,col);
 		}
 		
-		
-		
-//		if(col == 0) {
-//			TableCellEditor editor = super.getCellEditor(row,col);
-//			return editor;
-//			
-//		}
-//		if(this.getValueAt(row, 0).toString().equalsIgnoreCase("Name") || col != 1) {
-//			return new ButtonInTableCell(super.getCellEditor(row,col));			
-//		}
-//		else {
-//			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
-//			combo.setEditable(true);
-//			return new ButtonInTableCell(new ComboBoxCellEditor(combo));
-//		}
 
 	}
 	
@@ -224,18 +193,20 @@ public class FramAspectTable extends JTable {
 	}
 	
 	private void selectedChanged() {
-		String type = (String)this.getValueAt(this.getSelectedRow(), 0);
-		String name = (String)this.getValueAt(this.getSelectedRow(), 1);
+		if(this.getSelectedRow() > 0) {
+			String type = (String)this.getValueAt(this.getSelectedRow(), 0);
+			String name = (String)this.getValueAt(this.getSelectedRow(), 1);
+				
+			if (this.getSelectedRow() != 0) {
+				Aspect aspect = node.getAspect(type, name);
+				setSelectedAspect(aspect);
+			}
 			
-		if (this.getSelectedRow() != 0) {
-			Aspect aspect = node.getAspect(type, name);
-			setSelectedAspect(aspect);
-		}
-		
-		ActionEvent event = new ActionEvent(this, 0, "");
-		
-		for(ActionListener listener : this.selectedChangedRecipients) {
-			listener.actionPerformed(event);
+			ActionEvent event = new ActionEvent(this, 0, "");
+			
+			for(ActionListener listener : this.selectedChangedRecipients) {
+				listener.actionPerformed(event);
+			}
 		}
 	}
 	
@@ -253,4 +224,7 @@ public class FramAspectTable extends JTable {
 		}
 	}
 	
+	public boolean isSelected() {
+		return parent.isSelected();
+	}
 }
