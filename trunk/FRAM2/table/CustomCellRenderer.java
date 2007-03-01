@@ -47,13 +47,7 @@ public class CustomCellRenderer extends DefaultTableCellRenderer
     {
         Component cell = super.getTableCellRendererComponent
            (table, value, isSelected, hasFocus, row, column);
-//        System.out.println("CustomRender");
-        if(value == "Network name"){
-        	cell.setFont(new Font("Dialog",Font.PLAIN,14));
-        }else if(row == 0){
-        	cell.setFont(new Font("Dialog",Font.BOLD,12));
-        	cell.setBackground(Color.lightGray);
-        }else if(table.getModel().getValueAt(row, 0) == "Name"){
+        if(row == 0){
         	cell.setFont(new Font("Dialog",Font.BOLD,12));
         	cell.setBackground(Color.lightGray);
         }else{
