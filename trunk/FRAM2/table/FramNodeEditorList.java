@@ -31,6 +31,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 
 import data.Aspect;
 import data.FramNode;
@@ -75,7 +76,7 @@ public class FramNodeEditorList extends Container {
 			
 		};
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+			
 		this.setList(new FramNodeList("ny"));
 	}
 	
@@ -110,6 +111,10 @@ public class FramNodeEditorList extends Container {
 			boolean isHere = false;
 			for(Component c : this.getComponents()) {
 				FramNodeEditor guiNode = (FramNodeEditor)c;
+				/**
+				 * TODO
+				 */
+				//guiNode.getTableNode().setCellsNonFocused();
 				if(node == guiNode.getNode()) {
 					isHere = true;
 				}
