@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
@@ -45,6 +46,7 @@ public class FramAspectTable extends JTable {
 	private ActionListener nodeChangedListener;
 	private Aspect selectedAspect;
 	private ArrayList<ActionListener> selectedChangedRecipients;
+	private FramNodeEditor parent;
 	
 	/**
 	 * 
@@ -53,10 +55,11 @@ public class FramAspectTable extends JTable {
 
 	public FramAspectTable() {
 		
-		this(new FramNode(""), new FramNodeList(""));
+		this(new FramNode(""), new FramNodeList(""), null);
 	}
 	
-	public FramAspectTable(FramNode node, FramNodeList listInput) {
+	public FramAspectTable(FramNode node, FramNodeList listInput, FramNodeEditor parent) {
+		this.parent = parent;
 		list = listInput;
 		selectedChangedRecipients = new ArrayList<ActionListener>(); 
 		
@@ -86,8 +89,7 @@ public class FramAspectTable extends JTable {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				select();
 			}
 
 			public void mouseReleased(MouseEvent arg0) {
@@ -215,6 +217,12 @@ public class FramAspectTable extends JTable {
 	
 	public Aspect getSelectedAspect() {
 		return selectedAspect;
+	}
+	
+	public void select() {
+		if(parent != null) {
+			parent.select();
+		}
 	}
 	
 }

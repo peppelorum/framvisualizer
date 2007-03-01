@@ -76,14 +76,19 @@ public class GUI extends JFrame implements ActionListener{
 
 			public void actionPerformed(ActionEvent e) {
 				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();
-				Aspect a = nodeList.getSelectedAspect();
-				if(a != null) {
-					framCPCTable.setCPC(a.getCPC());
-					//framVisualizer.selectNode(a.getParent());
+				
+				if(e.getActionCommand() == "Selected aspect changed") {
+					Aspect a = nodeList.getSelectedAspect();
+					if(a != null) {
+						framCPCTable.setCPC(a.getCPC());
+						//framVisualizer.selectNode(a.getParent());
+					}
+					else {
+						framCPCTable.setCPC(null);
+					}
 				}
-				else {
-					framCPCTable.setCPC(null);
-				}
+				
+				framVisualizer.selectNode(nodeList.getSelectedNode());
 			}
 			
 		});
@@ -107,6 +112,8 @@ public class GUI extends JFrame implements ActionListener{
 				else {
 					framCPCTable.setCPC(null);
 				}
+				
+				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
 				
 			}
 			
