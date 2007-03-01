@@ -23,7 +23,7 @@ public class TestFramTableModel extends TestCase {
 	
 	public void testCreateNodeCells() {
 		Object[] target = new Object[] {
-				new Object[] { "Name", "Nyhetsbyrå" },
+				new Object[] { "Nyhetsbyrå", "" },
 				new Object[] { "Input", "Nyheter" },
 				new Object[] { "Input", "Nyheter2" },
 				new Object[] { "Output", "Tidningar" },
@@ -54,19 +54,18 @@ public class TestFramTableModel extends TestCase {
 	public void testConstructor() {
 		
 		Object[] target = new Object[] {
-				new Object[] { "Name", "Nyhetsbyrå" },
-				new Object[] { "Input", "Nyheter" },
-				new Object[] { "Input", "Nyheter2" },
-				new Object[] { "Output", "Tidningar" },
-				new Object[] { "Output", "Tidningar2" },
-				new Object[] { "Preconditions", "" },
-				new Object[] { "Time", "Varje dag" },
-				new Object[] { "Time", "Varje dag2" },
-				new Object[] { "Resources", "Papper" },
-				new Object[] { "Resources", "Papper2" },
-				new Object[] { "Control", "TT" },
-				new Object[] { "Control", "TT2" },
-				new Object[] { "", "" },
+				new Object[] { "Nyhetsbyrå", "", "" },
+				new Object[] { "Input", "Nyheter", "" },
+				new Object[] { "Input", "Nyheter2", "" },
+				new Object[] { "Output", "Tidningar", "" },
+				new Object[] { "Output", "Tidningar2", "" },
+				new Object[] { "Preconditions", "", "" },
+				new Object[] { "Time", "Varje dag", "" },
+				new Object[] { "Time", "Varje dag2", "" },
+				new Object[] { "Resources", "Papper", "" },
+				new Object[] { "Resources", "Papper2", "" },
+				new Object[] { "Control", "TT", "" },
+				new Object[] { "Control", "TT2", "" }
 		};
 		
 		for(int i = 0; i < target.length; i++) {
@@ -80,7 +79,7 @@ public class TestFramTableModel extends TestCase {
 	}
 	
 	public void testModelChangedListener() {
-		model.setValueAt("NyhetsbyråÄNDRAD", 0, 1);
+		model.setValueAt("NyhetsbyråÄNDRAD", 0, 0);
 		assertEquals(model.getList().get(0).getName(), "NyhetsbyråÄNDRAD");	
 		
 		assertEquals(model.getList().get(0).getOutput().get(0).getValue(), "Tidningar");
@@ -91,7 +90,7 @@ public class TestFramTableModel extends TestCase {
 	
 	public void testListChangedListener() {
 		model.getList().get(0).setName("namnÄndratFrånListan");		
-		assertEquals("namnÄndratFrånListan", model.getValueAt(0, 1));
+		assertEquals("namnÄndratFrånListan", model.getValueAt(0, 0));
 		
 	}
 

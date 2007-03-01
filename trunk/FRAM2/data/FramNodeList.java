@@ -113,15 +113,18 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	
 	public boolean add(FramNode o) {
 		
-		int i = 1;
-		String name;
-		do{
-			name = "Ny Nod" + " " + i;
-			i++;
-		}while(this.getAllNames().contains(name));
-		
-//		framNodeEditorList.add(new FramNode(name));
-		o.setName(name);
+		if(o.getName() == "") {
+			int i = 1;
+			String name;
+			do{
+				name = "Ny Nod" + " " + i;
+				i++;
+			}while(this.getAllNames().contains(name));
+			
+	//		framNodeEditorList.add(new FramNode(name));
+			
+			o.setName(name);
+		}
 		
 		boolean result = super.add(o);
 		if(result) {
