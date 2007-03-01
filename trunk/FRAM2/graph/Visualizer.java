@@ -59,6 +59,7 @@ public class Visualizer extends JComponent {
 	private Point offset = new Point(50, 50);
 	private Point originalOffset;
 	
+	private ArrayList<ActionListener> selectedChangedRecipients = new ArrayList<ActionListener>();
 	
 	private Point connectionOriginalPoint;
 	
@@ -105,7 +106,7 @@ public class Visualizer extends JComponent {
 		return cInfo;
 	}
 	
-	private void selectNode(FramNode node) {
+	public void selectNode(FramNode node) {
 		if(node == null) {
 			selectedNode = null;
 			nodeOriginalPoint = null;
@@ -115,6 +116,8 @@ public class Visualizer extends JComponent {
 			selectedNode = node;
 			nodeOriginalPoint = (Point)node.getPosition().clone();
 		}
+		
+		triggerSelectedChanged();
 	}
 	private void selectConnection(ConnectionInfo cInfo) {
 		if(cInfo == null) {
@@ -127,6 +130,8 @@ public class Visualizer extends JComponent {
 			selectedLine = cInfo;
 			connectionOriginalPoint = (Point)cInfo.getPosition().clone();
 		}
+		
+		triggerSelectedChanged();
 	}
 	
 	public FramNode getSelectedNode() {
@@ -334,5 +339,21 @@ public class Visualizer extends JComponent {
 		changed.y -= offset.y;
 		
 		return changed;
+	}
+	
+	public void addSelectedChangedListener(ActionListener listener) {
+		selectedChangedRecipients.add(listener);
+	}
+	
+	public void removeSelectedChangedListener(ActionListener listener) {
+		selectedChangedRecipients.remove(listener);
+	}
+	
+	public void triggerSelectedChanged() {
+		ActionEvent event = new ActionEvent(this, 0, "");
+		
+		for(ActionListener listener : selectedChangedRecipients) {
+			listener.actionPerformed(event);
+		}
 	}
 }

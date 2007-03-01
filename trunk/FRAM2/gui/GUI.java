@@ -51,6 +51,7 @@ import table.FramCPCTable;
 import table.FramNodeEditorList;
 
 import data.Aspect;
+import data.ConnectionInfo;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -78,10 +79,35 @@ public class GUI extends JFrame implements ActionListener{
 				Aspect a = nodeList.getSelectedAspect();
 				if(a != null) {
 					framCPCTable.setCPC(a.getCPC());
+					//framVisualizer.selectNode(a.getParent());
 				}
 				else {
 					framCPCTable.setCPC(null);
 				}
+			}
+			
+		});
+		
+		framVisualizer.addSelectedChangedListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				Visualizer visualizer = (Visualizer)e.getSource();
+				
+				ConnectionInfo line = visualizer.getSelectedLine();
+				if(line != null) {
+					FramNode n = line.getFrom().getNode();
+					Aspect a = n.getAspect(line.getFrom().getConnectionPort().toString(), line.getAspect());
+					if(a != null) {
+						framCPCTable.setCPC(a.getCPC());
+					}
+					else {
+						framCPCTable.setCPC(null);
+					}
+				}
+				else {
+					framCPCTable.setCPC(null);
+				}
+				
 			}
 			
 		});
