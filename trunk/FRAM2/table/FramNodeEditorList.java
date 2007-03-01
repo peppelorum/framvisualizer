@@ -25,6 +25,7 @@
 package table;
 
 import java.awt.Container;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
@@ -32,13 +33,15 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 
 import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 
 
-public class FramNodeEditorList extends Container {
+public class FramNodeEditorList extends JComponent {
 
 	/**
 	 * 
@@ -66,27 +69,24 @@ public class FramNodeEditorList extends Container {
 		
 	}
 	
-	public FramNodeEditorList(){
-		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
-		listChangedListener = new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				updateElements();
-			}
-			
-		};
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			
-		this.setList(new FramNodeList("ny"));
+	public FramNodeEditorList(){		
+		this(new FramNodeList("ny"));
 	}
 	
 	public void add(FramNode item){		
 		list.add(item);
 	}
 	
+	/*
+	 * Get the list with data
+	 * */
 	public FramNodeList getList() {
 		return list;
 	}
+	
+	/*
+	 * Set list (data class)
+	 * */
 	public void setList(FramNodeList value) {
 		cleanUp();
 		
@@ -97,7 +97,9 @@ public class FramNodeEditorList extends Container {
 		updateElements();
 	}
 	
-	
+	/*
+	 * Ensure that all elements are in sync with the data class
+	 * */
 	private void updateElements() {
 		for(Component c : this.getComponents()) {
 			FramNodeEditor guiNode = (FramNodeEditor)c;
@@ -145,12 +147,18 @@ public class FramNodeEditorList extends Container {
 		return super.add(c);
 	}
 	
+	/*
+	 * Remove listeners to data class
+	 * */
 	private void cleanUp() {
 		if(list != null) {
 			list.removeListChangedListener(listChangedListener);
 		}
 	}
 	
+	/*
+	 * Validate and repaint
+	 * */
 	private void refresh() {
 		validate();
 		repaint();
@@ -165,7 +173,7 @@ public class FramNodeEditorList extends Container {
 		return selectedAspect;
 	}
 		
-	public void addSelectedAspectChangedListener(ActionListener listener) {
+	public void addActionListener(ActionListener listener) {
 		this.selectedAspectChangedRecipients.add(listener);
 	}
 	
@@ -191,6 +199,9 @@ public class FramNodeEditorList extends Container {
 		return selectedNodeEditor;
 	}
 		
+	/*
+	 * Set selected editor
+	 * */
 	public void setSelectedNodeEditor(FramNodeEditor value) {
 		if(selectedNodeEditor != null) {
 			selectedNodeEditor.deSelected();
@@ -202,12 +213,19 @@ public class FramNodeEditorList extends Container {
 			fireAction("Selected node changed");
 			value.selected();
 		}
+
+		// Scroll editor into visible position
+		this.scrollRectToVisible(selectedNodeEditor.getBounds());
+				
 	}
 	
 	public void setSelectedNode(FramNode node) {
 		setSelectedNodeEditor(getEditorForNode(node));
 	}
 	
+	/*
+	 * Find the editor for the input node
+	 * */
 	public FramNodeEditor getEditorForNode(FramNode node) {
 		for(Component c : this.getComponents()) {
 			if(c instanceof FramNodeEditor) {

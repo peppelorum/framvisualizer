@@ -72,7 +72,7 @@ public class GUI extends JFrame implements ActionListener{
     private Container tableContainer = new Container();
         
 	public GUI(){
-		framNodeEditorList.addSelectedAspectChangedListener(new ActionListener(){
+		framNodeEditorList.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();

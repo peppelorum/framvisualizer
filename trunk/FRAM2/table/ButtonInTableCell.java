@@ -45,7 +45,7 @@ import data.Aspect;
 import data.FramNode;
 
 public class ButtonInTableCell implements ActionListener, TableCellEditor{
-	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.gif")); 
+	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("/icons/plus.gif")); 
     private TableCellEditor editor; 
     private JButton customEditorButton = new JButton(PLUS_ICON); 
     protected JTable table; 

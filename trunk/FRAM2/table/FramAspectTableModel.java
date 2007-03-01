@@ -124,7 +124,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 		// ta bort lyssnaren så att inte båda lyssnarna är igång samtidigt
 		this.removeTableModelListener(currentTableModelListener);
 		
-		this.setColumnCount(4);
+		this.setColumnCount(3);
 		
 		for(int i = 0; i < this.getRowCount(); i++) {
 			this.dataVector.clear();
