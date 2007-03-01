@@ -38,6 +38,8 @@ public class FramNodeEditor extends Container {
 
 	private FramNode node;
 	private FramAspectTable tableNode;
+	
+	private boolean visible = true;
 
 
 	public FramNodeEditor(FramNode node, FramNodeList list) {
@@ -55,6 +57,14 @@ public class FramNodeEditor extends Container {
 
 	public FramNode getNode() {
 		return node;
+	}
+	
+	public void setVisibility(boolean value){
+		this.visible = value;	
+	}
+	
+	public boolean getVisibility(){
+		return visible;	
 	}
 
 	public void cleanUp() {
