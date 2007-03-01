@@ -30,7 +30,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
@@ -56,6 +55,16 @@ public class FramAspectTable extends JTable {
 	public FramAspectTable() {
 		
 		this(new FramNode(""), new FramNodeList(""), null);
+
+	}
+	
+	public boolean isCellEditable(int row, int column) {
+		if(row == 0) {
+			if (column != 0) {
+				return false;
+			}
+		}
+		return super.isCellEditable(row, column);
 	}
 	
 	public FramAspectTable(FramNode node, FramNodeList listInput, FramNodeEditor parent) {
@@ -171,7 +180,7 @@ public class FramAspectTable extends JTable {
 	
 	
 	public TableCellEditor getCellEditor(int row, int col)
-	{
+	{		
 		if(col == 1){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
@@ -226,5 +235,9 @@ public class FramAspectTable extends JTable {
 	
 	public boolean isSelected() {
 		return parent.isSelected();
+	}
+	
+	public FramNodeList getList() {
+		return list;
 	}
 }

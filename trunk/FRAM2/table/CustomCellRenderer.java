@@ -28,7 +28,6 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -51,7 +50,7 @@ public class CustomCellRenderer extends DefaultTableCellRenderer
 	
 				FramAspectTable aspectTable = (FramAspectTable)table;
 				if(aspectTable.isSelected()) {
-					cell.setBackground(Color.getHSBColor(0.7f, 0.3f, 0.9f));
+					cell.setBackground(Color.getHSBColor(0.6f, 0.3f, 0.9f));
 				}
 	
 			} else{

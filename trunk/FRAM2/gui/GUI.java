@@ -246,7 +246,12 @@ public class GUI extends JFrame implements ActionListener{
      *      
      */
     public void actionPerformed(ActionEvent e) {
-    	if(e.getActionCommand()== "Save"){
+    	if(e.getActionCommand()== "New"){
+    		FramNodeList newList = new FramNodeList("");
+    		framNodeEditorList.setList(newList);
+    		framVisualizer.setList(newList);
+    	}
+    	else if(e.getActionCommand()== "Save"){
     		//fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
     		fc.setFileFilter(new XMLfilter());
     		fc.setAcceptAllFileFilterUsed(false);
@@ -258,7 +263,8 @@ public class GUI extends JFrame implements ActionListener{
 	            framNodeEditorList.getList().SaveFile(file.getPath());
 	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
-    	}else if(e.getActionCommand()=="Load"){
+    	}
+    	else if(e.getActionCommand()=="Load"){
     		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
     		fc.setFileFilter(new XMLfilter());
     		
@@ -313,11 +319,19 @@ public class GUI extends JFrame implements ActionListener{
 	private JMenu createFileMenu(){
 		JMenu menu;
 		JMenuItem menuItem;				
+		
 		menu = new JMenu("File");		
+		
+		menuItem = new JMenuItem("New");
+		menuItem.setMnemonic('N');
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+		
 		menuItem = new JMenuItem("Load");
 		menuItem.setMnemonic('L');
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
+		
 		menuItem = new JMenuItem("Save");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);

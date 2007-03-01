@@ -273,20 +273,20 @@ public class Visualizer extends JComponent {
 		Point p = new Point();
 		p.x = 0;
 		p.y = 0;
-		int maxX = (int)Math.floor(Math.sqrt(list.size())) * spacer;
+//		int maxX = (int)Math.floor(Math.sqrt(list.size())) * spacer;
 		for(FramNode node : list) {
 			guiNodeList.add(new GraphNode(node, this));
-			if(node.getPosition().x == 0 &&
-					node.getPosition().y == 0) {
-				node.setPosition(p);
-			}
-			if(p.x >= maxX) {
-				p.x = 0;
-				p.y+= spacer;
-			}
-			else {
-				p.x+= spacer;
-			}
+//			if(node.getPosition().x == 0 &&
+//					node.getPosition().y == 0) {
+//				node.setPosition(p);
+//			}
+//			if(p.x >= maxX) {
+//				p.x = 0;
+//				p.y+= spacer;
+//			}
+//			else {
+//				p.x+= spacer;
+//			}
 		}
 		
 		for(ConnectionInfo connection : list.searchConnections()) {

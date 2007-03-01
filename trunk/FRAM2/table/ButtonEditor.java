@@ -19,6 +19,11 @@ import data.FramNode;
 import data.FramNodeList;
 
 public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JButton editora;
 	
 //	Is it possible to avoid the permanent reference to the value???
@@ -39,7 +44,6 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 	private JButton moveDown = new JButton(PLUS_ICON);
 	protected JTable table; 
 	protected int row, column; 
-	private JPanel panel = new JPanel();
 	
 	private FramNodeList list;
 	private FramNode node;

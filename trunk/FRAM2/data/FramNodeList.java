@@ -24,6 +24,8 @@
 
 package data;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -111,6 +113,16 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		//}
 	}
 	
+	public boolean isPositionFree(FramNode sender, Rectangle rect) {
+		for(FramNode n : this) {
+			if(n != sender && n.getRectangle().intersects(rect)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public boolean add(FramNode o) {
 		
 		if(o.getName() == "") {
@@ -129,6 +141,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		boolean result = super.add(o);
 		if(result) {
 			o.setList(this);
+			o.setPosition(new Point(0, 0));
 		}
 		
 		this.listChanged("NodeAdded");

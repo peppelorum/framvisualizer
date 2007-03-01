@@ -24,27 +24,19 @@
 
 package table;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import data.FramNode;
-import data.FramNodeList;
 
 public class FramNodeEditor extends JPanel {
 
@@ -110,7 +102,7 @@ public class FramNodeEditor extends JPanel {
 		tableNode = new FramAspectTable(node, editorList.getList(), this);
 
 		JButton buttonMove = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.gif")));
-		buttonMove.addMouseMotionListener(new MouseMotionListener() {
+		tableNode.addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent arg0) {
 				moveBox(arg0.getX(), arg0.getY());
@@ -187,12 +179,17 @@ public class FramNodeEditor extends JPanel {
 	}
 
 	public void selected() {
-		buttonsTop.setVisible(true);
-		buttonsBottom.setVisible(true);
+		//tableNode.setEnabled(true);
+		//buttonsTop.setVisible(true);
+		//buttonsBottom.setVisible(true);
 		//this.setBorder(BorderFactory.createLineBorder (Color.blue, 2));
 	}
 
 	public void deSelected() {
+		if(tableNode.getCellEditor() != null) {
+			tableNode.getCellEditor().stopCellEditing();
+		}
+		
 		buttonsTop.setVisible(false);
 		buttonsBottom.setVisible(false);
 		//this.setEnabled(false);
