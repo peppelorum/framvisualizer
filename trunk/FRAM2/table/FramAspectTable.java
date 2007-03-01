@@ -114,14 +114,42 @@ public class FramAspectTable extends JTable {
 		
 		updateTable();
 		
-
+		
+	}
+	
+	public void setCellsNonFocused() {
+		
+		
+		
+		//for(int i = 0;i<this.getColumnCount();i++){
+		
+		
+		
+//		for(int j = 0;j<this.getRowCount();j++){       	
+		
+		System.out.println(this.getEditingColumn());
+		System.out.println(this.getEditingRow());
+		
+		//System.out.println(j);
+		
+		//this.getCellEditor(j, i).cancelCellEditing();
+		//this.getCellEditor(j, i).stopCellEditing();
+		if (this.getEditingColumn() > -1 && this.getEditingRow() > -1) {
+			this.getCellEditor(this.getEditingRow(), this.getEditingColumn()).stopCellEditing();
+		}
+		
 	}
 	
 	private void updateTable() {     
-        
+		
         for(int i = 0;i<this.getColumnCount();i++){
         	//Sets the cell renderers
-        	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ()); 
+        	if (i == 3) {
+        		this.getColumnModel().getColumn( i ).setCellRenderer(new ButtonRenderer());
+        	} else {
+            	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());        		
+        	}
+ 
         }
         
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -150,7 +178,7 @@ public class FramAspectTable extends JTable {
 //			return editor;
 			
 			TableCellEditor editor = super.getCellEditor(row,col);
-			return new ButtonInAspectTableHeader(editor, list, node);
+			return new ButtonEditor(editor, list, node);
 		} else if (col == 0 || row == 0) {
 			TableCellEditor editor = super.getCellEditor(row,col);
 			return editor;
