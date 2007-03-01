@@ -204,12 +204,85 @@ public class FramNode implements java.io.Serializable {
 	}
 	
 	public void setPosition(Point value) {
-		position.x = value.x;
-		position.y = value.y;
+		Point newPosition = (Point)value.clone();
+		
+		if(getList() != null) {
+			float modifier = 1;
+			boolean x = true;
+			int sign = 1;
+			int spacer = 20;
+			boolean diag = true;
+			
+			while(!getList().isPositionFree(this, 
+				new Rectangle(newPosition.x, newPosition.y, getSize(), getSize()))) {
+				
+				int modValue = (int)(modifier * spacer * sign);
+				if(x) {
+					newPosition.x = value.x + modValue;
+					if(diag) {
+						newPosition.y = value.y;
+					}
+				}
+				else {
+					if(diag) {
+						newPosition.x = value.x;
+					}
+					newPosition.y = value.y + modValue;
+				}
+				
+				if(x) {
+					x = false;
+				}
+				else {
+					if(sign > 0) {
+						sign = -1;
+						x = true;
+					}
+					else {
+						if(diag) {
+							diag = false;
+							sign = 1;
+							x = true;
+						}
+						else {
+							modifier += 0.25f;
+							diag = true;
+							sign = 1;
+							x = true;
+						}
+					}
+				}
+				
+//				if(!diag) {
+//					if(!x) {
+//						if(sign<0) {
+//							modifier+= 0.5f;
+//							sign = 1;
+//							diag = true;
+//						}
+//						else {
+//							sign = -1;
+//						}
+//						x = true;
+//					}
+//					else {
+//						x = false;
+//					}
+//				}
+//				else {
+//					diag = false;
+//				}
+			}
+		}
+		
+		position.x = newPosition.x;
+		position.y = newPosition.y;
 	}
 	
 	public int getSize() {
-		return size;
+		int connectionCount = this.getAllAspects().size();
+		
+		return size + 5 * connectionCount;
 	}
 	
 	public void setSize(int value) {
@@ -319,10 +392,23 @@ public class FramNode implements java.io.Serializable {
 	
 	
 	public void setAttributes(NodePort type, ArrayList<Aspect> aspects) {
-		for(Aspect a : aspects) {
-			a.setParent(this);
-		}
 		
+		ArrayList<Aspect> emptyEntries = new ArrayList<Aspect>();
+		
+		// Set this as parent for non-empty elements
+		for(Aspect a : aspects) {
+			if(a.getValue() != "") {
+				a.setParent(this);
+			}
+			else {
+				emptyEntries.add(a);
+			}
+		}
+		// Remove empty entries
+		for(Aspect a : emptyEntries) {
+			aspects.remove(a);
+		}
+				
 		if(type == NodePort.Input) {
 			
 			this.input = aspects;

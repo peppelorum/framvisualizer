@@ -1,17 +1,14 @@
 package table;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EventObject;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
@@ -24,6 +21,10 @@ import data.FramNodeList;
 
 public class ButtonRenderer extends JPanel implements TableCellRenderer, TableCellEditor{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean focused;
 	public ImageIcon PLUS_ICON; 
 	private JButton customEditorButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.gif")));

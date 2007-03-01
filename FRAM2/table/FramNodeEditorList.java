@@ -24,17 +24,13 @@
 
 package table;
 
-import java.awt.Container;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JScrollPane;
 
 import data.Aspect;
 import data.FramNode;
@@ -203,7 +199,7 @@ public class FramNodeEditorList extends JComponent {
 	 * Set selected editor
 	 * */
 	public void setSelectedNodeEditor(FramNodeEditor value) {
-		if(selectedNodeEditor != null) {
+		if(selectedNodeEditor != null && selectedNodeEditor != value) {
 			selectedNodeEditor.deSelected();
 			selectedNodeEditor = null;
 		}
@@ -216,6 +212,7 @@ public class FramNodeEditorList extends JComponent {
 
 		// Scroll editor into visible position
 		this.scrollRectToVisible(selectedNodeEditor.getBounds());
+		refresh();
 				
 	}
 	
