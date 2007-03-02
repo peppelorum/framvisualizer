@@ -84,7 +84,6 @@ public class FramCPCTable extends JTable {
 	public TableCellEditor getCellEditor(int row, int col)
 	{
 		if(col > 2) {
-			TableCellEditor editor = super.getCellEditor(row,col);
 			return new CheckboxEditor();
 		}
 		if(col != 1) {
@@ -96,7 +95,6 @@ public class FramCPCTable extends JTable {
 			combo.setEditable(true);
 			return new ComboBoxCellEditor(combo);
 		}
-		
 	}
 	
 	/**
@@ -105,7 +103,11 @@ public class FramCPCTable extends JTable {
 	public TableCellRenderer getCellRenderer(int row, int col) {
 
 		if (col > 2){
-			return new CheckboxRenderer();
+			if ((Boolean)this.getModel().getValueAt(row, col)) {		/** FIXME !!! **/
+				return new CheckboxRenderer(true);
+			} else {
+				return new CheckboxRenderer(false);
+			}
 		}else {
 			return super.getCellRenderer(row,col);
 		}

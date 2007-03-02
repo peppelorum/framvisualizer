@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -64,18 +64,20 @@ public class CPC implements Serializable {
 	public CPC(FramNode node) {
 		this.parent = node;
 		list = new ArrayList<CPCAttribute>();
+		
 	}
-	public void setAttribute(String type, String value, String comment){
+	public void setAttribute(String type, String value, String comment, ArrayList<Boolean> cpcForAspects){
 		if(hasAttribute(type)) {
 			CPCAttribute attrib = getAttribute(type);
 			attrib.setValue(value);
 			attrib.setComment(comment);
+			attrib.setCpcForAspects(cpcForAspects);
 		}
 		else {
-			list.add(new CPCAttribute(type, value, comment));
+			list.add(new CPCAttribute(type, value, comment, cpcForAspects));
 		}
 	}
-	
+		
 	public boolean hasAttribute(String type) {
 		for(CPCAttribute attrib : list) {
 			if(attrib.getType().equals(type)) {
