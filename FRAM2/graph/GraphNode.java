@@ -45,6 +45,9 @@ public class GraphNode extends JComponent {
 	private FramNode node;
 	private Visualizer parent;
 
+	private Color nodeColor = Color.getHSBColor(0.1F, 0.6F, 0.8F);
+	private Color nodeColorSel = Color.getHSBColor(0.1F, 0.6F, 0.5F);
+	
 	public GraphNode(FramNode node, Visualizer parent) {
 		this.node = node;
 		this.parent = parent;
@@ -112,9 +115,11 @@ public class GraphNode extends JComponent {
 	
 	
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.8F));
+		int sizePort = 20;
+		
+		g.setColor(nodeColor);
 		if(isSelected()) {
-			g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.5F));				
+			g.setColor(nodeColorSel);				
 		}
 
 		Polygon poly = getPolygon();
@@ -122,7 +127,7 @@ public class GraphNode extends JComponent {
 		g.fillPolygon(poly);
 		
 		for(int i = 0; i < poly.npoints; i++) {
-			g.fillOval(poly.xpoints[i]-5, poly.ypoints[i]-5, 10, 10);
+			g.fillOval(poly.xpoints[i]-sizePort/2, poly.ypoints[i]-sizePort/2, sizePort, sizePort);
 		}
 	
 		//if(isSelected()) {
@@ -156,12 +161,13 @@ public class GraphNode extends JComponent {
 		}
 		if(name.length() != node.getName().length()){
 			name = name.substring(0,name.length()-1);	
+			name = name.trim();
 			name = name + "...";	
 		}
-		
+		System.out.println(name.length());
 		g.drawString(
 				name, 
-				node.getPosition().x,
+				(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
 				node.getPosition().y+node.getSize()/2);
 		
 		
@@ -172,26 +178,32 @@ public class GraphNode extends JComponent {
 	 * @param g
 	 */
 	public void paintNameBubble(Graphics g) {
+		int margin = 15;
+		//Calculate name width
+		g.setFont(new Font("Arial", 1, 12));
+		node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(node.getName()));
 		
 		int bubbleHeight = 20;
-		int bubbleWidth = 100;
+		int bubbleWidth = node.getBubbleWidth();
 		int bubbleRounded = 10;
 		
 		if(isSelected()) {
 			bubbleHeight = 20;
 		}
 		
+		
 		// define coordinates for bubble
 		Rectangle bubbleRect = new Rectangle(
-				getCenter().x + (node.getSize()/2),
-				getCenter().y - (node.getSize()),
+				getCenter().x + (node.getSize()/3),
+				getCenter().y - (node.getSize()-node.getSize()/3),
 				bubbleWidth,
 				bubbleHeight);
 		
+		// define the triangle
 		Polygon triAngle = new Polygon();
 		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + 3);
 		triAngle.addPoint(getCenter().x, getCenter().y);
-		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + (node.getSize()/3));
+		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + (node.getSize()/4));
 		
 		// fill bubble background
 		g.setColor(Color.white);
@@ -228,21 +240,22 @@ public class GraphNode extends JComponent {
 				triAngle.ypoints[2], 
 				triAngle.xpoints[1], 
 				triAngle.ypoints[1]);
-
+		
 		// draw name
-		g.setFont(new Font("Arial", 1, 12));
+//		g.setFont(new Font("Arial", 1, 12));
 		g.drawString(
 				node.getName(), 
-				bubbleRect.x + 15,
-				bubbleRect.y + 15);
+				bubbleRect.x + margin,
+				bubbleRect.y + margin);
 		
 		if(isSelected()) {
 			g.setFont(new Font("Arial", 1, 10));
 			g.drawString(
 					node.getComment(), 
-					bubbleRect.x + 15,
-					bubbleRect.y + 30);
+					bubbleRect.x + margin,
+					bubbleRect.y + margin*2);
 		}
+
 	}
 	
 	
