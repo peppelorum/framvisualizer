@@ -24,6 +24,7 @@
 
 package gui;
 
+import graph.GraphLayout;
 import graph.GraphLine;
 import graph.Visualizer;
 
@@ -166,20 +167,25 @@ public class GUI extends JFrame implements ActionListener{
 		menuBar.add(createHelpMenu());
 		setJMenuBar(menuBar);
 
+		//The graphnodes
 		framVisualizer.setList(framNodeEditorList.getList());
-
+		//framVisualizer.setLayout(new GraphLayout());
+		
+		
 		tableContainer.add(framNodeEditorList);
 				
 		tableAndGraph = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
 		tableAndGraph.setDividerLocation(450);
 		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
 		
+		//Split 2 = graph and CPC
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		split2.setDividerLocation(300);
 		split2.setTopComponent(framVisualizer);
 		split2.setBottomComponent(new JScrollPane(framCPCTable));
 		
 		tableAndGraph.setRightComponent(split2);
+		
 		
 		//tableAndGraph.setRightComponent(framVisualizer);		
 		
@@ -229,10 +235,13 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowLabels.setText("Toggle labels");
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(GraphLine.isShowBubbles()){
-					GraphLine.setShowBubbles(false);
-				}else{
-					GraphLine.setShowBubbles(true);
+				for(GraphLine line : framVisualizer.getGuiLineList()){
+					if(line.isShowBubbles()){
+						line.setShowBubbles(false);
+					}
+					else{
+							line.setShowBubbles(true);
+						}
 				}
 				repaint();
 			}
