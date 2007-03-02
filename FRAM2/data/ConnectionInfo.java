@@ -24,6 +24,7 @@
 
 package data;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -47,6 +48,7 @@ public class ConnectionInfo implements java.io.Serializable {
 	private boolean moved = false;
 	private int bubbleHeight = 10;
 	private int bubbleWidth = 40;
+	private Color lineColor = Color.black;
 	
 	public ConnectionInfo(RelationInfo from, RelationInfo to){
 		this.from = from;
@@ -118,6 +120,13 @@ public class ConnectionInfo implements java.io.Serializable {
 	}
 	public boolean isMoved() {
 		return moved;
+	}
+	
+	public void setLineColor(Color lineColor) {
+		this.lineColor = lineColor;
+	}
+	public Color getLineColor() {
+		return lineColor;
 	}
 	
 }
