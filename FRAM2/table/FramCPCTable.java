@@ -26,6 +26,7 @@ package table;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 import data.CPC;
 import data.FramNode;
@@ -40,14 +41,17 @@ public class FramCPCTable extends JTable {
 	
 	public FramCPCTable(){
 		
+
 	}
 	
 	public FramCPCTable(CPC cpc){
-		setCPC(cpc);
+		setCPC(cpc);	
 	}
 
 	public void setCPC(CPC value) {
 		this.cpc = value;
+		
+		System.out.println(value.getAttribute("Input"));
 		
 		if(cpc == null) {
 			if(this.getColumnModel().getColumnCount() > 0) {
@@ -59,6 +63,22 @@ public class FramCPCTable extends JTable {
 			this.setVisible(true);
 			setModel(new FramCPCTableModel(cpc));
 		}
+		
+		updateTable();
+	}
+	
+	private void updateTable() {
+       
+        TableColumn col;
+        
+        for(int i = 3;i<this.getColumnCount();i++){
+            col = this.getColumnModel().getColumn(i);
+            int width = 20;
+            col.setMinWidth(width);
+            col.setMaxWidth(width);
+            col.setPreferredWidth(width);
+        }
+
 	}
 	
 	public TableCellEditor getCellEditor(int row, int col)

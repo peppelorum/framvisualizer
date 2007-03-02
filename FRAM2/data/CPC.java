@@ -31,7 +31,9 @@ public class CPC implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 9034461918811470582L;
-	private Aspect parent;
+	private FramNode parent;
+	
+	private String[] selectedAspects;
 	
 	public static boolean typeExists(String type) {
 		for(String t : CPC_TYPES) {
@@ -59,8 +61,8 @@ public class CPC implements Serializable {
 	
 	private ArrayList<CPCAttribute> list;
 	
-	public CPC(Aspect parent) {
-		this.parent = parent;
+	public CPC(FramNode node) {
+		this.parent = node;
 		list = new ArrayList<CPCAttribute>();
 	}
 	public void setAttribute(String type, String value, String comment){
@@ -94,7 +96,7 @@ public class CPC implements Serializable {
 		return null;
 	}
 	
-	public Aspect getParent() {
+	public FramNode getParent() {
 		return parent;
 	}
 
