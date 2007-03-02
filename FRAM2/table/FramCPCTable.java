@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ package table;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import data.CPC;
@@ -40,8 +41,6 @@ public class FramCPCTable extends JTable {
 	private CPC cpc;
 	
 	public FramCPCTable(){
-		
-
 	}
 	
 	public FramCPCTable(CPC cpc){
@@ -50,8 +49,6 @@ public class FramCPCTable extends JTable {
 
 	public void setCPC(CPC value) {
 		this.cpc = value;
-		
-		System.out.println(value.getAttribute("Input"));
 		
 		if(cpc == null) {
 			if(this.getColumnModel().getColumnCount() > 0) {
@@ -81,12 +78,18 @@ public class FramCPCTable extends JTable {
 
 	}
 	
+	/**
+	 * Overrides the default celleditor, makes it possible to set editor for individual cells
+	 */
 	public TableCellEditor getCellEditor(int row, int col)
 	{
+		if(col > 2) {
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return new CheckboxEditor();
+		}
 		if(col != 1) {
 			TableCellEditor editor = super.getCellEditor(row,col);
 			return editor;
-			
 		}
 		else {
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(FramNode.stepTwoDefaultValues);
@@ -94,5 +97,17 @@ public class FramCPCTable extends JTable {
 			return new ComboBoxCellEditor(combo);
 		}
 		
+	}
+	
+	/**
+	 * Overrides the default cellrenderer, makes it possible to set renderer for individual cells
+	 */
+	public TableCellRenderer getCellRenderer(int row, int col) {
+
+		if (col > 2){
+			return new CheckboxRenderer();
+		}else {
+			return super.getCellRenderer(row,col);
+		}
 	}
 }
