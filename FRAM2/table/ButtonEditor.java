@@ -43,8 +43,8 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 //	}
 	 
 	private TableCellEditor editor; 
-	private JButton addButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.gif")));
-	private JButton removeButton = new JButton(new ImageIcon(getClass().getResource("/icons/minus.gif")));
+	private JButton addButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
+	private JButton removeButton = new JButton(new ImageIcon(getClass().getResource("/icons/minus.GIF")));
 	
 	protected JTable table; 
 	protected int row, column; 

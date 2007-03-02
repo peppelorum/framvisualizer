@@ -31,7 +31,7 @@ public class ButtonRenderer extends Component implements TableCellRenderer{
 	private static final long serialVersionUID = 1L;
 	private boolean focused;
 	public ImageIcon PLUS_ICON; 
-	private JButton customEditorButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.gif")));
+	private JButton customEditorButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
 	private JButton moveUp = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.GIF")));
 	private JButton moveDown = new JButton(new ImageIcon(getClass().getResource("/icons/broad.GIF")));
 
@@ -59,11 +59,11 @@ public class ButtonRenderer extends Component implements TableCellRenderer{
 		JPanel panel = new JPanel(); 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS)); 
 		
-		JLabel a = new JLabel(new ImageIcon(getClass().getResource("/icons/plus.gif")));
+		JLabel a = new JLabel(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
 		a.setVisible(true);
 		panel.add(a);
 		
-		a = new JLabel(new ImageIcon(getClass().getResource("/icons/minus.gif")));
+		a = new JLabel(new ImageIcon(getClass().getResource("/icons/minus.GIF")));
 		a.setVisible(true);
 		panel.add(a);
 
