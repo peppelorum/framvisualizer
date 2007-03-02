@@ -166,7 +166,6 @@ public class GraphNode extends JComponent {
 			name = name.trim();
 			name = name + "...";	
 		}
-		System.out.println(name.length());
 		g.drawString(
 				name, 
 				(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
