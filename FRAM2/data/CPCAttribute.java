@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@
 package data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CPCAttribute implements Serializable {
 	/**
@@ -33,11 +34,19 @@ public class CPCAttribute implements Serializable {
 	private String type;
 	private String value;
 	private String comment;
+	private ArrayList<Boolean> cpcForAspects;
 
-	public CPCAttribute(String type, String value, String comment) {
+	public CPCAttribute(String type, String value, String comment, ArrayList<Boolean> list) {
 		setType(type);
 		setValue(value);
 		setComment(comment);
+		cpcForAspects =  new ArrayList<Boolean>(6);
+		cpcForAspects.add(false);
+		cpcForAspects.add(false);
+		cpcForAspects.add(false);
+		cpcForAspects.add(false);
+		cpcForAspects.add(false);
+		cpcForAspects.add(false);
 	}
 
 	public String getType() {
@@ -50,6 +59,14 @@ public class CPCAttribute implements Serializable {
 
 	public String getComment() {
 		return comment;
+	}
+	
+	public void setCpcForAspects(ArrayList<Boolean> list){
+		cpcForAspects = list;
+	}
+	
+	public ArrayList<Boolean> getCpcForAspects(){
+		return cpcForAspects;
 	}
 
 	public void setType(String val) {

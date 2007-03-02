@@ -24,6 +24,8 @@
 
 package table;
 
+import java.util.ArrayList;
+
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -48,16 +50,35 @@ public class FramCPCTableModel extends DefaultTableModel {
 		
 		CPCAttribute cpcAttrib;		
 		String[] row;
+		Object[] row2;
 		for(String cpcType : CPC.CPC_TYPES) {
 			cpcAttrib = cpc.getAttribute(cpcType);
 			if(cpcAttrib != null) {
-				row = cpcAttrib.toArray();
+				row2 = cpcAttrib.toArray();
+				
+				System.out.println(cpcType);
+				
+				ArrayList<Boolean> a = this.getCPC().getAttribute(cpcType).getCpcForAspects();
+				
+				
+				System.out.println(a.size());
+				
+				for(int i = 0; i<a.size(); i++){
+					System.out.println(i);
+					
+				}
+				
 			}
 			else {
 				row = new String[] { cpcType, "", "" };
+				row2 = new Object[]{ cpcType, "", "", false, false, false, false, false, false};
 			}
 			
-			this.addRow(row);
+			this.addRow(row2);
+			
+
+			
+			//this.setValueAt(aValue, row, column)
 		}
 	
 		this.addTableModelListener(new TableModelListener() {
@@ -69,7 +90,31 @@ public class FramCPCTableModel extends DefaultTableModel {
 				String value = (String)getValueAt(row, 1);
 				String comment = (String)getValueAt(row, 2);
 				
-				getCPC().setAttribute(type, value, comment);
+				ArrayList<Boolean> tmp;
+				tmp = new ArrayList<Boolean>(6);
+				
+				tmp.add(0, (Boolean)getValueAt(row, 3));
+				tmp.add(1, (Boolean)getValueAt(row, 4));
+				tmp.add(2, (Boolean)getValueAt(row, 5));
+				tmp.add(3, (Boolean)getValueAt(row, 6));
+				tmp.add(4, (Boolean)getValueAt(row, 7));
+				tmp.add(5, (Boolean)getValueAt(row, 8));
+				
+				
+				//System.out.println(row);
+				
+//				for(int i = 3; i<8; i++){
+//					
+//					//System.out.print(getValueAt(row, i));
+//					//System.out.println();
+//					
+//					System.out.println(i);
+//					
+////					tmp.add(i, (Boolean)getValueAt(row, i));
+//					
+//				}
+
+				getCPC().setAttribute(type, value, comment, tmp);
 			}
 			
 		});
