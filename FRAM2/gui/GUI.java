@@ -76,17 +76,17 @@ public class GUI extends JFrame implements ActionListener{
 
 			public void actionPerformed(ActionEvent e) {
 				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();
-				
-				if(e.getActionCommand() == "Selected aspect changed") {
-					Aspect a = nodeList.getSelectedAspect();
-					if(a != null) {
-						framCPCTable.setCPC(a.getCPC());
+								
+//				if(e.getActionCommand() == "Selected aspect changed") {
+//					Aspect a = nodeList.getSelectedAspect();
+//					if(a != null) {
+						framCPCTable.setCPC(nodeList.getSelectedNode().getCPC());
 						//framVisualizer.selectNode(a.getParent());
-					}
-					else {
-						framCPCTable.setCPC(null);
-					}
-				}
+//					}
+//					else {
+//						framCPCTable.setCPC(null);
+//					}
+//				}
 				
 				framVisualizer.selectNode(nodeList.getSelectedNode());
 			}
@@ -102,12 +102,12 @@ public class GUI extends JFrame implements ActionListener{
 				if(line != null) {
 					FramNode n = line.getFrom().getNode();
 					Aspect a = n.getAspect(line.getFrom().getConnectionPort().toString(), line.getAspect());
-					if(a != null) {
-						framCPCTable.setCPC(a.getCPC());
-					}
-					else {
-						framCPCTable.setCPC(null);
-					}
+//					if(a != null) {
+						framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
+//					}
+//					else {
+//						framCPCTable.setCPC(null);
+//					}
 				}
 				else {
 					framCPCTable.setCPC(null);
@@ -194,6 +194,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createDeleteButton());
 		buttonsPanel.add(createShowLabelsButton());
+		buttonsPanel.add(createToggleSingleLabelButton());
 		
 		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
@@ -235,11 +236,11 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(GraphLine line : framVisualizer.getGuiLineList()){
-					if(line.isShowBubbles()){
-						line.setShowBubbles(false);
+					if(line.getConnection().isShowBubbles()){
+						line.getConnection().setShowBubbles(false);
 					}
 					else{
-							line.setShowBubbles(true);
+							line.getConnection().setShowBubbles(true);
 						}
 				}
 				repaint();
@@ -250,17 +251,14 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	private JButton createToggleSingleLabelButton() {
 		JButton buttonToggleSingleLabel = new JButton();
-		buttonToggleSingleLabel.setText("Toggle all labels");
+		buttonToggleSingleLabel.setText("Toggle single label");
 		buttonToggleSingleLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(GraphLine line : framVisualizer.getGuiLineList()){
-					if(line.isSelected()){
-						line.setShowBubbles(false);
-					}
-					else{
-							line.setShowBubbles(true);
-						}
-				}
+				
+				ConnectionInfo cInfo = framVisualizer.getSelectedLine();
+				
+				cInfo.setShowBubbles(false); 
+				
 				repaint();
 			}
 		});
