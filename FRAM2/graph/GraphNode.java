@@ -27,9 +27,11 @@ package graph;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
@@ -47,6 +49,7 @@ public class GraphNode extends JComponent {
 
 	private Color nodeColor = Color.getHSBColor(0.1F, 0.6F, 0.8F);
 	private Color nodeColorSel = Color.getHSBColor(0.1F, 0.6F, 0.5F);
+
 	
 	public GraphNode(FramNode node, Visualizer parent) {
 		this.node = node;
@@ -114,7 +117,8 @@ public class GraphNode extends JComponent {
 	}
 	
 	
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) { 
+	    
 		int sizePort = 20;
 		
 		g.setColor(nodeColor);
@@ -139,9 +143,7 @@ public class GraphNode extends JComponent {
 				loc.y += 4;
 				g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
 			}			
-//		}
-		
-		//g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 5, 5);
+
 	
 	}
 	/**
@@ -169,8 +171,7 @@ public class GraphNode extends JComponent {
 				name, 
 				(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
 				node.getPosition().y+node.getSize()/2);
-		
-		
+			    
 	}
 	
 	/**
@@ -257,6 +258,8 @@ public class GraphNode extends JComponent {
 		}
 
 	}
+	
+
 	
 	
 }

@@ -24,7 +24,6 @@
 
 package gui;
 
-import graph.GraphLayout;
 import graph.GraphLine;
 import graph.Visualizer;
 
@@ -232,7 +231,7 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	private JButton createShowLabelsButton() {
 		JButton buttonShowLabels = new JButton();
-		buttonShowLabels.setText("Toggle labels");
+		buttonShowLabels.setText("Toggle all labels");
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(GraphLine line : framVisualizer.getGuiLineList()){
@@ -249,6 +248,26 @@ public class GUI extends JFrame implements ActionListener{
 		
 		return buttonShowLabels;
 	}
+	private JButton createToggleSingleLabelButton() {
+		JButton buttonToggleSingleLabel = new JButton();
+		buttonToggleSingleLabel.setText("Toggle all labels");
+		buttonToggleSingleLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for(GraphLine line : framVisualizer.getGuiLineList()){
+					if(line.isSelected()){
+						line.setShowBubbles(false);
+					}
+					else{
+							line.setShowBubbles(true);
+						}
+				}
+				repaint();
+			}
+		});
+		
+		return buttonToggleSingleLabel;
+	}
+	
 	
 	 /**
      * Captures the thrown actions
