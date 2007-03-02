@@ -149,22 +149,28 @@ public class FramAspectTable extends JTable {
 		
 	}
 	
-	private void updateTable() {     
+	private void updateTable() {
 		
         for(int i = 0;i<this.getColumnCount();i++){
-        	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());
+//        	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());
         	//Sets the cell renderers
-//        	if (i == 3) {
-//        		this.getColumnModel().getColumn( i ).setCellRenderer(new ButtonRenderer());
-//        	} else {
-//            	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());        		
-//        	}
+        	if (i == 3) {
+        		this.getColumnModel().getColumn( i ).setCellRenderer(new ButtonRenderer());
+        	} else {
+            	this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());        		
+        	}
  
         }
         
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumn col = this.getColumnModel().getColumn(0);
         int width = 90;
+        col.setMinWidth(width);
+        col.setMaxWidth(width);
+        col.setPreferredWidth(width);
+        
+        col = this.getColumnModel().getColumn(3);
+        width = 30;
         col.setMinWidth(width);
         col.setMaxWidth(width);
         col.setPreferredWidth(width);
@@ -181,12 +187,15 @@ public class FramAspectTable extends JTable {
 	
 	public TableCellEditor getCellEditor(int row, int col)
 	{		
-		if(col == 1){
+		
+		if (col == 3 && row > 0){			
+			TableCellEditor editor = super.getCellEditor(row,col);
+			return new ButtonEditor(editor, list, node);
+		} else if(col == 1){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
 			return new ButtonInTableCell(new ComboBoxCellEditor(combo));
-		}
-		else {
+		} else {
 			return super.getCellEditor(row,col);
 		}
 		

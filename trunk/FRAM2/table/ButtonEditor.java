@@ -5,16 +5,21 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 
+import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -36,12 +41,11 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 //		
 //		editora.setContentAreaFilled(true);
 //	}
-	
-	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("/icons/plus.gif")); 
+	 
 	private TableCellEditor editor; 
-	private JButton customEditorButton = new JButton(PLUS_ICON);
-	private JButton moveUp = new JButton(PLUS_ICON);
-	private JButton moveDown = new JButton(PLUS_ICON);
+	private JButton addButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.gif")));
+	private JButton removeButton = new JButton(new ImageIcon(getClass().getResource("/icons/minus.gif")));
+	
 	protected JTable table; 
 	protected int row, column; 
 	
@@ -52,59 +56,46 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 		this.editor = editor; 
 		this.list = lista;
 		this.node = nodea;
-		//customEditorButton.addActionListener(this); 
+
+		Border empty;
+		empty = BorderFactory.createEmptyBorder();
 		
 		// ui-tweaking 
-		customEditorButton.setFocusable(false); 
-		customEditorButton.setFocusPainted(false); 
-		customEditorButton.setMargin(new Insets(0, 0, 0, 0));
-		customEditorButton.addActionListener(new ActionListener() {
+		addButton.setFocusable(false); 
+		addButton.setFocusPainted(false); 
+		addButton.setMargin(new Insets(0, 0, 0, 0));
+		addButton.setBorder(empty);
+		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("NEW NODE! NEW NODE READY!");
-				addFunction(table, row, column);
-				list.add(new FramNode());
+				addAspect(table, row, column);
 			}
 		});
 		
-		moveUp.setFocusable(false); 
-		moveUp.setFocusPainted(false); 
-		moveUp.setMargin(new Insets(0, 0, 0, 0)); 
-		moveUp.addActionListener(new ActionListener() {
+		removeButton.setFocusable(false); 
+		removeButton.setFocusPainted(false); 
+		removeButton.setMargin(new Insets(0, 0, 0, 0)); 
+		removeButton.setBorder(empty);
+		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Move on up! And keep on wishing!");
-				list.moveUpNode(node);
+				removeAspect(table, row, column);
+				//list.moveUpNode(node);
 			}
 		});
-		
-		moveDown.setFocusable(false); 
-		moveDown.setFocusPainted(false); 
-		moveDown.setMargin(new Insets(0, 0, 0, 0)); 
 	} 
 	
 	public JButton editor()
 	{
 		return editora;
 	}
-	
-//	public JPanel getTableCellEditorComponent(JTable table, Object value, boolean selected, int row, int column) {
-//		//this.value = value;
-//		
-//		//editora.setText(value == null ? "" : value.toString());
-//		
-//		// possibly adjust more colors/properties
-//		
-//		//editora.setForeground(table.getForeground());
-//		
-//		return panel;
-//	}
-	
+		
 	public Component getTableCellEditorComponent(JTable table, Object value
 			, boolean isSelected, int row, int column){ 
-		JPanel panel = new JPanel(new FlowLayout()); 
+		JPanel panel = new JPanel(); 
+		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS)); 
 		editor.getTableCellEditorComponent(table, value, isSelected, row, column); 
-		panel.add(customEditorButton);
-		panel.add(moveUp);
-		panel.add(moveDown);
+		panel.add(addButton);
+		panel.add(removeButton);
+
 		this.table = table; 
 		this.row = row; 
 		this.column = column; 
@@ -115,24 +106,51 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 	{
 		return value;
 	}
-	
-	protected void addFunction(JTable table, int row, int column){ 
-		JTextArea textArea = new JTextArea(10, 50); 
-		Object value = table.getValueAt(row, column); 
 		
-		if(value!=null){ 
-			textArea.setText((String)value); 
-			textArea.setCaretPosition(0); 
-		} 
-		
-		
-		
-		FramAspectTable tablenode = (FramAspectTable)table;
-		System.out.println(tablenode.getName());
-		
-		System.out.println(row);
-		
-		
-	}
-	
+    protected void addAspect(JTable table, int row, int column){
+    	
+    	System.out.println("addAspect");
+        JTextArea textArea = new JTextArea(10, 50);
+        Object value = table.getValueAt(row, column);
+       
+        if(value!=null){
+            textArea.setText((String)value);
+            textArea.setCaretPosition(0);
+        }
+        
+        FramAspectTable tablenode = (FramAspectTable)table;
+    	
+    	FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
+    	
+    	FramNode node = tablenode.getNode();
+    	ArrayList<Aspect> aspList = node.getAttributes(conn);
+    	aspList.add(new Aspect(""));
+    	
+    	node.setAttributes(conn, aspList);
+    }
+    
+    protected void removeAspect(JTable table, int row, int column){
+    	
+    	System.out.println("addAspect");
+        JTextArea textArea = new JTextArea(10, 50);
+        Object value = table.getValueAt(row, column);
+       
+        if(value!=null){
+            textArea.setText((String)value);
+            textArea.setCaretPosition(0);
+        }
+        
+        FramAspectTable tablenode = (FramAspectTable)table;
+    	
+    	FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
+    	
+    	FramNode node = tablenode.getNode();
+    	ArrayList<Aspect> aspList = node.getAttributes(conn);
+    	//aspList.add(new Aspect(""));
+    	if (aspList.size() > 1){
+    		aspList.remove(0);
+    	}
+    	
+    	node.setAttributes(conn, aspList);
+    }
 }
