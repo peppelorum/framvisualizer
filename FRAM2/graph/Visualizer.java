@@ -50,13 +50,15 @@ public class Visualizer extends JComponent {
 
 	private FramNodeList list;
 	private FramNode selectedNode;
+	private FramNode hoveredNode;
+	private ArrayList<FramNode> connectedToSelectedNode = new ArrayList<FramNode>();
 	private ConnectionInfo selectedLine;
 	private ArrayList<GraphNode> guiNodeList;
 	private ArrayList<GraphLine> guiLineList;
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
 
-	private Point offset = new Point(50, 50);
+	private Point offset = new Point(100, 100);
 	private Point originalOffset;
 	
 	private ArrayList<ActionListener> selectedChangedRecipients = new ArrayList<ActionListener>();
@@ -69,12 +71,10 @@ public class Visualizer extends JComponent {
 	private static final long serialVersionUID = -3214964902776275054L;
 
 	public Visualizer() {
-		setList(new FramNodeList("empty"));
-		
-		init();
+		this(new FramNodeList("empty"));
 	}
 	
-	public Visualizer(FramNodeList list) {
+	public Visualizer(FramNodeList list) {		
 		setList(list);
 		
 		init();
@@ -104,6 +104,20 @@ public class Visualizer extends JComponent {
 		}
 		
 		return cInfo;
+	}
+	
+	private void updateConnectedToSelectedList() {
+		connectedToSelectedNode.clear();
+		
+		FramNode selected = getSelectedNode();
+		if(selected != null) {
+
+			for(FramNode n : selected.getConnectedNodes()) {
+				connectedToSelectedNode.add(n);
+			}
+		}
+
+		repaint();
 	}
 	
 	public void selectNode(FramNode node) {
@@ -149,6 +163,23 @@ public class Visualizer extends JComponent {
 		return selectedLine;
 	}
 		
+	public FramNode getHoveredNode() {
+		return hoveredNode;
+	}
+	
+	public void setHoveredNode(FramNode val) {
+		boolean refresh = false;
+		if(val != hoveredNode) {
+			refresh = true;
+		}
+		
+		hoveredNode = val;
+		
+		if(refresh) {
+			repaint();
+		}
+	}
+	
 	private void init() {
 		this.addMouseMotionListener(new MouseMotionListener() {
 
@@ -197,8 +228,8 @@ public class Visualizer extends JComponent {
 			}
 
 			public void mouseMoved(MouseEvent arg0) {
-				
-				
+				FramNode n = getNodeAt(removeOffset(arg0.getPoint()));
+				setHoveredNode(n);
 			}
 			
 		});
@@ -228,13 +259,10 @@ public class Visualizer extends JComponent {
 				
 					if(cInfo != null){
 						selectConnection(cInfo);
-						selectedNode = null;
 					}else if(node != null){
 						selectNode(node);
-						selectedLine =null;
 					}else{
-						selectedLine =null;
-						selectedNode = null;
+						selectNode(node);
 					}
 				
 				repaint();
@@ -268,7 +296,7 @@ public class Visualizer extends JComponent {
 		guiNodeList = new ArrayList<GraphNode>();
 		guiLineList = new ArrayList<GraphLine>();
 		
-		int spacer = 100;
+		//int spacer = 100;
 		
 		Point p = new Point();
 		p.x = 0;
@@ -293,6 +321,7 @@ public class Visualizer extends JComponent {
 			guiLineList.add(new GraphLine(connection, this));
 		}
 		
+		updateConnectedToSelectedList();
 		repaint();
 	}
 
@@ -314,7 +343,11 @@ public class Visualizer extends JComponent {
 			}
 			
 			for(GraphNode guinode : guiNodeList) {
-				guinode.paintNameBubble(g);
+				if(guinode.isHovered() 
+						|| guinode.isSelected()
+						|| connectedToSelectedNode.contains(guinode.getNode())) {
+					guinode.paintNameBubble(g);
+				}
 			}
 		
 		}
@@ -357,6 +390,8 @@ public class Visualizer extends JComponent {
 	}
 	
 	public void triggerSelectedChanged() {
+		updateConnectedToSelectedList();
+		
 		ActionEvent event = new ActionEvent(this, 0, "");
 		
 		for(ActionListener listener : selectedChangedRecipients) {

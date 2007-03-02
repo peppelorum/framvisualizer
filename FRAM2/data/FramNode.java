@@ -25,6 +25,7 @@
 package data;
 
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,6 +45,7 @@ public class FramNode implements java.io.Serializable {
 
 	private FramNodeList list;
 	
+	private final int DEFAULT_SIZE = 50;
 	private String name;
 	private String comment;
 	private ArrayList<Aspect> input;
@@ -207,29 +209,43 @@ public class FramNode implements java.io.Serializable {
 		Point newPosition = (Point)value.clone();
 		
 		if(getList() != null) {
+			/*
+			 * Parameters for adjusting position:
+			 *
+			 * modifier: 	step to move, increases until free position is found
+			 * x:			determines if the x- or y-position is updated
+			 * sign:		determines positive or negative value (left/right, up/down)
+			 * spacer:		number of pixels to move in each step
+			 * diag:		determines if diagonal movement is taken
+			 * 
+			 * */
 			float modifier = 1;
 			boolean x = true;
 			int sign = 1;
-			int spacer = 20;
+			int spacer = 1;
 			boolean diag = true;
 			
-			while(!getList().isPositionFree(this, 
-				new Rectangle(newPosition.x, newPosition.y, getSize(), getSize()))) {
-				
+			// Adjust the position until node isn'nt placed on another node 
+			while(!getList().isPositionFree(this, new Rectangle(newPosition.x, newPosition.y, getSize(), getSize()))) {
+			
+				// Set value to move the node
 				int modValue = (int)(modifier * spacer * sign);
 				if(x) {
+					// set x-value
 					newPosition.x = value.x + modValue;
 					if(diag) {
 						newPosition.y = value.y;
 					}
 				}
 				else {
+					// set y-value
+					newPosition.y = value.y + modValue;
 					if(diag) {
 						newPosition.x = value.x;
 					}
-					newPosition.y = value.y + modValue;
 				}
 				
+				// update parameters
 				if(x) {
 					x = false;
 				}
@@ -252,26 +268,6 @@ public class FramNode implements java.io.Serializable {
 						}
 					}
 				}
-				
-//				if(!diag) {
-//					if(!x) {
-//						if(sign<0) {
-//							modifier+= 0.5f;
-//							sign = 1;
-//							diag = true;
-//						}
-//						else {
-//							sign = -1;
-//						}
-//						x = true;
-//					}
-//					else {
-//						x = false;
-//					}
-//				}
-//				else {
-//					diag = false;
-//				}
 			}
 		}
 		
@@ -280,9 +276,9 @@ public class FramNode implements java.io.Serializable {
 	}
 	
 	public int getSize() {
-		int connectionCount = this.getAllAspects().size();
+		//int connectionCount = this.getAllAspects().size();
 		
-		return size + 5 * connectionCount;
+		return size;
 	}
 	
 	public void setSize(int value) {
@@ -295,6 +291,50 @@ public class FramNode implements java.io.Serializable {
 				getPosition().y,
 				getSize(),
 				getSize());
+	}
+	
+	public static Polygon getPolygon(Rectangle rect) {
+		Polygon poly = new Polygon();
+		
+		poly.addPoint(rect.x + rect.width/4, rect.y);
+		poly.addPoint(rect.x + rect.width/4*3, rect.y);
+		poly.addPoint(rect.x + rect.width, rect.y + rect.height/2);
+		poly.addPoint(rect.x + rect.width/4*3, rect.y + rect.height);
+		poly.addPoint(rect.x + rect.width/4, rect.y + rect.height);
+		poly.addPoint(rect.x, rect.y + rect.height/2);	
+		
+		return poly;
+	}
+	
+	public Polygon getPolygon() {
+		return FramNode.getPolygon(getRectangle());
+	}
+	
+	public ArrayList<FramNode> getConnectedNodes() {
+		ArrayList<FramNode> connectedList = new ArrayList<FramNode>();
+		
+		FramNodeList list = getList();
+		if(list != null) {
+
+			for(ConnectionInfo coninfo : list.getConnections()) {
+				if(coninfo.getVisibility()) {
+					if(coninfo.getFrom().getNode() == this) {
+						if(coninfo.getTo().getNode() != this) {
+							connectedList.add(coninfo.getTo().getNode());
+						}
+					}
+					else if(coninfo.getTo().getNode() == this) {
+						if(coninfo.getFrom().getNode() != this) {
+							connectedList.add(coninfo.getFrom().getNode());
+						}
+					}
+				}
+			}
+		}
+		
+		setSize(DEFAULT_SIZE + 5 * connectedList.size());
+		
+		return connectedList;
 	}
 	
 	/**
