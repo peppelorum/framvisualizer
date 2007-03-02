@@ -94,23 +94,32 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		
 		System.out.println(curPos);
 		System.out.println(newPos);
-		//if (newPos > 0) {
-		
-		this.set(curPos, this.get(newPos));
-		this.set(newPos, node);
-		
-		FramNode tmp;
-		for(int i =0; i< this.size(); i++){
-			tmp = this.get(i);
-			this.remove(tmp);
-			this.add(tmp);
+		if (newPos > 0) {
+			
+			this.set(curPos, this.get(newPos));
+			this.set(newPos, node);
 		}
+	}
+	
+	public void moveDownNode (FramNode node){
+		int curPos = 0;
+		int newPos = 0;
 		
+		for(int i = 0; i < this.size(); i++){
+			if (this.get(i).getName().equalsIgnoreCase(node.getName())) {
+				curPos = i;
+				break;
+			}
+		}
+		newPos = curPos +1;
 		
-				
-		
-		
-		//}
+		System.out.println(curPos);
+		System.out.println(newPos);
+		if (newPos < this.size()) {
+			
+			this.set(curPos, this.get(newPos));
+			this.set(newPos, node);
+		}
 	}
 	
 	public boolean isPositionFree(FramNode sender, Rectangle rect) {		
@@ -143,6 +152,38 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 			o.setList(this);
 			o.setPosition(new Point(0, 0));
 		}
+		
+		this.listChanged("NodeAdded");
+		
+		o.addNodeChangedListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				if(contains(e.getSource())) {
+					listChanged("NodeChanged");
+				}
+			}
+						
+		});
+		
+		return result;
+	}
+	
+	
+	/**
+	 * A function that overrides arraylists own set function, not used for the moment
+	 * @param pos
+	 * @param o
+	 * @return
+	 */
+	public FramNode set(int pos, FramNode o) {
+				
+		FramNode result = super.set(pos, o);
+		//if(result.getList()) {
+			o.setList(this);
+			o.setPosition(new Point(0, 0));
+		//}
 		
 		this.listChanged("NodeAdded");
 		
