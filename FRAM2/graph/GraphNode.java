@@ -139,8 +139,38 @@ public class GraphNode extends JComponent {
 		//g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 5, 5);
 	
 	}
+	/**
+	 * Draw the name inside the node
+	 * @param g
+	 */
+	public void paintName(Graphics g){
+		int fontSize = 10;
+		g.setFont(new Font("Arial", 1, fontSize));
+		g.setColor(Color.BLACK);
+		String name = node.getName();
+		
+		//crop the name if its too long
+		while(name.length()>1 && g.getFontMetrics().stringWidth(name)> node.getSize()-5){
+			name = name.substring(0,name.length()-1);	
+		
+		}
+		if(name.length() != node.getName().length()){
+			name = name.substring(0,name.length()-1);	
+			name = name + "...";	
+		}
+		
+		g.drawString(
+				name, 
+				node.getPosition().x,
+				node.getPosition().y+node.getSize()/2);
+		
+		
+	}
 	
-	
+	/**
+	 * Draws the bubble with the node name
+	 * @param g
+	 */
 	public void paintNameBubble(Graphics g) {
 		
 		int bubbleHeight = 20;
