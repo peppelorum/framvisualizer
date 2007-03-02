@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -101,7 +101,7 @@ public class FramNodeEditor extends JPanel {
 		this.node = node;
 		tableNode = new FramAspectTable(node, editorList.getList(), this);
 
-		JButton buttonMove = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.gif")));
+		JButton buttonMove = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.GIF")));
 		tableNode.addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent arg0) {
@@ -119,7 +119,7 @@ public class FramNodeEditor extends JPanel {
 
 		buttonsTop.add(buttonMove);
 
-		JButton addNewNodeBefore = new JButton(new ImageIcon(getClass().getResource("/icons/plus.gif")));
+		JButton addNewNodeBefore = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
 		//addNewNodeBefore.setText("Add new before");
 		addNewNodeBefore.addActionListener(new ActionListener() {
 
@@ -130,7 +130,7 @@ public class FramNodeEditor extends JPanel {
 
 		});
 
-		JButton addNewNodeAfter = new JButton(new ImageIcon(getClass().getResource("/icons/plus.gif")));
+		JButton addNewNodeAfter = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
 		//addNewNodeAfter.setText("Add new after");
 		addNewNodeAfter.addActionListener(new ActionListener() {
 

@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ import data.FramNode;
 import data.FramNodeList;
 
 public class ButtonInAspectTableHeader implements ActionListener, TableCellEditor{
-	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.gif")); 
+	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.GIF")); 
 	private TableCellEditor editor; 
 	private JButton customEditorButton = new JButton(PLUS_ICON);
 	private JButton moveUp = new JButton(PLUS_ICON);
