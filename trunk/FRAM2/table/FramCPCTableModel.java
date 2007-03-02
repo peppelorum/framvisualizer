@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -40,9 +40,7 @@ public class FramCPCTableModel extends DefaultTableModel {
 	
 		this.cpc = cpc;
 		
-		String title = "CPC attributes for '" + 
-		cpc.getParent().getName() + 
-			"' on node '" + cpc.getParent().getName() + "'";
+		String title = "CPC attributes for node '" + cpc.getParent().getName() + "'";
 		
 		String[] colNames = {title, "Value", "Comment", "I", "O", "P", "R", "T", "C"};
 		this.setColumnIdentifiers(colNames);
