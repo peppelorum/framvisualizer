@@ -447,10 +447,14 @@ public class FramNode implements java.io.Serializable {
 				emptyEntries.add(a);
 			}
 		}
+		
+		/**
+		 * This removes the newly added aspect, that is empty.... So don't use, please..
+		 */
 		// Remove empty entries
-		for(Aspect a : emptyEntries) {
-			aspects.remove(a);
-		}
+//		for(Aspect a : emptyEntries) {
+//			aspects.remove(a);
+//		}
 				
 		if(type == NodePort.Input) {
 			
