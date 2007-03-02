@@ -58,6 +58,7 @@ public class FramNode implements java.io.Serializable {
 	private ArrayList<Aspect> control;
 	private ArrayList<Aspect> preconditions;
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
+	private CPC cpc;
 	
 	private Point position = new Point(0, 0);
 	
@@ -90,6 +91,7 @@ public class FramNode implements java.io.Serializable {
 				
 		setComment("");
 		setName("");
+		cpc = new CPC(this);
 	}
 	public FramNode(String name){
 		init();
@@ -103,6 +105,7 @@ public class FramNode implements java.io.Serializable {
 				
 		setComment("");
 		setName(name);
+		cpc = new CPC(this);
 	}
 	
 	public void init() {
@@ -111,6 +114,10 @@ public class FramNode implements java.io.Serializable {
 	
 	public FramNodeList getList() {
 		return list;
+	}
+	
+	public CPC getCPC() {
+		return cpc;
 	}
 	
 	public void setList(FramNodeList value) {

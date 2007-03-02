@@ -38,19 +38,16 @@ public class Aspect implements java.io.Serializable {
 	private static final long serialVersionUID = 8030263320025000436L;
 	private String value;
 	private String comment;
-	private CPC cpc;
 	private FramNode parent;
 	
 	public Aspect(String value){
 		this.value = value;
 		this.comment = "";
-		cpc = new CPC(this);
 	}
 	
 	public Aspect(String value, String comment){
 		this.value = value;
 		this.comment = comment;
-		cpc = new CPC(this);
 	}
 	
 	public void setComment(String comment) {
@@ -64,9 +61,6 @@ public class Aspect implements java.io.Serializable {
 	}
 	public String getValue() {
 		return value;
-	}
-	public CPC getCPC() {
-		return cpc;
 	}
 	
 	public boolean equals(Aspect aspect) {
