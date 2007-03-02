@@ -113,7 +113,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		//}
 	}
 	
-	public boolean isPositionFree(FramNode sender, Rectangle rect) {
+	public boolean isPositionFree(FramNode sender, Rectangle rect) {		
 		for(FramNode n : this) {
 			if(n != sender && n.getRectangle().intersects(rect)) {
 				return false;

@@ -54,6 +54,10 @@ public class GraphNode extends JComponent {
 		return parent.getSelectedNode() == node;
 	}
 	
+	public boolean isHovered() {
+		return parent.getHoveredNode() == node;
+	}
+	
 	public FramNode getNode() {
 		return node;
 	}
@@ -66,17 +70,7 @@ public class GraphNode extends JComponent {
 	}
 
 	public Polygon getPolygon() {
-		Rectangle rect = node.getRectangle();
-		Polygon poly = new Polygon();
-		
-		poly.addPoint(rect.x + rect.width/4, rect.y);
-		poly.addPoint(rect.x + rect.width/4*3, rect.y);
-		poly.addPoint(rect.x + rect.width, rect.y + rect.height/2);
-		poly.addPoint(rect.x + rect.width/4*3, rect.y + rect.height);
-		poly.addPoint(rect.x + rect.width/4, rect.y + rect.height);
-		poly.addPoint(rect.x, rect.y + rect.height/2);	
-		
-		return poly;
+		return node.getPolygon();
 	}
 	
 	public Point getPort(FramNode.NodePort connPoint) {
