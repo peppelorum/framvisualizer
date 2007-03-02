@@ -1,14 +1,18 @@
 package table;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EventObject;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
@@ -19,7 +23,7 @@ import data.FramNode;
 import data.FramNodeList;
 
 
-public class ButtonRenderer extends JPanel implements TableCellRenderer, TableCellEditor{
+public class ButtonRenderer extends Component implements TableCellRenderer{
 
 	/**
 	 * 
@@ -35,34 +39,7 @@ public class ButtonRenderer extends JPanel implements TableCellRenderer, TableCe
 	private FramNode node;
 
 	public void ButtonRender(){
-		// ui-tweaking 
-		customEditorButton.setFocusable(false); 
-		customEditorButton.setFocusPainted(false); 
-		customEditorButton.setMargin(new Insets(0, 0, 0, 0));
-		customEditorButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("NEW NODE! NEW NODE READY!");
-				list.add(new FramNode());
-			}
-		});
-		customEditorButton.setSize(10, 10);
 
-		moveUp.setFocusable(false); 
-		moveUp.setFocusPainted(false); 
-		moveUp.setMargin(new Insets(0, 0, 0, 0)); 
-		moveUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Move on up! And keep on wishing!");
-				list.moveUpNode(node);
-			}
-		});
-		moveUp.setSize(10, 10);
-
-
-		moveDown.setFocusable(false); 
-		moveDown.setFocusPainted(false); 
-		moveDown.setMargin(new Insets(0, 0, 0, 0)); 
-		moveDown.setSize(10, 10);
 	}
 
 	// Maybe it works ... it seems
@@ -72,31 +49,26 @@ public class ButtonRenderer extends JPanel implements TableCellRenderer, TableCe
 		return focused;
 	}
 
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column)
-	{		
-		this.removeAll();
+	public Component getTableCellRendererComponent(JTable table, Object value, 
+			boolean selected, boolean focused, int row, int column) {	
+		
+		if (row == 0){
+			return new JPanel();
+		}
 
-		this.setLayout(new FlowLayout()); 
+		JPanel panel = new JPanel(); 
+		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS)); 
+		
+		JLabel a = new JLabel(new ImageIcon(getClass().getResource("/icons/plus.gif")));
+		a.setVisible(true);
+		panel.add(a);
+		
+		a = new JLabel(new ImageIcon(getClass().getResource("/icons/minus.gif")));
+		a.setVisible(true);
+		panel.add(a);
 
-		this.add(customEditorButton);
-		this.add(moveUp);
-		this.add(moveDown);
-		this.add(new JButton("hej"));
-
-		return this; 
-	}
-
-	public Component getTableCellEditorComponent(JTable arg0, Object arg1, boolean arg2, int arg3, int arg4) {
-		this.removeAll();
-
-		this.setLayout(new FlowLayout()); 
-
-		this.add(customEditorButton);
-		this.add(moveUp);
-		this.add(moveDown);
-		this.add(new JButton("hej"));
-
-		return this; 
+ 
+		return panel; 
 	}
 
 	public void addCellEditorListener(CellEditorListener arg0) {
