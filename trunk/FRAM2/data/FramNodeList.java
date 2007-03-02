@@ -24,6 +24,7 @@
 
 package data;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -447,13 +448,16 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 			if(filterOutputOutput){	
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Output &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Output){
-					connections.get(i).setVisibility(false);
+					
+					connections.get(i).setLineColor(Color.RED);
+//					connections.get(i).setVisibility(false);
 				}
 			}
 			if(filterInputInput){
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Input &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Input){
-					connections.get(i).setVisibility(false);
+					connections.get(i).setLineColor(Color.RED);
+//					connections.get(i).setVisibility(false);
 				}				
 			}
 			if(filterNonePreCOutput){
@@ -461,7 +465,8 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 					connections.get(i).getTo().getConnectionPort() == NodePort.Preconditions) &&
 						!(connections.get(i).getTo().getConnectionPort() == NodePort.Output ||
 						connections.get(i).getFrom().getConnectionPort() == NodePort.Output	)){
-					connections.get(i).setVisibility(false);
+					connections.get(i).setLineColor(Color.RED);
+//					connections.get(i).setVisibility(false);
 				}				
 			}			
 			
