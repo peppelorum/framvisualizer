@@ -30,13 +30,6 @@ public class ButtonRenderer extends Component implements TableCellRenderer{
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean focused;
-	public ImageIcon PLUS_ICON; 
-	private JButton customEditorButton = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
-	private JButton moveUp = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.GIF")));
-	private JButton moveDown = new JButton(new ImageIcon(getClass().getResource("/icons/broad.GIF")));
-
-	private FramNodeList list;
-	private FramNode node;
 
 	public void ButtonRender(){
 
@@ -70,42 +63,4 @@ public class ButtonRenderer extends Component implements TableCellRenderer{
  
 		return panel; 
 	}
-
-	public void addCellEditorListener(CellEditorListener arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void cancelCellEditing() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public Object getCellEditorValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean isCellEditable(EventObject arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void removeCellEditorListener(CellEditorListener arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean shouldSelectCell(EventObject arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean stopCellEditing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-
 } 
