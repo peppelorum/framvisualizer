@@ -47,6 +47,7 @@ public class FramNode implements java.io.Serializable {
 	
 	private final int DEFAULT_SIZE = 80;
 	private int size = DEFAULT_SIZE;
+	private int bubbleWidth = 100;
 	
 	private String name;
 	private String comment;
@@ -526,5 +527,12 @@ public class FramNode implements java.io.Serializable {
 		}
 		
 		return true;
+	}
+	
+	public int getBubbleWidth() {
+		return bubbleWidth;
+	}
+	public void setBubbleWidth(int bubbleWidth) {
+		this.bubbleWidth = bubbleWidth;
 	}
 }
