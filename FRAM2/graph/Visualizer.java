@@ -406,4 +406,8 @@ public class Visualizer extends JComponent {
 		
 		repaint();
 	}
+	
+	public ArrayList<GraphLine> getGuiLineList() {
+		return guiLineList;
+	}
 }
