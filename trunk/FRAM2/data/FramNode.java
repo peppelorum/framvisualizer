@@ -45,7 +45,9 @@ public class FramNode implements java.io.Serializable {
 
 	private FramNodeList list;
 	
-	private final int DEFAULT_SIZE = 50;
+	private final int DEFAULT_SIZE = 80;
+	private int size = DEFAULT_SIZE;
+	
 	private String name;
 	private String comment;
 	private ArrayList<Aspect> input;
@@ -57,7 +59,7 @@ public class FramNode implements java.io.Serializable {
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	
 	private Point position = new Point(0, 0);
-	private int size = 50;
+	
 	
 	public static String[] stepTwoDefaultValues = new String[] {
 		"",
