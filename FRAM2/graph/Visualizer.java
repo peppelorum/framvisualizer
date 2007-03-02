@@ -259,10 +259,14 @@ public class Visualizer extends JComponent {
 				
 					if(cInfo != null){
 						selectConnection(cInfo);
+						selectedNode = null;
 					}else if(node != null){
 						selectNode(node);
+						selectedLine = null;
 					}else{
-						selectNode(node);
+						//selectNode(node);
+						selectedNode = null;
+						selectedLine = null;
 					}
 				
 				repaint();
@@ -343,11 +347,13 @@ public class Visualizer extends JComponent {
 			}
 			
 			for(GraphNode guinode : guiNodeList) {
+				guinode.paintName(g);
 				if(guinode.isHovered() 
 						|| guinode.isSelected()
 						|| connectedToSelectedNode.contains(guinode.getNode())) {
 					guinode.paintNameBubble(g);
 				}
+				
 			}
 		
 		}
