@@ -31,9 +31,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
-
 import javax.swing.JComponent;
-
 import data.ConnectionInfo;
 
 /**
@@ -48,11 +46,13 @@ public class GraphLine extends JComponent {
 
 	private static boolean showBubbles = true;
 	
-	public static void setShowBubbles(boolean value) {
+	public void setShowBubbles(boolean value) {
+		
 		showBubbles = value;
+		connection.setBubbleWidth(0);
 	}
 	
-	public static boolean isShowBubbles() {
+	public boolean isShowBubbles() {
 		return showBubbles;
 	}
 	
@@ -116,7 +116,8 @@ public class GraphLine extends JComponent {
 			return;
 		}
 		
-		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.1F));
+//		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.1F));
+		g.setColor(connection.getLineColor());
 		if(isSelected()) {
 			g.setColor(Color.BLUE);				
 		}
