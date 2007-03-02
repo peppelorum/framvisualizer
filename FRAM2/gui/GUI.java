@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -76,47 +76,18 @@ public class GUI extends JFrame implements ActionListener{
 
 			public void actionPerformed(ActionEvent e) {
 				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();
-								
-//				if(e.getActionCommand() == "Selected aspect changed") {
-//					Aspect a = nodeList.getSelectedAspect();
-//					if(a != null) {
-						framCPCTable.setCPC(nodeList.getSelectedNode().getCPC());
-						//framVisualizer.selectNode(a.getParent());
-//					}
-//					else {
-//						framCPCTable.setCPC(null);
-//					}
-//				}
-				
+				framCPCTable.setCPC(nodeList.getSelectedNode().getCPC());
 				framVisualizer.selectNode(nodeList.getSelectedNode());
 			}
-			
 		});
-		
+
 		framVisualizer.addSelectedChangedListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				Visualizer visualizer = (Visualizer)e.getSource();
-				
-				ConnectionInfo line = visualizer.getSelectedLine();
-				if(line != null) {
-					FramNode n = line.getFrom().getNode();
-					Aspect a = n.getAspect(line.getFrom().getConnectionPort().toString(), line.getAspect());
-//					if(a != null) {
-						framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
-//					}
-//					else {
-//						framCPCTable.setCPC(null);
-//					}
-				}
-				else {
-					framCPCTable.setCPC(null);
-				}
-				
+				framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
 				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
-				
 			}
-			
 		});
 		
 		this.setSize(900, 600);
@@ -236,12 +207,12 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(GraphLine line : framVisualizer.getGuiLineList()){
-					if(line.getConnection().isShowBubbles()){
-						line.getConnection().setShowBubbles(false);
-					}
-					else{
-							line.getConnection().setShowBubbles(true);
-						}
+//					if(line.getConnection().isShowBubbles()){
+//						line.getConnection().setShowBubbles(false);
+//					}
+//					else{
+//							line.getConnection().setShowBubbles(true);
+//						}
 				}
 				repaint();
 			}
@@ -257,7 +228,7 @@ public class GUI extends JFrame implements ActionListener{
 				
 				ConnectionInfo cInfo = framVisualizer.getSelectedLine();
 				
-				cInfo.setShowBubbles(false); 
+//				cInfo.setShowBubbles(false); 
 				
 				repaint();
 			}
@@ -307,13 +278,13 @@ public class GUI extends JFrame implements ActionListener{
     		aboutFrame.add(panel);
     		JLabel text = new JLabel("<html><h3>FRAM Visualizer</h3>" +
     				"<p>FRAM Visualizer is an open-source tool to help model <br>system with FRAM (Functional Resonance Accident Model). </p>" +
-    				"<p><br>First developed at Linköping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladén<br></p>" +
+    				"<p><br>First developed at Linkï¿½ping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladï¿½n<br></p>" +
     				"<p><br>FRAM Visualizer is licensed under GNU General Public License (GPL)</p>"+
     				"<p>https://sourceforge.net/projects/framvisualizer/</p>" +
     				"<p><br>Copyright (C) 2007  Peppe Bergqvist peppe@peppesbodega.nu, <br>" +
     				"Fredrik Gustafsson fregu808@student.liu.se,<br>" +
     				"Jonas Haraldsson haraldsson@gmail.com, <br> " +
-    				"Gustav Ladén gusla438@student.liu.se</p></html>");
+    				"Gustav Ladï¿½n gusla438@student.liu.se</p></html>");
 
     		panel.add(text);
     		aboutFrame.setSize(150, 200);
