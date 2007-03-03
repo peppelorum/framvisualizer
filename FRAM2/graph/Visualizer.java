@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -97,7 +97,7 @@ public class Visualizer extends JComponent {
 		ConnectionInfo cInfo = null;
 		
 		for(ConnectionInfo c : list.getConnections()){
-			if(c.getRectangle().contains(position)){
+			if(c.getGraphLine().getRectangle().contains(position)){
 				cInfo = c;
 				break;
 			}
@@ -149,7 +149,7 @@ public class Visualizer extends JComponent {
 		else {
 			selectedNode = null;
 			selectedLine = cInfo;
-			connectionOriginalPoint = (Point)cInfo.getPosition().clone();
+			connectionOriginalPoint = (Point)cInfo.getGraphLine().getPosition().clone();
 		}
 		
 		triggerSelectedChanged();
@@ -204,10 +204,10 @@ public class Visualizer extends JComponent {
 				//move connection label
 				}else if(cInfo != null){
 					
-					cInfo.setPosition(new Point(
+					cInfo.getGraphLine().setPosition(new Point(
 							connectionOriginalPoint.x + xDiff,
 							connectionOriginalPoint.y + yDiff));
-					cInfo.setMoved(true);
+					cInfo.getGraphLine().setMoved(true);
 					repaint();
 				}
 				//panning
@@ -322,7 +322,10 @@ public class Visualizer extends JComponent {
 		}
 		
 		for(ConnectionInfo connection : list.searchConnections()) {
-			guiLineList.add(new GraphLine(connection, this));
+			GraphLine graphLine;
+			graphLine = new GraphLine(connection, this);
+			connection.setGraphLine(graphLine);
+			guiLineList.add(graphLine);
 		}
 		
 		updateConnectedToSelectedList();

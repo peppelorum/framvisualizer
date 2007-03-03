@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -24,9 +24,7 @@
 
 package data;
 
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.Rectangle;
+import graph.GraphLine;
 
 /**
  * 
@@ -42,14 +40,9 @@ public class ConnectionInfo implements java.io.Serializable {
 	private RelationInfo from;
 	private RelationInfo to;
 	private String aspect = "";
-	private boolean visibility = true;
 	
-	private Point position = new Point(0, 0);
-	private boolean moved = false;
-	private int bubbleHeight = 10;
-	private int bubbleWidth = 40;
-	private Color lineColor = Color.black;
-	
+	GraphLine graphLine;
+		
 	public ConnectionInfo(RelationInfo from, RelationInfo to){
 		this.from = from;
 		this.to = to;
@@ -70,15 +63,19 @@ public class ConnectionInfo implements java.io.Serializable {
 	public String getAspect(){
 		return aspect;
 	}
-	public boolean getVisibility(){
-		return visibility;
-	}
+
 	public void setAspect(String aspect){
 		this.aspect = aspect;		
 	}
-	public void setVisibility(boolean visibility){
-		this.visibility = visibility;
+	
+	public void setGraphLine(GraphLine line) {
+		this.graphLine = line;
 	}
+	
+	public GraphLine getGraphLine() {
+		return graphLine;
+	}
+
 
 	public boolean equals(Object otherObj){
 		ConnectionInfo object2 =(ConnectionInfo)otherObj;
@@ -88,45 +85,5 @@ public class ConnectionInfo implements java.io.Serializable {
 	}
 	
 	
-	//Graphics
-	public Point getPosition() {
-		return position;
-	}
-	
-	public void setPosition(Point value) {
-		position.x = value.x;
-		position.y = value.y;
-	}
-	
-	public int getBubbleHeight() {
-		return bubbleHeight;
-	}
-	public int getBubbleWidth() {
-		return bubbleWidth;
-	}
-	public void setBubbleWidth(int bubbleWidth) {
-		this.bubbleWidth = bubbleWidth;
-	}
-	
-	public Rectangle getRectangle() {
-		return new Rectangle(
-				getPosition().x- bubbleWidth/2,
-				getPosition().y- bubbleHeight/2,
-				getBubbleWidth(),
-				getBubbleHeight());
-	}
-	public void setMoved(boolean moved) {
-		this.moved = moved;
-	}
-	public boolean isMoved() {
-		return moved;
-	}
-	
-	public void setLineColor(Color lineColor) {
-		this.lineColor = lineColor;
-	}
-	public Color getLineColor() {
-		return lineColor;
-	}
-	
+
 }
