@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -327,7 +327,7 @@ public class FramNode implements java.io.Serializable {
 		if(list != null) {
 
 			for(ConnectionInfo coninfo : list.getConnections()) {
-				if(coninfo.getVisibility()) {
+				if(coninfo.getGraphLine().getVisibility()) {
 					if(coninfo.getFrom().getNode() == this) {
 						if(coninfo.getTo().getNode() != this) {
 							connectedList.add(coninfo.getTo().getNode());

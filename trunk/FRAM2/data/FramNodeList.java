@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -449,14 +449,14 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Output &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Output){
 					
-					connections.get(i).setLineColor(Color.RED);
+					connections.get(i).getGraphLine().setLineColor(Color.RED);
 //					connections.get(i).setVisibility(false);
 				}
 			}
 			if(filterInputInput){
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Input &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Input){
-					connections.get(i).setLineColor(Color.RED);
+					connections.get(i).getGraphLine().setLineColor(Color.RED);
 //					connections.get(i).setVisibility(false);
 				}				
 			}
@@ -465,7 +465,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 					connections.get(i).getTo().getConnectionPort() == NodePort.Preconditions) &&
 						!(connections.get(i).getTo().getConnectionPort() == NodePort.Output ||
 						connections.get(i).getFrom().getConnectionPort() == NodePort.Output	)){
-					connections.get(i).setLineColor(Color.RED);
+					connections.get(i).getGraphLine().setLineColor(Color.RED);
 //					connections.get(i).setVisibility(false);
 				}				
 			}			

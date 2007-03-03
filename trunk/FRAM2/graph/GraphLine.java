@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -43,13 +43,71 @@ public class GraphLine extends JComponent {
 	private static final long serialVersionUID = 4452948217399228756L;
 	private ConnectionInfo connection;
 	private Visualizer parent;
+	
+	private Point position = new Point(0, 0);
+	private boolean moved = false;
+	private int bubbleHeight = 10;
+	private int bubbleWidth = 40;
+	private Color lineColor = Color.black;
+	private boolean visibility = true;
 
 	private static boolean showBubbles = true;
+	
+	
+	public boolean getVisibility(){
+		return visibility;
+	}
+	
+	public void setVisibility(boolean visibility){
+		this.visibility = visibility;
+	}
+	
+	//Graphics
+	public Point getPosition() {
+		return position;
+	}
+	
+	public void setPosition(Point value) {
+		position.x = value.x;
+		position.y = value.y;
+	}
+	
+	public int getBubbleHeight() {
+		return bubbleHeight;
+	}
+	public int getBubbleWidth() {
+		return bubbleWidth;
+	}
+	public void setBubbleWidth(int bubbleWidth) {
+		this.bubbleWidth = bubbleWidth;
+	}
+	
+	public Rectangle getRectangle() {
+		return new Rectangle(
+				getPosition().x- bubbleWidth/2,
+				getPosition().y- bubbleHeight/2,
+				getBubbleWidth(),
+				getBubbleHeight());
+	}
+	public void setMoved(boolean moved) {
+		this.moved = moved;
+	}
+	public boolean isMoved() {
+		return moved;
+	}
+	
+	public void setLineColor(Color lineColor) {
+		this.lineColor = lineColor;
+	}
+	public Color getLineColor() {
+		return lineColor;
+	}
+	
 	
 	public void setShowBubbles(boolean value) {
 		
 		showBubbles = value;
-		connection.setBubbleWidth(0);
+		setBubbleWidth(0);
 	}
 	
 	public boolean isShowBubbles() {
@@ -71,8 +129,8 @@ public class GraphLine extends JComponent {
 
 	public Point getCenter() {		
 		//connection.setMoved(false);
-		if(connection.isMoved()){
-			return connection.getPosition();
+		if(isMoved()){
+			return getPosition();
 
 		}else{
 			GeneralPath line = getLine();
@@ -80,7 +138,7 @@ public class GraphLine extends JComponent {
 			Point middle = new Point(
 					(int)line.getBounds().getCenterX(), 
 					(int)line.getBounds().getCenterY());
-			connection.setPosition(middle);
+			setPosition(middle);
 			return middle;
 		}
 	}
@@ -91,7 +149,7 @@ public class GraphLine extends JComponent {
 		
 		Point pointFrom = nodeFrom.getPort(connection.getFrom().getConnectionPort());
 		Point pointTo = nodeTo.getPort(connection.getTo().getConnectionPort());	
-		Point middle = connection.getPosition();
+		Point middle = getPosition();
 		
 		
 		//polyline
@@ -112,12 +170,12 @@ public class GraphLine extends JComponent {
 	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		if(!connection.getVisibility()) {
+		if(!getVisibility()) {
 			return;
 		}
 		
 //		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.1F));
-		g.setColor(connection.getLineColor());
+		g.setColor(getLineColor());
 		if(isSelected()) {
 			g.setColor(Color.BLUE);				
 		}
@@ -130,22 +188,22 @@ public class GraphLine extends JComponent {
 	
 	
 	public void paintNameBubble(Graphics g) {
-		if(!connection.getVisibility() || !showBubbles) {
+		if(!getVisibility() || !showBubbles) {
 			return;
 		}
 		// calculate length of name
 		g.setFont(new Font("Arial", 1, 9));
-		connection.setBubbleWidth(8 + g.getFontMetrics().stringWidth(connection.getAspect()));
+		setBubbleWidth(8 + g.getFontMetrics().stringWidth(connection.getAspect()));
 
 		
-		int bubbleHeight = connection.getBubbleHeight();
-		int bubbleWidth = connection.getBubbleWidth();
+		int bubbleHeight = getBubbleHeight();
+		int bubbleWidth = getBubbleWidth();
 		int bubbleRounded = 5;
 		
 		// define coordinates for bubble
 		Rectangle bubbleRect = new Rectangle(
-				(int)connection.getPosition().getX() - bubbleWidth/2,
-				(int)connection.getPosition().getY()- bubbleHeight/2,
+				(int)getPosition().getX() - bubbleWidth/2,
+				(int)getPosition().getY()- bubbleHeight/2,
 				bubbleWidth,
 				bubbleHeight);
 		
