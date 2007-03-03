@@ -34,19 +34,32 @@ public class CPCAttribute implements Serializable {
 	private String type;
 	private String value;
 	private String comment;
-	private ArrayList<Boolean> cpcForAspects;
+	private Boolean[] cpcForAspects;
 
-	public CPCAttribute(String type, String value, String comment, ArrayList<Boolean> list) {
+	public CPCAttribute(String type, String value, String comment, Boolean[] list) {
 		setType(type);
 		setValue(value);
 		setComment(comment);
-		cpcForAspects =  new ArrayList<Boolean>(6);
-		cpcForAspects.add(false);
-		cpcForAspects.add(false);
-		cpcForAspects.add(false);
-		cpcForAspects.add(false);
-		cpcForAspects.add(false);
-		cpcForAspects.add(false);
+		if (list.length > 0) {
+			cpcForAspects = list;
+		} else {
+			cpcForAspects[0] = false;
+			cpcForAspects[1] = false;
+			cpcForAspects[2] = false;
+			cpcForAspects[3] = false;
+			cpcForAspects[4] = false;
+			cpcForAspects[5] = false;
+		}
+		
+		
+//		cpcForAspects =  new ArrayList(6);
+//		cpcForAspects.add(0);
+//		cpcForAspects.add(0);
+//		cpcForAspects.add(0);
+//		cpcForAspects.add(0);
+//		cpcForAspects.add(0);
+//		cpcForAspects.add(0);
+//		setCpcForAspects(list);
 	}
 
 	public String getType() {
@@ -61,11 +74,15 @@ public class CPCAttribute implements Serializable {
 		return comment;
 	}
 	
-	public void setCpcForAspects(ArrayList<Boolean> list){
+	public void setCpcForAspects(Boolean[] list){
 		cpcForAspects = list;
+		
+		for(int i = 0; i<cpcForAspects.length; i++){
+//			System.out.println("CPCforAspect for "+ i +" "+ cpcForAspects[i]);
+		}
 	}
 	
-	public ArrayList<Boolean> getCpcForAspects(){
+	public Boolean[] getCpcForAspects(){
 		return cpcForAspects;
 	}
 

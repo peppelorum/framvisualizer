@@ -14,7 +14,7 @@ public class CheckboxRenderer extends Component implements TableCellRenderer{
 	private boolean selected;
 
 	public CheckboxRenderer(boolean sel){
-		selected = sel;
+		this.selected = sel;
 	}
 
 	// Maybe it works ... it seems
@@ -25,12 +25,12 @@ public class CheckboxRenderer extends Component implements TableCellRenderer{
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object value, 
-			boolean selected, boolean focused, int row, int col) {	
+			boolean selecteda, boolean focused, int row, int col) {	
 
 		
-		System.out.println(row);
-		System.out.println(col);
-		System.out.println(table.getModel().getColumnName(col));
+//		System.out.println(row);
+//		System.out.println(col);
+//		System.out.println(table.getModel().getColumnName(col));
 		JCheckBox panel = new JCheckBox();
 //		if (table.getModel().getColumnName(col).equals("I") ) {
 //			if (table.getModel().getValueAt(row, col)) {
