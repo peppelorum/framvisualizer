@@ -5,21 +5,21 @@
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
 	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Lad�n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-  
+
  **/
 
 package table;
@@ -37,19 +37,19 @@ public class FramCPCTable extends JTable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7411835284939157285L;
-	
+
 	private CPC cpc;
-	
+
 	public FramCPCTable(){
 	}
-	
+
 	public FramCPCTable(CPC cpc){
 		setCPC(cpc);	
 	}
 
 	public void setCPC(CPC value) {
 		this.cpc = value;
-		
+
 		if(cpc == null) {
 			if(this.getColumnModel().getColumnCount() > 0) {
 				this.getColumnModel().getColumn(0).setHeaderValue("");
@@ -60,31 +60,29 @@ public class FramCPCTable extends JTable {
 			this.setVisible(true);
 			setModel(new FramCPCTableModel(cpc));
 		}
-		
 		updateTable();
 	}
-	
-	private void updateTable() {
-       
-        TableColumn col;
-        
-        for(int i = 3;i<this.getColumnCount();i++){
-            col = this.getColumnModel().getColumn(i);
-            int width = 20;
-            col.setMinWidth(width);
-            col.setMaxWidth(width);
-            col.setPreferredWidth(width);
-        }
 
+	private void updateTable() {
+
+		TableColumn col;
+
+		for(int i = 3;i<this.getColumnCount();i++){
+			col = this.getColumnModel().getColumn(i);
+			int width = 20;
+			col.setMinWidth(width);
+			col.setMaxWidth(width);
+			col.setPreferredWidth(width);
+		}
 	}
-	
+
 	/**
 	 * Overrides the default celleditor, makes it possible to set editor for individual cells
 	 */
 	public TableCellEditor getCellEditor(int row, int col)
 	{
 		if(col > 2) {
-			return new CheckboxEditor();
+			return new CheckboxEditor(this, row, col);
 		}
 		if(col != 1) {
 			TableCellEditor editor = super.getCellEditor(row,col);
@@ -96,18 +94,38 @@ public class FramCPCTable extends JTable {
 			return new ComboBoxCellEditor(combo);
 		}
 	}
-	
+
 	/**
 	 * Overrides the default cellrenderer, makes it possible to set renderer for individual cells
 	 */
 	public TableCellRenderer getCellRenderer(int row, int col) {
 
 		if (col > 2){
-			if ((Boolean)this.getModel().getValueAt(row, col)) {		/** FIXME !!! **/
-				return new CheckboxRenderer(true);
-			} else {
-				return new CheckboxRenderer(false);
+
+			System.out.println(col);
+//			System.out.println(this.getModel().getValueAt(row, col));
+
+			Object b;
+			Boolean c;
+
+			b = getValueAt(row, col);
+
+			if(b instanceof Boolean) {
+				c = (Boolean)b;
+//				System.out.println("InsertNewValue"+ c.booleanValue());
+
+				if (c.booleanValue()) {		/** FIXME !!! **/
+					return new CheckboxRenderer(true);
+				} else {
+					return new CheckboxRenderer(false);
+				}
+
 			}
+
+			return new CheckboxRenderer(false);
+
+
+
 		}else {
 			return super.getCellRenderer(row,col);
 		}
