@@ -33,6 +33,7 @@ import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import javax.swing.JComponent;
 import data.ConnectionInfo;
+import data.FramNode;
 
 /**
  * Graphline defines how the lines between nodes are drawn and how the label in the middle looks
@@ -143,11 +144,11 @@ public class GraphLine extends JComponent {
 	}
 
 	public GeneralPath getLine() {
-		GraphNode nodeFrom = parent.getGuiNode(connection.getFrom().getNode());
-		GraphNode nodeTo = parent.getGuiNode(connection.getTo().getNode());
+		FramNode nodeFrom = connection.getFrom().getNode();
+		FramNode nodeTo = connection.getTo().getNode();
 		
-		Point pointFrom = nodeFrom.getPort(connection.getFrom().getConnectionPort());
-		Point pointTo = nodeTo.getPort(connection.getTo().getConnectionPort());	
+		Point pointFrom = nodeFrom.getPortLocation(connection.getFrom().getConnectionPort());
+		Point pointTo = nodeTo.getPortLocation(connection.getTo().getConnectionPort());	
 		Point middle = getPosition();
 		
 		

@@ -27,11 +27,9 @@ package graph;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
@@ -47,7 +45,6 @@ public class GraphNode extends JComponent {
 	private FramNode node;
 	private Visualizer parent;
 
-	private Color nodeColor = Color.getHSBColor(0.1F, 0.6F, 0.8F);
 	private Color nodeColorSel = Color.getHSBColor(0.1F, 0.6F, 0.5F);
 
 	
@@ -79,22 +76,6 @@ public class GraphNode extends JComponent {
 		return node.getPolygon();
 	}
 	
-	public Point getPort(FramNode.NodePort connPoint) {
-		Point p = null;
-		Polygon poly = getPolygon();
-		
-		for(int i = 0; i < FramNode.NodePort.values().length; i++) {
-			if(connPoint == FramNode.NodePort.values()[i]) {
-				p = new Point(
-						poly.xpoints[i],
-						poly.ypoints[i]);
-				break;
-			}
-		}
-		
-		return p;
-	}
-	
 	public Point getCloserToCenter(Point input, int distance) {
 		Point modified = (Point)input.clone();
 		Point center = getCenter();
@@ -119,26 +100,49 @@ public class GraphNode extends JComponent {
 	
 	public void paintComponent(Graphics g) { 
 	    
-		int sizePort = 20;
+		int sizePort = node.getPortSize();
 		
-		g.setColor(nodeColor);
+		Color bgColor = node.getColor();
+		
 		if(isSelected()) {
-			g.setColor(nodeColorSel);				
+			bgColor = nodeColorSel;				
 		}
 
+		g.setColor(bgColor);
+		
 		Polygon poly = getPolygon();
 		
 		g.fillPolygon(poly);
 		
-		for(int i = 0; i < poly.npoints; i++) {
-			g.fillOval(poly.xpoints[i]-sizePort/2, poly.ypoints[i]-sizePort/2, sizePort, sizePort);
-		}
+//		for(int i = 0; i < poly.npoints; i++) {
+//			g.fillOval(poly.xpoints[i]-sizePort/2, poly.ypoints[i]-sizePort/2, sizePort, sizePort);
+//		}
 	
 		//if(isSelected()) {
-			g.setColor(Color.white);
 			g.setFont(new Font("Arial", 1, 10));
 			for(NodePort conn : FramNode.NodePort.values()) {
-				Point loc = getCloserToCenter(getPort(conn), 2);
+				if(isSelected() && parent.getSelectedPort() == conn) {
+					g.setColor(Color.white);
+				}
+				else {
+					g.setColor(bgColor);
+				}
+				
+				Rectangle portRect = node.getPortRectangle(conn);
+				g.fillOval(portRect.x, portRect.y, portRect.width, portRect.height);
+				
+				if(isSelected() && parent.getSelectedPort() == conn) {
+					g.setColor(bgColor);
+					g.drawOval(portRect.x, portRect.y, portRect.width, portRect.height);
+				}
+				
+				if(isSelected() && parent.getSelectedPort() == conn) {
+					g.setColor(Color.black);
+				}
+				else {
+					g.setColor(Color.white);
+				}
+				Point loc = getCloserToCenter(node.getPortLocation(conn), 2);
 				loc.x -= 4;
 				loc.y += 4;
 				g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
