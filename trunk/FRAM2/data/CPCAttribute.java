@@ -5,21 +5,21 @@
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
 	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Lad�n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-  
+
  **/
 package data;
 
@@ -39,7 +39,6 @@ public class CPCAttribute implements Serializable {
 		setType(type);
 		setValue(value);
 		setComment(comment);
-		System.out.println("Inputlistlength: "+ list.length);
 		if (list.length > 0) {
 			System.out.println("YES! LIST!");
 			cpcForAspects = new Boolean[6];
@@ -67,18 +66,12 @@ public class CPCAttribute implements Serializable {
 	public String getComment() {
 		return comment;
 	}
-	
+
 	public void setCpcForAspects(Boolean[] list){
-		//cpcForAspects = list;
-		
-		for(int i = 0; i<cpcForAspects.length; i++){
-			
-			if (list[i] != null) {
-				cpcForAspects[i] = list[i];
-			}
-		}
+		cpcForAspects = list;
+
 	}
-	
+
 	public Boolean[] getCpcForAspects(){
 		return cpcForAspects;
 	}
@@ -101,7 +94,7 @@ public class CPCAttribute implements Serializable {
 	public String[] toArray() {
 		return new String[] { getType(), getValue(), getComment() };
 	}
-	
+
 	public Object[] toArray2() {
 		return new Object[] { getType(), getValue(), getComment(), getCpcForAspects() };
 	}
