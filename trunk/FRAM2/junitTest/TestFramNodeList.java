@@ -3,6 +3,7 @@ package junitTest;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import data.ConnectionInfo;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -126,5 +127,39 @@ public class TestFramNodeList extends TestCase {
 		nod.setName("test");
 		
 		assertEquals(lista.getName(), "NodeRemoved");
+	}
+	
+	
+	
+	public void testConnections() {
+		FramNodeList list = new FramNodeList("");
+		
+		FramNode node1 = new FramNode("test1");
+		node1.addOutput("a1");
+		list.add(node1);
+		
+		FramNode node2 = new FramNode("test2");
+		node2.addInput("a1");
+		list.add(node2);
+		
+		assertEquals(1, node1.getConnectedNodes().size());
+		assertEquals(node2, node1.getConnectedNodes().get(0));
+		
+		FramNode node3 = new FramNode("test3");
+		node3.addInput("a1");
+		list.add(node3);
+		
+		assertEquals(2, node1.getConnectedNodes().size());
+		assertEquals(node2, node1.getConnectedNodes().get(0));
+		assertEquals(node3, node1.getConnectedNodes().get(1));
+		
+		FramNode node4 = new FramNode("test4");
+		node4.addPrecondition("a1");
+		list.add(node4);
+			
+		assertEquals(3, node1.getConnectedNodes().size());
+		assertEquals(node2, node1.getConnectedNodes().get(0));
+		assertEquals(node3, node1.getConnectedNodes().get(1));
+		assertEquals(node4, node1.getConnectedNodes().get(2));
 	}
 }
