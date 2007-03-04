@@ -10,9 +10,9 @@ import javax.swing.table.TableCellRenderer;
 public class CheckboxRenderer extends Component implements TableCellRenderer{
 
 	private static final long serialVersionUID = 1L;
-	private boolean selected;
+	private Boolean selected;
 
-	public CheckboxRenderer(boolean sel){
+	public CheckboxRenderer(Boolean sel){
 		this.selected = sel;
 	}
 
@@ -20,12 +20,19 @@ public class CheckboxRenderer extends Component implements TableCellRenderer{
 			boolean selecteda, boolean focused, int row, int col) {	
 
 		JCheckBox panel = new JCheckBox();
-//		if (table.getModel().getColumnName(col).equals("I") ) {
-//			if (table.getModel().getValueAt(row, col)) {
-			panel.setSelected(selected);
-//			}
-//		}
- 
+
+		if(selected instanceof Boolean) {
+			if (selected){
+				panel.setSelected(true);
+			} else {
+				panel.setSelected(false);
+			}
+		}
+
 		return panel; 
+	}
+	
+	protected void setValue(Object value){
+		selected = (Boolean)value;
 	}
 } 
