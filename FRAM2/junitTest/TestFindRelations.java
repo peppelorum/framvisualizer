@@ -17,7 +17,7 @@ public class TestFindRelations extends TestCase {
 	}
 	
 	public void testsearchConnectionsNotreallyaTest(){
-		ArrayList<ConnectionInfo> list = TestFramNodeList.createFramList().searchConnections();
+		ArrayList<ConnectionInfo> list = TestFramNodeList.createFramList().getConnections();
 		
 		for(ConnectionInfo cInfo : list){
 			System.out.println(cInfo.getFrom().getFunctionName() + ":" + cInfo.getFrom().getConnectionPort() +" - " + cInfo.getAspect() + " - " + cInfo.getTo().getFunctionName() +":"+ cInfo.getTo().getConnectionPort());

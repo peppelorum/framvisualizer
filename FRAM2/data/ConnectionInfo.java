@@ -24,6 +24,9 @@
 
 package data;
 
+import java.awt.Color;
+import java.awt.Point;
+
 import graph.GraphLine;
 
 /**
@@ -41,7 +44,12 @@ public class ConnectionInfo implements java.io.Serializable {
 	private RelationInfo to;
 	private String aspect = "";
 	
-	GraphLine graphLine;
+	private Point position = new Point(0, 0);
+	private boolean moved = false;
+	private Color lineColor = Color.black;
+	private boolean visibility = true;
+	
+	transient GraphLine graphLine;
 		
 	public ConnectionInfo(RelationInfo from, RelationInfo to){
 		this.from = from;
@@ -84,6 +92,36 @@ public class ConnectionInfo implements java.io.Serializable {
 		this.getFrom().compareTo(object2.getFrom()) && this.getTo().compareTo(object2.getTo());
 	}
 	
+	public boolean getVisibility(){
+		return visibility;
+	}
 	
+	public void setVisibility(boolean visibility){
+		this.visibility = visibility;
+	}
+	
+	//Graphics
+	public Point getPosition() {
+		return position;
+	}
+	
+	public void setPosition(Point value) {
+		position.x = value.x;
+		position.y = value.y;
+	}
+	
+	public void setMoved(boolean moved) {
+		this.moved = moved;
+	}
+	public boolean isMoved() {
+		return moved;
+	}
+	
+	public void setLineColor(Color lineColor) {
+		this.lineColor = lineColor;
+	}
+	public Color getLineColor() {
+		return lineColor;
+	}
 
 }

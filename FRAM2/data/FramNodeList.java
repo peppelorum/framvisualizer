@@ -52,7 +52,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	transient private ArrayList<ActionListener> listChangedRecipients;
 	
 	private String name;
-	private ArrayList<ConnectionInfo> connections;
+	private ArrayList<ConnectionInfo> connections = new ArrayList<ConnectionInfo>();
 	
 	public ArrayList<ConnectionInfo> getConnections() {
 		return connections;
@@ -66,7 +66,6 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	
 	public void init() {
 		listChangedRecipients = new ArrayList<ActionListener>();
-		connections = new ArrayList<ConnectionInfo>();
 		
 		for(FramNode node : this) {
 			node.init();
@@ -350,7 +349,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 * Then it checks how the new search result diff from an earlier and updates it.
 	 */
 	
-	public ArrayList<ConnectionInfo> searchConnections(){
+	public void updateConnections(){
 		FramNode node;
 		String searchValue;
 		ArrayList<ConnectionInfo> foundConnections = new ArrayList<ConnectionInfo>();
@@ -405,10 +404,6 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		filterConnections();
 		removeDuplicates();
 		
-
-
-		
-		return connections ;
 	}
 	
 	/**
@@ -449,15 +444,15 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Output &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Output){
 					
-					connections.get(i).getGraphLine().setLineColor(Color.RED);
-//					connections.get(i).setVisibility(false);
+//					connections.get(i).setLineColor(Color.RED);
+					connections.get(i).setVisibility(false);
 				}
 			}
 			if(filterInputInput){
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Input &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Input){
-					connections.get(i).getGraphLine().setLineColor(Color.RED);
-//					connections.get(i).setVisibility(false);
+//					connections.get(i).setLineColor(Color.RED);
+					connections.get(i).setVisibility(false);
 				}				
 			}
 			if(filterNonePreCOutput){
@@ -465,8 +460,8 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 					connections.get(i).getTo().getConnectionPort() == NodePort.Preconditions) &&
 						!(connections.get(i).getTo().getConnectionPort() == NodePort.Output ||
 						connections.get(i).getFrom().getConnectionPort() == NodePort.Output	)){
-					connections.get(i).getGraphLine().setLineColor(Color.RED);
-//					connections.get(i).setVisibility(false);
+//					connections.get(i).setLineColor(Color.RED);
+					connections.get(i).setVisibility(false);
 				}				
 			}			
 			
@@ -485,6 +480,12 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	}
 	
 	private void listChanged(String action) {
+		updateConnections();
+		
+		for(FramNode n : this){
+			n.updateSize();
+		}
+		
 		ActionEvent event = new ActionEvent(this, 0, action);
 		
 		for(ActionListener listener : this.listChangedRecipients) {
@@ -526,5 +527,12 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		}
 		
 		return true;
+	}
+	
+	public static void printConnections(ArrayList<ConnectionInfo> connections) {
+		for(ConnectionInfo cInfo : connections){
+			System.out.println(cInfo.getFrom().getFunctionName() + ":" + cInfo.getFrom().getConnectionPort() +" - " + cInfo.getAspect() + " - " + cInfo.getTo().getFunctionName() +":"+ cInfo.getTo().getConnectionPort() +
+					"   (" + (cInfo.getVisibility() ? "visible" : "hidden") + ")");
+		}
 	}
 }

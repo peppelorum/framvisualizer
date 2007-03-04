@@ -44,32 +44,44 @@ public class GraphLine extends JComponent {
 	private ConnectionInfo connection;
 	private Visualizer parent;
 	
-	private Point position = new Point(0, 0);
-	private boolean moved = false;
 	private int bubbleHeight = 10;
 	private int bubbleWidth = 40;
-	private Color lineColor = Color.black;
-	private boolean visibility = true;
 
 	private static boolean showBubbles = true;
 	
 	
 	public boolean getVisibility(){
-		return visibility;
+		return connection.getVisibility();
 	}
 	
 	public void setVisibility(boolean visibility){
-		this.visibility = visibility;
+		connection.setVisibility(visibility);
 	}
 	
 	//Graphics
 	public Point getPosition() {
-		return position;
+		return connection.getPosition();
 	}
 	
 	public void setPosition(Point value) {
+		Point position = connection.getPosition();
+		
 		position.x = value.x;
 		position.y = value.y;
+	}
+	
+	public void setMoved(boolean moved) {
+		connection.setMoved(moved);
+	}
+	public boolean isMoved() {
+		return connection.isMoved();
+	}
+	
+	public void setLineColor(Color lineColor) {
+		connection.setLineColor(lineColor);
+	}
+	public Color getLineColor() {
+		return connection.getLineColor();
 	}
 	
 	public int getBubbleHeight() {
@@ -89,20 +101,7 @@ public class GraphLine extends JComponent {
 				getBubbleWidth(),
 				getBubbleHeight());
 	}
-	public void setMoved(boolean moved) {
-		this.moved = moved;
-	}
-	public boolean isMoved() {
-		return moved;
-	}
-	
-	public void setLineColor(Color lineColor) {
-		this.lineColor = lineColor;
-	}
-	public Color getLineColor() {
-		return lineColor;
-	}
-	
+
 	
 	public void setShowBubbles(boolean value) {
 		
@@ -171,11 +170,14 @@ public class GraphLine extends JComponent {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		if(!getVisibility()) {
-			return;
+			//return;
+			g.setColor(Color.LIGHT_GRAY);
+		}		
+		else {
+			g.setColor(getLineColor());			
 		}
+		//		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.1F));
 		
-//		g.setColor(Color.getHSBColor(0.1F, 0.6F, 0.1F));
-		g.setColor(getLineColor());
 		if(isSelected()) {
 			g.setColor(Color.BLUE);				
 		}

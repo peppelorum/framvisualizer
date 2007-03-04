@@ -321,7 +321,7 @@ public class Visualizer extends JComponent {
 //			}
 		}
 		
-		for(ConnectionInfo connection : list.searchConnections()) {
+		for(ConnectionInfo connection : list.getConnections()) {
 			GraphLine graphLine;
 			graphLine = new GraphLine(connection, this);
 			connection.setGraphLine(graphLine);

@@ -320,6 +320,10 @@ public class FramNode implements java.io.Serializable {
 		return FramNode.getPolygon(getRectangle());
 	}
 	
+	public void updateSize() {
+		getConnectedNodes();
+	}
+	
 	public ArrayList<FramNode> getConnectedNodes() {
 		ArrayList<FramNode> connectedList = new ArrayList<FramNode>();
 		
@@ -327,7 +331,7 @@ public class FramNode implements java.io.Serializable {
 		if(list != null) {
 
 			for(ConnectionInfo coninfo : list.getConnections()) {
-				if(coninfo.getGraphLine().getVisibility()) {
+				if(coninfo.getVisibility()) {
 					if(coninfo.getFrom().getNode() == this) {
 						if(coninfo.getTo().getNode() != this) {
 							connectedList.add(coninfo.getTo().getNode());
