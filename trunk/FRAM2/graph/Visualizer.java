@@ -51,6 +51,7 @@ public class Visualizer extends JComponent {
 	private FramNodeList list;
 	private FramNode selectedNode;
 	private FramNode hoveredNode;
+	private FramNode.NodePort selectedPort;
 	private ArrayList<FramNode> connectedToSelectedNode = new ArrayList<FramNode>();
 	private ConnectionInfo selectedLine;
 	private ArrayList<GraphNode> guiNodeList;
@@ -84,13 +85,27 @@ public class Visualizer extends JComponent {
 		FramNode node = null;
 				
 		for(FramNode n : list) {
-			if(n.getRectangle().contains(position)) {
+			if(n.getRectangle(true).contains(position)) {
 				node = n;
 				break;
 			}
 		}
 		
 		return node;
+	}
+	
+	public FramNode.NodePort getPortAt(Point position, FramNode node) {
+		if(node != null) {
+			for(FramNode.NodePort port : FramNode.NodePort.values()) {
+				if(node.getPortRectangle(port).contains(position)) {
+					return port;
+				}
+			}
+			return null;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public ConnectionInfo getConnectionAt(Point position){
@@ -120,7 +135,7 @@ public class Visualizer extends JComponent {
 		repaint();
 	}
 	
-	public void selectNode(FramNode node) {
+	public void selectNode(FramNode node, FramNode.NodePort port) {
 		boolean triggerEvent = true;
 		if(node == selectedNode) {
 			triggerEvent = false;
@@ -128,11 +143,13 @@ public class Visualizer extends JComponent {
 		
 		if(node == null) {
 			selectedNode = null;
+			selectedPort = null;
 			nodeOriginalPoint = null;
 		}
 		else {
 			selectedLine = null;
 			selectedNode = node;
+			selectedPort = port;
 			nodeOriginalPoint = (Point)node.getPosition().clone();
 		}
 		
@@ -157,6 +174,10 @@ public class Visualizer extends JComponent {
 	
 	public FramNode getSelectedNode() {
 		return selectedNode;
+	}
+	
+	public FramNode.NodePort getSelectedPort() {
+		return selectedPort;
 	}
 	
 	public ConnectionInfo getSelectedLine() {
@@ -253,6 +274,7 @@ public class Visualizer extends JComponent {
 			public void mousePressed(MouseEvent arg0) {
 				mouseDownPoint = addOffset(arg0.getPoint());
 				FramNode node = getNodeAt(removeOffset(removeOffset(mouseDownPoint)));
+				FramNode.NodePort port = getPortAt(removeOffset(removeOffset(mouseDownPoint)), node);
 				ConnectionInfo cInfo = getConnectionAt(removeOffset(removeOffset(mouseDownPoint)));
 				
 				originalOffset = (Point)offset.clone();
@@ -261,7 +283,7 @@ public class Visualizer extends JComponent {
 						selectConnection(cInfo);
 						selectedNode = null;
 					}else if(node != null){
-						selectNode(node);
+						selectNode(node, port);
 						selectedLine = null;
 					}else{
 						//selectNode(node);

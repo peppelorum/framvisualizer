@@ -24,6 +24,7 @@
 
 package data;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -62,6 +63,8 @@ public class FramNode implements java.io.Serializable {
 	
 	private Point position = new Point(0, 0);
 	
+	private Color color;
+	public final Color NODE_DEFAULT_COLOR = Color.getHSBColor(0.1F, 0.6F, 0.8F);
 	
 	public static String[] stepTwoDefaultValues = new String[] {
 		"",
@@ -291,16 +294,64 @@ public class FramNode implements java.io.Serializable {
 		return size;
 	}
 	
+	public int getPortSize() {
+		return size / 4;
+	}
+	
 	public void setSize(int value) {
 		size = value;
 	}
 	
 	public Rectangle getRectangle() {
-		return new Rectangle(
+		return getRectangle(false);
+	}
+	
+	public Rectangle getRectangle(boolean withPorts) {
+		Rectangle rect = new Rectangle(
 				getPosition().x,
 				getPosition().y,
 				getSize(),
 				getSize());
+		
+		if(withPorts) {
+			rect.grow(getPortSize()/2, getPortSize()/2);
+		}
+		
+		return rect;
+	}
+	
+	public Point getPortLocation(FramNode.NodePort connPoint) {
+		Point p = null;
+		Polygon poly = getPolygon();
+		
+		for(int i = 0; i < FramNode.NodePort.values().length; i++) {
+			if(connPoint == FramNode.NodePort.values()[i]) {
+				p = new Point(
+						poly.xpoints[i],
+						poly.ypoints[i]);
+				break;
+			}
+		}
+		
+		return p;
+	}
+	
+	public Rectangle getPortRectangle(FramNode.NodePort connPoint) {
+		Point position = getPortLocation(connPoint);
+		int size = getPortSize();
+		int halfSize = size / 2;
+		
+		if(position != null) {
+			Rectangle rect = new Rectangle(
+					position.x - halfSize,
+					position.y - halfSize,
+					size,
+					size);
+			return rect;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public static Polygon getPolygon(Rectangle rect) {
@@ -549,5 +600,14 @@ public class FramNode implements java.io.Serializable {
 	}
 	public void setBubbleWidth(int bubbleWidth) {
 		this.bubbleWidth = bubbleWidth;
+	}
+	
+	public Color getColor() {
+		if(color != null) {
+			return color;
+		}
+		else {
+			return NODE_DEFAULT_COLOR;
+		}
 	}
 }

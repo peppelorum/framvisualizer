@@ -77,7 +77,7 @@ public class GUI extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				FramNodeEditorList nodeList = (FramNodeEditorList)e.getSource();
 				framCPCTable.setCPC(nodeList.getSelectedNode().getCPC());
-				framVisualizer.selectNode(nodeList.getSelectedNode());
+				framVisualizer.selectNode(nodeList.getSelectedNode(), null);
 			}
 		});
 
@@ -85,7 +85,9 @@ public class GUI extends JFrame implements ActionListener{
 
 			public void actionPerformed(ActionEvent e) {
 				Visualizer visualizer = (Visualizer)e.getSource();
-				framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
+				if(visualizer.getSelectedNode() != null) {
+					framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
+				}
 				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
 			}
 		});
