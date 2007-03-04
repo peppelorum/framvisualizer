@@ -102,11 +102,17 @@ public class FramCPCTable extends JTable {
 
 		if (col > 2){
 			String type = (String)this.getModel().getValueAt(row,0).toString();
+			
+			
+			
 			if (cpc.hasAttribute(type)) {
 				Boolean[] cpcAsp = cpc.getAttribute(type).getCpcForAspects();		
 				for(int i = 0; i<cpcAsp.length; i++){
-//					System.out.println("apa: "+ cpcAsp[i]);
-//					return new CheckboxRenderer(cpcAsp[i]); /** FIXME **/
+					
+					CheckboxRenderer editor =new CheckboxRenderer(cpcAsp[i]);
+//					editor.setValue(cpcAsp[i]);
+//					editor.getTableCellRendererComponent(this, "", cpcAsp[i], false, row, col);
+					return editor;
 				}
 			}
 			return new CheckboxRenderer(false);

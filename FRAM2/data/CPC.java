@@ -68,7 +68,7 @@ public class CPC implements Serializable {
 		if(hasAttribute(type)) {
 			CPCAttribute attrib = getAttribute(type);
 			attrib.setValue(value);
-			attrib.setComment(comment);
+			attrib.setComment(comment);			
 			attrib.setCpcForAspects(cpcForAspects);
 		}
 		else {
