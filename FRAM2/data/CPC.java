@@ -33,8 +33,6 @@ public class CPC implements Serializable {
 	private static final long serialVersionUID = 9034461918811470582L;
 	private FramNode parent;
 	
-	private String[] selectedAspects;
-	
 	public static boolean typeExists(String type) {
 		for(String t : CPC_TYPES) {
 			if(t.equals(type)) {

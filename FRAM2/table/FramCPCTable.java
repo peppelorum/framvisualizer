@@ -101,31 +101,15 @@ public class FramCPCTable extends JTable {
 	public TableCellRenderer getCellRenderer(int row, int col) {
 
 		if (col > 2){
-
-			System.out.println(col);
-//			System.out.println(this.getModel().getValueAt(row, col));
-
-			Object b;
-			Boolean c;
-
-			b = getValueAt(row, col);
-
-			if(b instanceof Boolean) {
-				c = (Boolean)b;
-//				System.out.println("InsertNewValue"+ c.booleanValue());
-
-				if (c.booleanValue()) {		/** FIXME !!! **/
-					return new CheckboxRenderer(true);
-				} else {
-					return new CheckboxRenderer(false);
+			String type = (String)this.getModel().getValueAt(row,0).toString();
+			if (cpc.hasAttribute(type)) {
+				Boolean[] cpcAsp = cpc.getAttribute(type).getCpcForAspects();		
+				for(int i = 0; i<cpcAsp.length; i++){
+//					System.out.println("apa: "+ cpcAsp[i]);
+//					return new CheckboxRenderer(cpcAsp[i]); /** FIXME **/
 				}
-
 			}
-
 			return new CheckboxRenderer(false);
-
-
-
 		}else {
 			return super.getCellRenderer(row,col);
 		}

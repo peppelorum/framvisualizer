@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
@@ -26,9 +28,7 @@ import data.FramNode;
 import data.FramNodeList;
 
 public class CheckboxEditor extends AbstractCellEditor implements TableCellEditor{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 //	Is it possible to avoid the permanent reference to the value???
@@ -54,27 +54,41 @@ public class CheckboxEditor extends AbstractCellEditor implements TableCellEdito
 		table = tab; 
 		this.row = rowa; 
 		this.col = cola; 
-		panel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//addAspect(table, row, column);
+		
+		panel.addItemListener(new ItemListener(){
 
-
-				AbstractButton abstractButton = (AbstractButton) e
-				.getSource();
+			public void itemStateChanged(ItemEvent e) {			
+				AbstractButton abstractButton = (AbstractButton) e.getSource();
 				boolean selected = abstractButton.getModel().isSelected();
+				
 				String newLabel = (selected ? SELECTED_LABEL : DESELECTED_LABEL);
 				abstractButton.setText(newLabel);
-								
-				if (selected) {
-					table.getModel().setValueAt(true, row, col);
-				} else{
-					table.getModel().setValueAt(false, row, col);
-				}
+				abstractButton.setSelected(selected);
 				
-//				System.out.println(newLabel);
-				//System.out.println("New:" +table.getModel().getValueAt(row, col));
+				table.getModel().setValueAt(selected, row, col);
 			}
 		});
+//		panel.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				AbstractButton abstractButton = (AbstractButton) e.getSource();
+//				boolean selected = abstractButton.getModel().isSelected();
+//				
+//				String newLabel = (selected ? SELECTED_LABEL : DESELECTED_LABEL);
+//				abstractButton.setText(newLabel);
+//				abstractButton.setSelected(selected);
+//								
+//				if (selected) {
+//					table.getModel().setValueAt(true, row, col);
+//				} else{
+//					table.getModel().setValueAt(false, row, col);
+//				}
+//				
+//				
+//				System.out.println(selected);
+//				System.out.println("New:" +table.getModel().getValueAt(row, col));
+//			}
+//		});
 		return panel; 
 	} 
 	

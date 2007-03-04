@@ -54,31 +54,15 @@ public class FramCPCTableModel extends DefaultTableModel {
 		for(String cpcType : CPC.CPC_TYPES) {
 			cpcAttrib = cpc.getAttribute(cpcType);
 			if(cpcAttrib != null) {
-				row2 = cpcAttrib.toArray();
-
-//				System.out.println(cpcType);
-
-				Boolean[] a = this.getCPC().getAttribute(cpcType).getCpcForAspects();
-
-
-//				System.out.println(a.size());
-
-//				for(int i = 0; i<a.size(); i++){
-//				System.out.println(i);
-
-//				}
+				row2 = cpcAttrib.toArray2();
 
 			}
 			else {
-				row = new String[] { cpcType, "", "" };
-				row2 = new Object[]{ cpcType, "", "", false, false, false, false, false, false};
+//				row = new String[] { cpcType, "", "" };
+				row2 = new Object[]{ cpcType, "", "", new Boolean(false), new Boolean(false), new Boolean(false), new Boolean(false), new Boolean(false), new Boolean(false)};
 			}
 
 			this.addRow(row2);
-
-
-
-			//this.setValueAt(aValue, row, column)
 		}
 
 		this.addTableModelListener(new TableModelListener() {
@@ -95,23 +79,20 @@ public class FramCPCTableModel extends DefaultTableModel {
 
 				Object b;
 				Boolean c;
+				
+				System.out.println(type);
 
 				for(int i = 0; i<6; i++){
-
-					System.out.print(getValueAt(row, i));
-					//System.out.println();
 
 					b = getValueAt(row, i+3);
 
 					if(b instanceof Boolean) {
 						c = (Boolean)b;
-//						System.out.println("InsertNewValue"+ c.booleanValue());
-						tmp[i] = c.booleanValue();
+//						System.out.println("InsertNewValue: "+ b);
+						tmp[i] = c;
 					}
-
-//					tmp.add(i, (Boolean)getValueAt(row, i));
-					
 				}
+				
 				getCPC().setAttribute(type, value, comment, tmp);
 			}
 
