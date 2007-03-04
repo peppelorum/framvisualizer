@@ -40,9 +40,14 @@ public class CPCAttribute implements Serializable {
 		setType(type);
 		setValue(value);
 		setComment(comment);
+		System.out.println("Inputlistlength: "+ list.length);
 		if (list.length > 0) {
+			System.out.println("YES! LIST!");
+			cpcForAspects = new Boolean[6];
 			cpcForAspects = list;
 		} else {
+			System.out.println("NO LIST!");
+			cpcForAspects = new Boolean[6];
 			cpcForAspects[0] = false;
 			cpcForAspects[1] = false;
 			cpcForAspects[2] = false;
@@ -50,16 +55,6 @@ public class CPCAttribute implements Serializable {
 			cpcForAspects[4] = false;
 			cpcForAspects[5] = false;
 		}
-		
-		
-//		cpcForAspects =  new ArrayList(6);
-//		cpcForAspects.add(0);
-//		cpcForAspects.add(0);
-//		cpcForAspects.add(0);
-//		cpcForAspects.add(0);
-//		cpcForAspects.add(0);
-//		cpcForAspects.add(0);
-//		setCpcForAspects(list);
 	}
 
 	public String getType() {
@@ -75,10 +70,13 @@ public class CPCAttribute implements Serializable {
 	}
 	
 	public void setCpcForAspects(Boolean[] list){
-		cpcForAspects = list;
+		//cpcForAspects = list;
 		
 		for(int i = 0; i<cpcForAspects.length; i++){
-//			System.out.println("CPCforAspect for "+ i +" "+ cpcForAspects[i]);
+			
+			if (list[i] != null) {
+				cpcForAspects[i] = list[i];
+			}
 		}
 	}
 	
@@ -103,5 +101,9 @@ public class CPCAttribute implements Serializable {
 
 	public String[] toArray() {
 		return new String[] { getType(), getValue(), getComment() };
+	}
+	
+	public Object[] toArray2() {
+		return new Object[] { getType(), getValue(), getComment(), getCpcForAspects() };
 	}
 }
