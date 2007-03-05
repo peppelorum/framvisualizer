@@ -33,18 +33,25 @@ import javax.swing.JPanel;
 
 import data.FramNode;
 
+/**
+ * A panel that holds the aspecttable, handles mouse drag etc for a function
+ * @author petbe082
+ *
+ */
+
 public class FramNodeEditor extends JPanel {
 
 	private static final long serialVersionUID = 197489600332691308L;
 
 	private FramNode node;
 	private FramAspectTable tableNode;
-
-	//private boolean visible = true;
-
 	private FramNodeEditorList editorParent;
-//	private Container buttonsTop = new JPanel();
-//	private Container buttonsBottom = new JPanel();
+	
+	/**
+	 * Calculates the box new locatin when dragging
+	 * @param xRelative
+	 * @param yRelative
+	 */
 	
 	private void moveBox(int xRelative, int yRelative) {
 		int x = xRelative + getX();
@@ -60,9 +67,12 @@ public class FramNodeEditor extends JPanel {
 			}
 		}
 	}
-	
+
+	/**
+	 * Moves the box one step up/down
+	 * @param direction
+	 */
 	public void moveBox(int direction) {
-		
 		int position = 0;
 		for(int i = 0; i < getParent().getComponentCount(); i++) {
 			if(getParent().getComponent(i) == this) {
@@ -70,11 +80,8 @@ public class FramNodeEditor extends JPanel {
 				break;
 			}
 		}
-
 		int newPosition = position + direction;
-		
 		if(newPosition < getParent().getComponentCount() && newPosition >= 0) {
-		
 			getParent().add(this, newPosition);
 			getParent().validate();
 			getParent().repaint();
@@ -86,14 +93,11 @@ public class FramNodeEditor extends JPanel {
 		this.editorParent = editorList;
 
 		this.setVisible(true);
-		//this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setSize(200, 100);
-
+		
 		this.node = node;
 		tableNode = new FramAspectTable(node, editorList.getList(), this);
-
-//		JButton buttonMove = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.GIF")));
 
 		tableNode.addMouseMotionListener(new MouseMotionListener() {
 
@@ -106,40 +110,7 @@ public class FramNodeEditor extends JPanel {
 			}
 		});
 
-
-//		buttonsTop.add(buttonMove);
-//
-//		JButton addNewNodeBefore = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
-//		//addNewNodeBefore.setText("Add new before");
-//		addNewNodeBefore.addActionListener(new ActionListener() {
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//		});
-//
-//		JButton addNewNodeAfter = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
-//		//addNewNodeAfter.setText("Add new after");
-//		addNewNodeAfter.addActionListener(new ActionListener() {
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//		});
-
-//		buttonsTop.add(addNewNodeBefore);
-//		buttonsBottom.add(addNewNodeAfter);
-//
-//		buttonsTop.setLayout(new BoxLayout(buttonsTop, BoxLayout.X_AXIS));
-//		buttonsBottom.setLayout(new BoxLayout(buttonsBottom, BoxLayout.X_AXIS));
-//		this.add(buttonsTop);
 		this.add(tableNode);
-//		this.add(buttonsBottom);
-
 		deSelected();
 	}
 
@@ -168,22 +139,14 @@ public class FramNodeEditor extends JPanel {
 		editorParent.setSelectedNodeEditor(this);
 	}
 
-	public void selected() {
-		//tableNode.setEnabled(true);
-		//buttonsTop.setVisible(true);
-		//buttonsBottom.setVisible(true);
-		//this.setBorder(BorderFactory.createLineBorder (Color.blue, 2));
-	}
-
+	/**
+	 * Stops the cell editing in the table and closes the dropdownboxes
+	 *
+	 */
 	public void deSelected() {
 		if(tableNode.getCellEditor() != null) {
 			tableNode.getCellEditor().stopCellEditing();
 		}
-		
-//		buttonsTop.setVisible(false);
-//		buttonsBottom.setVisible(false);
-		//this.setEnabled(false);
-		//this.setBorder(BorderFactory.createLineBorder(Color.getHSBColor(0f,0f,0.9f), 2));
 	}
 
 	public void paint(Graphics g) {
