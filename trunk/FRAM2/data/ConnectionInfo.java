@@ -31,7 +31,8 @@ import graph.GraphLine;
 
 /**
  * 
- * Stores and handles the connections between two nodes.
+ * Stores and handles the connections between two nodes. It also stores the information that
+ * controls GraphLine. GrapLine contains the code handling the actually GUI drawing. 
  * 
  * @author Jonas Haraldsson
  *
@@ -44,6 +45,7 @@ public class ConnectionInfo implements java.io.Serializable {
 	private RelationInfo to;
 	private String aspect = "";
 	
+	//Graphics
 	private Point position = new Point(0, 0);
 	private boolean moved = false;
 	private Color lineColor = Color.black;
@@ -97,15 +99,22 @@ public class ConnectionInfo implements java.io.Serializable {
 		return visibility;
 	}
 	
+	/**
+	 * Set if the line/label will be shown at all
+	 * @param visibility
+	 */
 	public void setVisibility(boolean visibility){
 		this.visibility = visibility;
 	}
 	
-	//Graphics
 	public Point getPosition() {
 		return position;
 	}
 	
+	/**
+	 * Set the position of the label in the middle of the line, used by GraphLine
+	 * @param value
+	 */
 	public void setPosition(Point value) {
 		position.x = value.x;
 		position.y = value.y;
@@ -118,6 +127,10 @@ public class ConnectionInfo implements java.io.Serializable {
 		return moved;
 	}
 	
+	/**
+	 * Sets the color of the connection line
+	 * @param lineColor
+	 */
 	public void setLineColor(Color lineColor) {
 		this.lineColor = lineColor;
 	}
@@ -129,6 +142,12 @@ public class ConnectionInfo implements java.io.Serializable {
 		return filterVisible;
 	}
 	
+	/**
+	 *Handles the filtering of nodes, controlled by the search box.
+	 *If the node don't match the search this is set to false 
+	 *
+	 * @param val
+	 */
 	public void setFilterVisible(boolean val) {
 		filterVisible = val;
 	}
