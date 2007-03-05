@@ -48,7 +48,7 @@ public class GraphLine extends JComponent {
 	private int bubbleHeight = 10;
 	private int bubbleWidth = 40;
 
-	private static boolean showBubbles = true;
+	private boolean showBubbles = true;
 	
 	
 	public boolean getVisibility(){
@@ -107,7 +107,7 @@ public class GraphLine extends JComponent {
 	public void setShowBubbles(boolean value) {
 		
 		showBubbles = value;
-		setBubbleWidth(0);
+		setBubbleWidth(2);
 	}
 	
 	public boolean isShowBubbles() {
@@ -173,9 +173,10 @@ public class GraphLine extends JComponent {
 	public void paintComponent(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D) g;
-		if(!getVisibility()) {
-			//return;
-			g.setColor(Color.LIGHT_GRAY);
+		if(!getVisibility() && connection.isShowAll()) {
+			g.setColor(Color.YELLOW);
+		}else if (!getVisibility()){
+			return;
 		}		
 		else {
 			g.setColor(getLineColor());			

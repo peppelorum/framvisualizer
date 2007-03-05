@@ -46,6 +46,7 @@ public class ConnectionInfo implements java.io.Serializable {
 	private String aspect = "";
 	
 	//Graphics
+	private static boolean showAll = false;
 	private Point position = new Point(0, 0);
 	private boolean moved = false;
 	private Color lineColor = Color.black;
@@ -54,6 +55,12 @@ public class ConnectionInfo implements java.io.Serializable {
 	
 	transient GraphLine graphLine;
 		
+	public static void setShowAll(boolean showAll) {
+		ConnectionInfo.showAll = showAll;
+	}
+	public static boolean isShowAll() {
+		return showAll;
+	}
 	public ConnectionInfo(RelationInfo from, RelationInfo to){
 		this.from = from;
 		this.to = to;
