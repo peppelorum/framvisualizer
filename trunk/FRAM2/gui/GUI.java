@@ -63,20 +63,25 @@ public class GUI extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = -2294328777692036637L;
+	
+	//Filemanager
 	private final JFileChooser fc = new JFileChooser();
-    private JButton newNode;
+    private FRAMfilter framFilter = new FRAMfilter();
+    private XMLfilter xmlFilter = new XMLfilter();
     
+    //GUI
     private FramNodeEditorList framNodeEditorList = new FramNodeEditorList();
     private Visualizer framVisualizer = new Visualizer();
+    
     private FramCPCTable framCPCTable = new FramCPCTable();
     private JSplitPane tableAndGraph;
     private JSplitPane split2;
     private JPanel lineButtons = new JPanel();
     private JPanel nodeButtons = new JPanel();
     private Container tableContainer = new Container();
-    
     private JButton toggleHideLine;
-        
+    private JButton newNode;
+    
     private boolean showAllLabels = true;
     
 	public GUI(){
@@ -136,9 +141,6 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		});
 		
-		
-		
-		
 		tableContainer.setLayout(new BoxLayout(tableContainer, BoxLayout.Y_AXIS));
 				
 		menuBar.add(createFileMenu());
@@ -147,8 +149,6 @@ public class GUI extends JFrame implements ActionListener{
 
 		//The graphnodes
 		framVisualizer.setList(framNodeEditorList.getList());
-		//framVisualizer.setLayout(new GraphLayout());
-		
 		
 		tableContainer.add(framNodeEditorList);
 				
@@ -351,7 +351,7 @@ public class GUI extends JFrame implements ActionListener{
 	
 	
 	 /**
-     * Captures the thrown actions
+     * Captures the thrown actions from the menu
      *      
      */
     public void actionPerformed(ActionEvent e) {
@@ -361,32 +361,26 @@ public class GUI extends JFrame implements ActionListener{
     		framVisualizer.setList(newList);
     	}
     	else if(e.getActionCommand()== "Save"){
-    		//fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-    		fc.setFileFilter(new XMLfilter());
+    		fc.setFileFilter(framFilter);
     		fc.setAcceptAllFileFilterUsed(false);
     		
     		int returnVal = fc.showSaveDialog(this);
-   		 
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
 	            framNodeEditorList.getList().SaveFile(file.getPath());
-	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
-    	}else if(e.getActionCommand()== "Save to XML"){
-    		//fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-    		fc.setFileFilter(new XMLfilter());
+    	}else if(e.getActionCommand()== "Export to XML"){
+    		fc.setFileFilter(xmlFilter);
     		fc.setAcceptAllFileFilterUsed(false);
     		
     		int returnVal = fc.showSaveDialog(this);
-   		 
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
 	            framNodeEditorList.getList().SaveXMLFile(file.getPath());
-	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
     	}else if(e.getActionCommand()=="Load"){
-    		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-    		fc.setFileFilter(new XMLfilter());
+    		fc.setFileFilter(framFilter);
+    		fc.setAcceptAllFileFilterUsed(false);
     		
     		int returnVal = fc.showOpenDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -420,7 +414,6 @@ public class GUI extends JFrame implements ActionListener{
     
     /**
      * Creates a filter to get .xml for the filechooser dialog
-     * @author Jonas Haraldsson
      *
      */
     class XMLfilter extends javax.swing.filechooser.FileFilter {
@@ -428,9 +421,21 @@ public class GUI extends JFrame implements ActionListener{
             return f.isDirectory() || f.getName().toLowerCase().endsWith(".xml");
         }
         public String getDescription() {
-            return "XML files";
+            return "XML files (*.xml)";
         }
-    }   
+    }
+    /**
+     * Creates a filter to get .fram in the filechooser dialog
+     *
+     */
+    class FRAMfilter extends javax.swing.filechooser.FileFilter {
+        public boolean accept(File f) {
+            return f.isDirectory() || f.getName().toLowerCase().endsWith(".fram");
+        }
+        public String getDescription() {
+            return "FRAM Visualizer files (*.fram)";
+        }
+    }  
     
 	/**
 	 * Creates the Filemenu
@@ -456,7 +461,7 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
-		menuItem = new JMenuItem("Save to XML");
+		menuItem = new JMenuItem("Export to XML");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
@@ -473,7 +478,6 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		new GUI();
 	}
