@@ -214,9 +214,7 @@ public class FramNodeEditorList extends JComponent {
 
 		// Scroll editor into visible position
 		if(selectedNodeEditor != null) {
-			if(!this.getBounds().contains(selectedNodeEditor.getBounds())) {
-				this.scrollRectToVisible(selectedNodeEditor.getBounds());
-			}
+			this.scrollRectToVisible(selectedNodeEditor.getBounds());
 		}
 		refresh();
 				
