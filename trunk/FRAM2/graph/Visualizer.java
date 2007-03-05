@@ -25,10 +25,8 @@
 package graph;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -462,7 +460,7 @@ public class Visualizer extends JComponent {
 			}
 			
 			for(GraphLine guiline : guiLineList) {
-				if(guiline.getVisibility() || isShowHiddenLines()) {
+				if(guiline.getVisibility() || ConnectionInfo.isShowAll()) {
 					if(guiline.getConnection().isFilterVisible()) {
 						guiline.paintComponent(g);
 						guiline.paintNameBubble(g);

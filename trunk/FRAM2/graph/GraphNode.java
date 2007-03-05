@@ -219,7 +219,8 @@ public class GraphNode extends JComponent {
 		Point bubblePoint = getCenter();
 
 		if(isSelected()) {
-			//bubbleHeight = 100;
+			bubbleHeight = 120;
+			bubbleWidth = 250;
 			if(parent.getSelectedPort() != null) {
 				bubblePoint = node.getPortLocation(parent.getSelectedPort());
 			}

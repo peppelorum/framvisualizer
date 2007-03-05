@@ -173,7 +173,7 @@ public class GraphLine extends JComponent {
 	public void paintComponent(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D) g;
-		if(!getVisibility() && connection.isShowAll()) {
+		if(!getVisibility() && ConnectionInfo.isShowAll()) {
 			g.setColor(Color.PINK);
 		}else if (!getVisibility()){
 			return;
@@ -195,7 +195,7 @@ public class GraphLine extends JComponent {
 	
 	
 	public void paintNameBubble(Graphics g) {
-		if (!((connection.isShowAll() || getVisibility()) && showBubbles)) {
+		if (!((ConnectionInfo.isShowAll() || getVisibility()) && showBubbles)) {
 			return;
 		}
 		// calculate length of name

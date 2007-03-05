@@ -320,13 +320,11 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowHiddenLines.setText("Toggle Hidden Lines");
 		buttonShowHiddenLines.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(GraphLine line : framVisualizer.getGuiLineList()){
-					if(line.getConnection().isShowAll()){
-						line.getConnection().setShowAll(false);
-					}			
-					else{
-						line.getConnection().setShowAll(true);
-					}
+				if(ConnectionInfo.isShowAll()){
+					ConnectionInfo.setShowAll(false);
+				}			
+				else{
+					ConnectionInfo.setShowAll(true);
 				}
 				repaint();
 			}
