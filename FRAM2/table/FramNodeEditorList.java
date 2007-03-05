@@ -37,11 +37,13 @@ import data.FramNode;
 import data.FramNodeList;
 
 
+/**
+ * Holds a list of framnodeeditors (which are jpanels)
+ * @author petbe082
+ *
+ */
 public class FramNodeEditorList extends JComponent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1011531247926476853L;
 	
 	private FramNodeList list;
@@ -207,7 +209,7 @@ public class FramNodeEditorList extends JComponent {
 		if(selectedNodeEditor != value) {
 			selectedNodeEditor = value;
 			fireAction("Selected node changed");
-			value.selected();
+//			value.selected();
 		}
 
 		// Scroll editor into visible position
