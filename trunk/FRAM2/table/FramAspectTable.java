@@ -82,7 +82,10 @@ public class FramAspectTable extends JTable {
 		};
 
 		setNode(node);
-
+		
+		
+		
+		
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent arg0) {
@@ -98,14 +101,14 @@ public class FramAspectTable extends JTable {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
-				Cursor hourglassCursor = new Cursor(Cursor. MOVE_CURSOR);
-				setCursor(hourglassCursor);
+				Cursor cursor = new Cursor(Cursor. MOVE_CURSOR);
+				setCursor(cursor);
 				select();
 			}
 
 			public void mouseReleased(MouseEvent arg0) {
-				Cursor hourglassCursor = new Cursor(Cursor. DEFAULT_CURSOR);
-				setCursor(hourglassCursor);
+				Cursor cursor = new Cursor(Cursor. DEFAULT_CURSOR);
+				setCursor(cursor);
 			}
 		});
 	}
