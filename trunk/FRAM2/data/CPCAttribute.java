@@ -39,20 +39,7 @@ public class CPCAttribute implements Serializable {
 		setType(type);
 		setValue(value);
 		setComment(comment);
-		if (list.length > 0) {
-			System.out.println("YES! LIST!");
-			cpcForAspects = new Boolean[6];
-			cpcForAspects = list;
-		} else {
-			System.out.println("NO LIST!");
-			cpcForAspects = new Boolean[6];
-			cpcForAspects[0] = false;
-			cpcForAspects[1] = false;
-			cpcForAspects[2] = false;
-			cpcForAspects[3] = false;
-			cpcForAspects[4] = false;
-			cpcForAspects[5] = false;
-		}
+		cpcForAspects = list;
 	}
 
 	public String getType() {
@@ -68,11 +55,23 @@ public class CPCAttribute implements Serializable {
 	}
 
 	public void setCpcForAspects(Boolean[] list){
+		
 		cpcForAspects = list;
+//		System.out.print("in: ");
+//		for(boolean b : list) {
+//			System.out.print(b + "|");
+//		}
+//		System.out.println();
 
 	}
 
 	public Boolean[] getCpcForAspects(){
+//		System.out.print("ut: ");
+//		for(boolean b : cpcForAspects) {
+//		System.out.print(b + "|");
+//		}
+//		System.out.println();
+		
 		return cpcForAspects;
 	}
 
