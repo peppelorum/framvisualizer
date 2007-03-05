@@ -171,6 +171,7 @@ public class GraphLine extends JComponent {
 	}
 	
 	public void paintComponent(Graphics g) {
+		
 		Graphics2D g2 = (Graphics2D) g;
 		if(!getVisibility()) {
 			//return;

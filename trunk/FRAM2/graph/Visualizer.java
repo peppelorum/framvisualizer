@@ -379,25 +379,32 @@ public class Visualizer extends JComponent {
 		if(list.size() > 0) {
 			
 			for(GraphNode guinode : guiNodeList) {
-				guinode.paintComponent(g);
+				if(guinode.getNode().isFilterVisible()) {
+					guinode.paintComponent(g);
+				}
 			}
 			
 			for(GraphLine guiline : guiLineList) {
-				guiline.paintComponent(g);
+				if(guiline.getConnection().isFilterVisible()) {
+					guiline.paintComponent(g);
+				}
 			}			
 
 			for(GraphLine guiline : guiLineList) {
-				guiline.paintNameBubble(g);
+				if(guiline.getConnection().isFilterVisible()) {
+					guiline.paintNameBubble(g);
+				}
 			}
 			
 			for(GraphNode guinode : guiNodeList) {
-				guinode.paintName(g);
-				if(guinode.isHovered() 
-						|| guinode.isSelected()
-						|| connectedToSelectedNode.contains(guinode.getNode())) {
-					guinode.paintNameBubble(g);
+				if(guinode.getNode().isFilterVisible()) {
+					guinode.paintName(g);
+					if(guinode.isHovered() 
+							|| guinode.isSelected()
+							|| connectedToSelectedNode.contains(guinode.getNode())) {
+						guinode.paintNameBubble(g);
+					}
 				}
-				
 			}
 		
 		}

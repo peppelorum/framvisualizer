@@ -48,6 +48,7 @@ public class ConnectionInfo implements java.io.Serializable {
 	private boolean moved = false;
 	private Color lineColor = Color.black;
 	private boolean visibility = true;
+	private boolean filterVisible = true;
 	
 	transient GraphLine graphLine;
 		
@@ -124,4 +125,11 @@ public class ConnectionInfo implements java.io.Serializable {
 		return lineColor;
 	}
 
+	public boolean isFilterVisible() {
+		return filterVisible;
+	}
+	
+	public void setFilterVisible(boolean val) {
+		filterVisible = val;
+	}
 }

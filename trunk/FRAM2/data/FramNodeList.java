@@ -308,31 +308,31 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 * @return FramNodeList filtered result 
 	 */
 	
-	public FramNodeList getAllAspectsAndComments(String searchedFor) {
-		FramNodeList ret = new FramNodeList("temp");
-		
-		for(int i =0; i< this.size(); i++){
+	public void setVisibilityFilter(String searchedFor) {
+	
+		for(FramNode node : this){
 			
-			String name = this.get(i).getName();
+			String name = node.getName();
+			boolean visible = false;
 			
 			if(name.toLowerCase().startsWith(searchedFor.toLowerCase())){
-				ret.add(this.get(i));
+				visible = true;
 			}
-			ArrayList<String[]> aspects = this.get(i).getAllAspects();
+			ArrayList<String[]> aspects = node.getAllAspects();
 			for(int j = 0; j < aspects.size(); j++) {
-				
 				if (aspects.get(j)[1].toString().toLowerCase().startsWith(searchedFor.toLowerCase())){
-					ret.add(this.get(i));
+					visible = true;
 					break;
 				}
 				if (aspects.get(j)[2].toString().toLowerCase().startsWith(searchedFor.toLowerCase())){
-					ret.add(this.get(i));
+					visible = true;
 					break;
 				}
 			}
+			
+			node.setFilterVisible(visible);
 		}
 		
-		return ret;
 	}
 	
 	
