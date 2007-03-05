@@ -267,6 +267,10 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		Filemanager.saveFile(this, filename);
 	}
 	
+	public void SaveXMLFile(String filename){
+		Filemanager.saveXMLFile(this, filename);
+	}
+	
 	/**
 	 * Returns an arraylist<string> with all the currently used aspects in the network
 	 * 
