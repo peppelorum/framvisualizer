@@ -24,6 +24,7 @@
 
 package table;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -90,23 +91,22 @@ public class FramAspectTable extends JTable {
 
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 
 			public void mousePressed(MouseEvent arg0) {
+				Cursor hourglassCursor = new Cursor(Cursor. MOVE_CURSOR);
+				setCursor(hourglassCursor);
 				select();
 			}
 
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
+				Cursor hourglassCursor = new Cursor(Cursor. DEFAULT_CURSOR);
+				setCursor(hourglassCursor);
 			}
-
 		});
 	}
 
@@ -123,34 +123,9 @@ public class FramAspectTable extends JTable {
 		node.addNodeChangedListener(nodeChangedListener);
 
 		updateTable();
-
-
 	}
 
-//	public void setCellsNonFocused() {
-
-//	System.out.println(this.getEditingColumn());
-//	System.out.println(this.getEditingRow());
-
-//	if (this.getEditingColumn() > -1 && this.getEditingRow() > -1) {
-//	this.getCellEditor(this.getEditingRow(), this.getEditingColumn()).stopCellEditing();
-//	}
-
-//	}
-
 	private void updateTable() {
-
-//		for(int i = 0;i<this.getColumnCount();i++){
-////		this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());
-//		//Sets the cell renderers
-//		if (i == 3) {
-//		this.getColumnModel().getColumn( i ).setCellRenderer(new ButtonRenderer());
-//		} else {
-//		this.getColumnModel().getColumn( i ).setCellRenderer(new CustomCellRenderer ());        		
-//		}
-
-//		}
-
 
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumn col = this.getColumnModel().getColumn(0);
