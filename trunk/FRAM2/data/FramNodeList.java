@@ -24,6 +24,7 @@
 
 package data;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -432,8 +433,12 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	}
 	
 	/**
-	 * Filters the connections for a node, (removes output to output connections etc).
-	 *
+	 * Filters the connections for a node
+	 *Connections that are considered invaild is
+	 *Output - Output
+	 *Input - input
+	 *!output - precondition
+	 *These connections are marked as lightgrey, and no longer hidden or removed to not confuse the user
 	 */
 	
 	private void filterConnections(){
@@ -447,15 +452,13 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Output &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Output){
 					
-//					connections.get(i).setLineColor(Color.RED);
-					connections.get(i).setVisibility(false);
+					connections.get(i).setLineColor(Color.LIGHT_GRAY);
 				}
 			}
 			if(filterInputInput){
 				if(connections.get(i).getFrom().getConnectionPort() == NodePort.Input &&
 						connections.get(i).getTo().getConnectionPort() == NodePort.Input){
-//					connections.get(i).setLineColor(Color.RED);
-					connections.get(i).setVisibility(false);
+					connections.get(i).setLineColor(Color.LIGHT_GRAY);
 				}				
 			}
 			if(filterNonePreCOutput){
@@ -463,8 +466,9 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 					connections.get(i).getTo().getConnectionPort() == NodePort.Preconditions) &&
 						!(connections.get(i).getTo().getConnectionPort() == NodePort.Output ||
 						connections.get(i).getFrom().getConnectionPort() == NodePort.Output	)){
-//					connections.get(i).setLineColor(Color.RED);
-					connections.get(i).setVisibility(false);
+					connections.get(i).setLineColor(Color.LIGHT_GRAY);
+//					connections.get(i).setVisibility(false); 
+					// Do not hide these lines untill the complete gui to toggle rules on and off is done
 				}				
 			}			
 			
