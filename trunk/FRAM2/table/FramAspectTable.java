@@ -1,25 +1,25 @@
 /**
-
- 	A visualizer for FRAM (Functional Resonance Accident Model).
- 	This tool helps modelling the the FRAM table and visualize it.
-	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Lad�n <gusla438@student.liu.se>
-	http://sourceforge.net/projects/framvisualizer/
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+ 
+ A visualizer for FRAM (Functional Resonance Accident Model).
+ This tool helps modelling the the FRAM table and visualize it.
+ Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
+ Jonas Haraldsson <haraldsson@gmail.com>, Gustav Lad�n <gusla438@student.liu.se>
+ http://sourceforge.net/projects/framvisualizer/
+ 
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ 
  **/
 
 package table;
@@ -40,8 +40,15 @@ import data.Aspect;
 import data.FramNode;
 import data.FramNodeList;
 
-public class FramAspectTable extends JTable {
 
+/**
+ * Holds the jtable for the aspects, uses FramAspectTableModel as its model 
+ * @author petbe082
+ *
+ */
+
+public class FramAspectTable extends JTable {
+	
 	private FramNode node;
 	private FramNodeList list;
 	private ActionListener nodeChangedListener;
@@ -49,17 +56,12 @@ public class FramAspectTable extends JTable {
 	private ArrayList<ActionListener> selectedChangedRecipients;
 	private FramNodeEditor parent;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3518691723356609315L;
-
+	
 	public FramAspectTable() {
-
 		this(new FramNode(""), new FramNodeList(""), null);
-
 	}
-
+	
 	public boolean isCellEditable(int row, int column) {
 		if(row == 0) {
 			if (column != 0) {
@@ -68,82 +70,79 @@ public class FramAspectTable extends JTable {
 		}
 		return super.isCellEditable(row, column);
 	}
-
+	
 	public FramAspectTable(FramNode node, FramNodeList listInput, FramNodeEditor parent) {
 		this.parent = parent;
 		list = listInput;
 		selectedChangedRecipients = new ArrayList<ActionListener>(); 
-
+		
 		nodeChangedListener = new ActionListener() {
-
+			
 			public void actionPerformed(ActionEvent e) {
 				updateTable();
 			}
 		};
-
+		
 		setNode(node);
-		
-		
-		
-		
-		this.addMouseListener(new MouseListener() {
 
+		this.addMouseListener(new MouseListener() {
+			
 			public void mouseClicked(MouseEvent arg0) {
 				selectedChanged();
 			}
-
+			
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 			}
-
+			
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 			}
-
+			
 			public void mousePressed(MouseEvent arg0) {
 				Cursor cursor = new Cursor(Cursor. MOVE_CURSOR);
 				setCursor(cursor);
 				select();
 			}
-
+			
 			public void mouseReleased(MouseEvent arg0) {
 				Cursor cursor = new Cursor(Cursor. DEFAULT_CURSOR);
 				setCursor(cursor);
 			}
 		});
 	}
-
+	
 	public FramNode getNode() {
 		return node;
 	}
-
+	
 	public void setNode(FramNode newNode) {
 		cleanUp();
-
+		
 		node = newNode;
-
+		
 		setModel(new FramAspectTableModel(node));
 		node.addNodeChangedListener(nodeChangedListener);
-
+		
 		updateTable();
 	}
-
+	
 	private void updateTable() {
-
+		
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumn col = this.getColumnModel().getColumn(0);
 		int width = 90;
 		col.setMinWidth(width);
 		col.setMaxWidth(width);
 		col.setPreferredWidth(width);
-
+		
 		col = this.getColumnModel().getColumn(3);
 		width = 30;
 		col.setMinWidth(width);
 		col.setMaxWidth(width);
 		col.setPreferredWidth(width);
 	}
-
+	
 	public void cleanUp() {
 		if(node != null) {
 			node.removeNodeChangedListener(nodeChangedListener);
@@ -151,7 +150,7 @@ public class FramAspectTable extends JTable {
 			model.cleanUp();
 		}
 	}
-
+	
 	/**
 	 * Overrides the default celleditor, makes it possible to set editor for individual cells
 	 */
@@ -167,13 +166,13 @@ public class FramAspectTable extends JTable {
 			return super.getCellEditor(row,col);
 		}
 	}
-
+	
 	
 	/**
 	 * Overrides the default cellrenderer, makes it possible to set renderer for individual cells
 	 */
 	public TableCellRenderer getCellRenderer(int row, int col) {
-
+		
 		if (col == 3 && row > 0){
 			return new ButtonRenderer();
 		} else if(row == 0){
@@ -184,51 +183,51 @@ public class FramAspectTable extends JTable {
 			return super.getCellRenderer(row,col);
 		}
 	}
-
+	
 	public void addSelectedChangedListener(ActionListener listener) {
 		this.selectedChangedRecipients.add(listener);
 	}
-
+	
 	public void removeSelectedChangedListener(ActionListener listener) {
 		this.selectedChangedRecipients.remove(listener);
 	}
-
+	
 	private void selectedChanged() {
 		if(this.getSelectedRow() > 0) {
 			String type = (String)this.getValueAt(this.getSelectedRow(), 0);
 			String name = (String)this.getValueAt(this.getSelectedRow(), 1);
-
+			
 			if (this.getSelectedRow() != 0) {
 				Aspect aspect = node.getAspect(type, name);
 				setSelectedAspect(aspect);
 			}
-
+			
 			ActionEvent event = new ActionEvent(this, 0, "");
-
+			
 			for(ActionListener listener : this.selectedChangedRecipients) {
 				listener.actionPerformed(event);
 			}
 		}
 	}
-
+	
 	private void setSelectedAspect(Aspect value) {
 		this.selectedAspect = value;
 	}
-
+	
 	public Aspect getSelectedAspect() {
 		return selectedAspect;
 	}
-
+	
 	public void select() {
 		if(parent != null) {
 			parent.select();
 		}
 	}
-
+	
 	public boolean isSelected() {
 		return parent.isSelected();
 	}
-
+	
 	public FramNodeList getList() {
 		return list;
 	}
