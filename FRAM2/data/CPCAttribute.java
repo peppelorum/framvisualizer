@@ -33,9 +33,9 @@ public class CPCAttribute implements Serializable {
 	private String type;
 	private String value;
 	private String comment;
-	private Boolean[] cpcForAspects;
+	private boolean[] cpcForAspects;
 
-	public CPCAttribute(String type, String value, String comment, Boolean[] list) {
+	public CPCAttribute(String type, String value, String comment, boolean[] list) {		
 		setType(type);
 		setValue(value);
 		setComment(comment);
@@ -54,7 +54,7 @@ public class CPCAttribute implements Serializable {
 		return comment;
 	}
 
-	public void setCpcForAspects(Boolean[] list){
+	public void setCpcForAspects(boolean[] list){
 		
 		cpcForAspects = list;
 //		System.out.print("in: ");
@@ -65,7 +65,7 @@ public class CPCAttribute implements Serializable {
 
 	}
 
-	public Boolean[] getCpcForAspects(){
+	public boolean[] getCpcForAspects(){
 //		System.out.print("ut: ");
 //		for(boolean b : cpcForAspects) {
 //		System.out.print(b + "|");
@@ -95,6 +95,13 @@ public class CPCAttribute implements Serializable {
 	}
 
 	public Object[] toArray2() {
-		return new Object[] { getType(), getValue(), getComment(), getCpcForAspects() };
+		boolean[] cpc = getCpcForAspects();
+		return new Object[] { getType(), getValue(), getComment(), 
+				cpc[0],
+				cpc[1],
+				cpc[2],
+				cpc[3],
+				cpc[4],
+				cpc[5]};
 	}
 }

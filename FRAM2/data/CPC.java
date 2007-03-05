@@ -64,7 +64,7 @@ public class CPC implements Serializable {
 		list = new ArrayList<CPCAttribute>();
 		
 	}
-	public void setAttribute(String type, String value, String comment, Boolean[] cpcForAspects){
+	public void setAttribute(String type, String value, String comment, boolean[] cpcForAspects){
 		if(hasAttribute(type)) {
 			CPCAttribute attrib = getAttribute(type);
 			attrib.setValue(value);
