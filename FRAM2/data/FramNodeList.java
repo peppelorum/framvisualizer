@@ -437,14 +437,16 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 *Connections that are considered invaild is
 	 *Output - Output
 	 *Input - input
-	 *!output - precondition
 	 *These connections are marked as lightgrey, and no longer hidden or removed to not confuse the user
 	 */
 	
 	private void filterConnections(){
+		//No output-output
 		boolean filterOutputOutput = true;
+		//No input - input
 		boolean filterInputInput = true;
-		boolean filterNonePreCOutput = true;
+		//Only output can connect to precondition
+		boolean filterNonePreCOutput = false;
 		
 		for(int i=0;i<connections.size();i++){
 			
