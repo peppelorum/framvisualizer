@@ -26,6 +26,8 @@ package data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import data.FramNode.NodePort;
+
 public class CPC implements Serializable {
 	/**
 	 * 
@@ -98,6 +100,41 @@ public class CPC implements Serializable {
 	
 	public FramNode getParent() {
 		return parent;
+	}
+	
+	public int getPortNumber(NodePort port) {
+		if(port == NodePort.Input) {
+			return 0;
+		}
+		if(port == NodePort.Output) {
+			return 1;
+		}
+		if(port == NodePort.Preconditions) {
+			return 2;
+		}
+		if(port == NodePort.Resources) {
+			return 3;
+		}
+		if(port == NodePort.Time) {
+			return 4;
+		}
+		if(port == NodePort.Control) {
+			return 5;
+		}
+		
+		return -1;
+	}
+	
+	public ArrayList<CPCAttribute> getAttributesForPart(FramNode.NodePort port) {
+		ArrayList<CPCAttribute> attribs = new ArrayList<CPCAttribute>();
+		
+		for(CPCAttribute attrib : list) {
+			if(attrib.getCpcForAspects()[getPortNumber(port)]) {
+				attribs.add(attrib);
+			}
+		}
+		
+		return attribs;
 	}
 
 }
