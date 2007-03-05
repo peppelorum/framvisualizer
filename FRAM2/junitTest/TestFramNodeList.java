@@ -3,7 +3,6 @@ package junitTest;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import data.ConnectionInfo;
 import data.FramNode;
 import data.FramNodeList;
 

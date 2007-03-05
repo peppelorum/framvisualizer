@@ -24,7 +24,6 @@
 
 package gui;
 
-import graph.GraphLine;
 import graph.Visualizer;
 
 import java.awt.BorderLayout;
@@ -50,8 +49,6 @@ import javax.swing.JTextField;
 import table.FramCPCTable;
 import table.FramNodeEditorList;
 
-import data.Aspect;
-import data.ConnectionInfo;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -208,14 +205,14 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowLabels.setText("Toggle all labels");
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(GraphLine line : framVisualizer.getGuiLineList()){
-//					if(line.getConnection().isShowBubbles()){
-//						line.getConnection().setShowBubbles(false);
-//					}
-//					else{
-//							line.getConnection().setShowBubbles(true);
-//						}
-				}
+//				for(GraphLine line : framVisualizer.getGuiLineList()){
+////					if(line.getConnection().isShowBubbles()){
+////						line.getConnection().setShowBubbles(false);
+////					}
+////					else{
+////							line.getConnection().setShowBubbles(true);
+////						}
+//				}
 				repaint();
 			}
 		});
@@ -228,7 +225,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonToggleSingleLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				ConnectionInfo cInfo = framVisualizer.getSelectedLine();
+				//ConnectionInfo cInfo = framVisualizer.getSelectedLine();
 				
 //				cInfo.setShowBubbles(false); 
 				

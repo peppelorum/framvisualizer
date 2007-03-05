@@ -5,21 +5,21 @@
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
 	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-  
+
  **/
 
 package graph;
@@ -47,7 +47,7 @@ public class GraphNode extends JComponent {
 
 	private Color nodeColorSel = Color.getHSBColor(0.1F, 0.6F, 0.5F);
 
-	
+
 	public GraphNode(FramNode node, Visualizer parent) {
 		this.node = node;
 		this.parent = parent;
@@ -56,18 +56,18 @@ public class GraphNode extends JComponent {
 	public boolean isSelected() {
 		return parent.getSelectedNode() == node;
 	}
-	
+
 	public boolean isHovered() {
 		return parent.getHoveredNode() == node;
 	}
-	
+
 	public FramNode getNode() {
 		return node;
 	}
 
 	public Point getCenter() {
 		Rectangle rect = node.getRectangle();
-		
+
 		return new Point(rect.x + rect.width/2,
 				rect.y + rect.height / 2);
 	}
@@ -75,11 +75,11 @@ public class GraphNode extends JComponent {
 	public Polygon getPolygon() {
 		return node.getPolygon();
 	}
-	
+
 	public Point getCloserToCenter(Point input, int distance) {
 		Point modified = (Point)input.clone();
 		Point center = getCenter();
-		
+
 		if(modified.x > center.x) {
 			modified.x -= distance;
 		}
@@ -93,62 +93,55 @@ public class GraphNode extends JComponent {
 		else if(modified.y < center.y) {
 			modified.y += distance;
 		}
-		
+
 		return modified;
 	}
-	
-	
+
+
 	public void paintComponent(Graphics g) { 
-	    
-		int sizePort = node.getPortSize();
-		
+
 		Color bgColor = node.getColor();
-		
+
 		if(isSelected()) {
 			bgColor = nodeColorSel;				
 		}
 
 		g.setColor(bgColor);
-		
-		Polygon poly = getPolygon();
-		
-		g.fillPolygon(poly);
-		
-//		for(int i = 0; i < poly.npoints; i++) {
-//			g.fillOval(poly.xpoints[i]-sizePort/2, poly.ypoints[i]-sizePort/2, sizePort, sizePort);
-//		}
-	
-		//if(isSelected()) {
-			g.setFont(new Font("Arial", 1, 10));
-			for(NodePort conn : FramNode.NodePort.values()) {
-				if(isSelected() && parent.getSelectedPort() == conn) {
-					g.setColor(Color.white);
-				}
-				else {
-					g.setColor(bgColor);
-				}
-				
-				Rectangle portRect = node.getPortRectangle(conn);
-				g.fillOval(portRect.x, portRect.y, portRect.width, portRect.height);
-				
-				if(isSelected() && parent.getSelectedPort() == conn) {
-					g.setColor(bgColor);
-					g.drawOval(portRect.x, portRect.y, portRect.width, portRect.height);
-				}
-				
-				if(isSelected() && parent.getSelectedPort() == conn) {
-					g.setColor(Color.black);
-				}
-				else {
-					g.setColor(Color.white);
-				}
-				Point loc = getCloserToCenter(node.getPortLocation(conn), 2);
-				loc.x -= 4;
-				loc.y += 4;
-				g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
-			}			
 
-	
+		Polygon poly = getPolygon();
+
+		g.fillPolygon(poly);
+
+		g.setFont(new Font("Arial", 1, 10));
+		for(NodePort conn : FramNode.NodePort.values()) {
+			if(isSelected() && parent.getSelectedPort() == conn) {
+				g.setColor(Color.white);
+			}
+			else {
+				g.setColor(bgColor);
+			}
+
+			Rectangle portRect = node.getPortRectangle(conn);
+			g.fillOval(portRect.x, portRect.y, portRect.width, portRect.height);
+
+			if(isSelected() && parent.getSelectedPort() == conn) {
+				g.setColor(bgColor);
+				g.drawOval(portRect.x, portRect.y, portRect.width, portRect.height);
+			}
+
+			if(isSelected() && parent.getSelectedPort() == conn) {
+				g.setColor(Color.black);
+			}
+			else {
+				g.setColor(Color.white);
+			}
+			Point loc = getCloserToCenter(node.getPortLocation(conn), 2);
+			loc.x -= 4;
+			loc.y += 4;
+			g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
+		}			
+
+
 	}
 	/**
 	 * Draw the name inside the node
@@ -159,11 +152,11 @@ public class GraphNode extends JComponent {
 		g.setFont(new Font("Arial", 1, fontSize));
 		g.setColor(Color.BLACK);
 		String name = node.getName();
-		
+
 		//crop the name if its too long
 		while(name.length()>1 && g.getFontMetrics().stringWidth(name)> node.getSize()-5){
 			name = name.substring(0,name.length()-1);	
-		
+
 		}
 		if(name.length() != node.getName().length()){
 			name = name.substring(0,name.length()-1);	
@@ -174,9 +167,9 @@ public class GraphNode extends JComponent {
 				name, 
 				(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
 				node.getPosition().y+node.getSize()/2);
-			    
+
 	}
-	
+
 	/**
 	 * Draws the bubble with the node name
 	 * @param g
@@ -186,29 +179,29 @@ public class GraphNode extends JComponent {
 		//Calculate name width
 		g.setFont(new Font("Arial", 1, 12));
 		node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(node.getName()));
-		
+
 		int bubbleHeight = 20;
 		int bubbleWidth = node.getBubbleWidth();
 		int bubbleRounded = 10;
-		
+
 		if(isSelected()) {
 			bubbleHeight = 20;
 		}
-		
-		
+
+
 		// define coordinates for bubble
 		Rectangle bubbleRect = new Rectangle(
 				getCenter().x + (node.getSize()/3),
 				getCenter().y - (node.getSize()-node.getSize()/3),
 				bubbleWidth,
 				bubbleHeight);
-		
+
 		// define the triangle
 		Polygon triAngle = new Polygon();
 		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + 3);
 		triAngle.addPoint(getCenter().x, getCenter().y);
 		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + (node.getSize()/4));
-		
+
 		// fill bubble background
 		g.setColor(Color.white);
 		g.fillRoundRect(
@@ -218,7 +211,7 @@ public class GraphNode extends JComponent {
 				bubbleRect.height, 
 				bubbleRounded, 
 				bubbleRounded);
-		
+
 		// draw bubble outline
 		g.setColor(Color.black);
 		g.drawRoundRect(
@@ -228,8 +221,8 @@ public class GraphNode extends JComponent {
 				bubbleRect.height, 
 				bubbleRounded, 
 				bubbleRounded);
-		
-		
+
+
 		// fill and draw triangle
 		g.setColor(Color.white);
 		g.fillPolygon(triAngle);
@@ -244,14 +237,14 @@ public class GraphNode extends JComponent {
 				triAngle.ypoints[2], 
 				triAngle.xpoints[1], 
 				triAngle.ypoints[1]);
-		
+
 		// draw name
 //		g.setFont(new Font("Arial", 1, 12));
 		g.drawString(
 				node.getName(), 
 				bubbleRect.x + margin,
 				bubbleRect.y + margin);
-		
+
 		if(isSelected()) {
 			g.setFont(new Font("Arial", 1, 10));
 			g.drawString(
@@ -261,8 +254,8 @@ public class GraphNode extends JComponent {
 		}
 
 	}
-	
 
-	
-	
+
+
+
 }

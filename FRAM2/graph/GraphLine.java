@@ -117,6 +117,8 @@ public class GraphLine extends JComponent {
 	public GraphLine(ConnectionInfo connection, Visualizer parent) {
 		this.connection = connection;
 		this.parent = parent;
+		
+		setPosition(getCenter());
 	}
 
 	public boolean isSelected() {
