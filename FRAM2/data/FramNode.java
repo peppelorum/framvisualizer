@@ -61,7 +61,8 @@ public class FramNode implements java.io.Serializable {
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	private CPC cpc;
 	private boolean filterVisible = true;
-	int portDistance = 12;
+	private int portDistance = 12;
+
 	
 	private Point position = new Point(0, 0);
 	
@@ -308,6 +309,10 @@ public class FramNode implements java.io.Serializable {
 		return size;
 	}
 	
+	public int getPortDistance() {
+		return portDistance * getSize() / DEFAULT_SIZE;
+	} 
+	
 	public int getPortSize() {
 		return size / 4;
 	}
@@ -328,7 +333,7 @@ public class FramNode implements java.io.Serializable {
 				getSize());
 		
 		if(withPorts) {
-			rect.grow(getPortSize()/2 + this.portDistance, getPortSize()/2 + this.portDistance);
+			rect.grow(getPortSize()/2 + getPortDistance(), getPortSize()/2 + getPortDistance());
 		}
 		
 		return rect;
@@ -385,7 +390,7 @@ public class FramNode implements java.io.Serializable {
 						poly.ypoints[i]);
 				
 				Point oldPortLocation = (Point)p.clone();
-				Point newPortLocation = getFurtherFromCenter(oldPortLocation, portDistance);
+				Point newPortLocation = getFurtherFromCenter(oldPortLocation, getPortDistance());
 				p = newPortLocation;
 				break;
 			}
