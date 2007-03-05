@@ -224,33 +224,10 @@ public class Visualizer extends JComponent {
 			public void mouseWheelMoved(MouseWheelEvent arg0) {
 				float newZoom = getZoomFactor();
 				newZoom += arg0.getWheelRotation() * -0.05;
-				
-				setZoomFactor(newZoom);
+			
+				setZoomFactor(newZoom, arg0.getPoint());
 				
 				repaint();
-				
-				//float zoomDifference = newZoom - getZoomFactor();
-				//Point corr = removeZoomOffset(arg0.getPoint());
-								
-				//corr.x /= newZoom;
-				//corr.y /= newZoom;
-								
-				//corr.x += arg0.getX();
-				//corr.y += arg0.getY();
-				
-				//corr.x += offset.x;
-				//corr.y += offset.y;
-				//corr.x /= 2;
-				//corr.y /= 2;
-				
-				//corr.x *= zoomDifference;
-				//corr.y *= zoomDifference;
-				
-				//corr = addZoom(corr);
-				
-				//offset.x -= corr.x;
-				//offset.y -= corr.y;
-				
 
 			}
 			
@@ -403,11 +380,24 @@ public class Visualizer extends JComponent {
 		return zoomFactor;
 	}
 	
-	public void setZoomFactor(float val) {
-		zoomFactor = val;
-		if(zoomFactor < 0.1f) {
-			zoomFactor = 0.1f;
+	public void setZoomFactor(float val, Point position) {
+		if(val < 0.1f) {
+			val = 0.1f;
 		}
+		else if(val > 2) {
+			val = 2;
+		}
+		
+		float zoomDifference = val - zoomFactor;
+		Point corr = removeZoom(position);
+	
+		corr.x *= zoomDifference / val;
+		corr.y *= zoomDifference / val;
+						
+		offset.x -= corr.x;
+		offset.y -= corr.y;
+		
+		zoomFactor = val;
 	}
 	
 	public void paintComponent(Graphics g) {		
