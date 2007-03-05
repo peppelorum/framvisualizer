@@ -133,9 +133,9 @@ public class GUI extends JFrame implements ActionListener{
 		
 		//Split 2 = graph and CPC
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		split2.setDividerLocation(300);
-		split2.setTopComponent(framVisualizer);
-		split2.setBottomComponent(new JScrollPane(framCPCTable));
+		split2.setDividerLocation(200);
+		split2.setTopComponent(new JScrollPane(framCPCTable));
+		split2.setBottomComponent(framVisualizer);
 		
 		tableAndGraph.setRightComponent(split2);
 		
