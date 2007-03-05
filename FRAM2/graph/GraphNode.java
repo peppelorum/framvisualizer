@@ -66,10 +66,7 @@ public class GraphNode extends JComponent {
 	}
 
 	public Point getCenter() {
-		Rectangle rect = node.getRectangle();
-
-		return new Point(rect.x + rect.width/2,
-				rect.y + rect.height / 2);
+		return node.getCenter();
 	}
 
 	public Polygon getPolygon() {
@@ -96,6 +93,8 @@ public class GraphNode extends JComponent {
 
 		return modified;
 	}
+	
+	
 
 
 	public void paintComponent(Graphics g) { 
@@ -113,15 +112,24 @@ public class GraphNode extends JComponent {
 		g.fillPolygon(poly);
 
 		g.setFont(new Font("Arial", 1, 10));
+		
 		for(NodePort conn : FramNode.NodePort.values()) {
+			Rectangle portRect = node.getPortRectangle(conn);
+			
+			g.setColor(bgColor);
+			g.drawLine(
+					getCenter().x,
+					getCenter().y, 
+					portRect.x + node.getPortSize() / 2, 
+					portRect.y + node.getPortSize() / 2);
+			
 			if(isSelected() && parent.getSelectedPort() == conn) {
 				g.setColor(Color.white);
 			}
 			else {
 				g.setColor(bgColor);
 			}
-
-			Rectangle portRect = node.getPortRectangle(conn);
+			
 			g.fillOval(portRect.x, portRect.y, portRect.width, portRect.height);
 
 			if(isSelected() && parent.getSelectedPort() == conn) {
@@ -135,9 +143,10 @@ public class GraphNode extends JComponent {
 			else {
 				g.setColor(Color.white);
 			}
+			
 			Point loc = getCloserToCenter(node.getPortLocation(conn), 2);
-			loc.x -= 4;
-			loc.y += 4;
+			loc.x -= 3;
+			loc.y += 3;
 			g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
 		}			
 
@@ -185,7 +194,7 @@ public class GraphNode extends JComponent {
 		int bubbleRounded = 10;
 
 		if(isSelected()) {
-			bubbleHeight = 20;
+			bubbleHeight = 60;
 		}
 
 

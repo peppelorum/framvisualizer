@@ -61,6 +61,7 @@ public class FramNode implements java.io.Serializable {
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	private CPC cpc;
 	private boolean filterVisible = true;
+	int portDistance = 12;
 	
 	private Point position = new Point(0, 0);
 	
@@ -327,10 +328,50 @@ public class FramNode implements java.io.Serializable {
 				getSize());
 		
 		if(withPorts) {
-			rect.grow(getPortSize()/2, getPortSize()/2);
+			rect.grow(getPortSize()/2 + this.portDistance, getPortSize()/2 + this.portDistance);
 		}
 		
 		return rect;
+	}
+	
+
+	
+	public Point getCenter() {
+		Rectangle rect = getRectangle();
+
+		return new Point(rect.x + rect.width/2,
+				rect.y + rect.height / 2);
+	}
+	
+	public Point getFurtherFromCenter(Point input, int distance) {
+		Point modified = (Point)input.clone();
+		Point center = getCenter();
+
+		if(modified.x > center.x) {
+			if(modified.y != center.y) {
+				modified.x += distance * 0.7;
+			}
+			else {
+				modified.x += distance;
+			}
+		}
+		else if(modified.x < center.x) {
+			if(modified.y != center.y) {
+				modified.x -= distance * 0.7;
+			}
+			else {
+				modified.x -= distance;
+			}
+		}
+
+		if(modified.y > center.y) {
+			modified.y += distance;
+		}
+		else if(modified.y < center.y) {
+			modified.y -= distance;
+		}
+
+		return modified;
 	}
 	
 	public Point getPortLocation(FramNode.NodePort connPoint) {
@@ -342,6 +383,10 @@ public class FramNode implements java.io.Serializable {
 				p = new Point(
 						poly.xpoints[i],
 						poly.ypoints[i]);
+				
+				Point oldPortLocation = (Point)p.clone();
+				Point newPortLocation = getFurtherFromCenter(oldPortLocation, portDistance);
+				p = newPortLocation;
 				break;
 			}
 		}
@@ -351,7 +396,7 @@ public class FramNode implements java.io.Serializable {
 	
 	public Rectangle getPortRectangle(FramNode.NodePort connPoint) {
 		Point position = getPortLocation(connPoint);
-		int size = getPortSize();
+		int size = this.getPortSize();
 		int halfSize = size / 2;
 		
 		if(position != null) {
@@ -360,6 +405,7 @@ public class FramNode implements java.io.Serializable {
 					position.y - halfSize,
 					size,
 					size);
+			
 			return rect;
 		}
 		else {
