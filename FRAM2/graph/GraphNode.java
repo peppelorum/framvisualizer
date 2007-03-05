@@ -177,7 +177,6 @@ public class GraphNode extends JComponent {
 				name, 
 				(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
 				node.getPosition().y+node.getSize()/2);
-
 	}
 
 	/**
@@ -186,25 +185,46 @@ public class GraphNode extends JComponent {
 	 */
 	public void paintNameBubble(Graphics g) {
 		int margin = 15;
-		//Calculate name width
-		g.setFont(new Font("Arial", 1, 12));
-		node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(node.getName()));
-
 		int bubbleHeight = 20;
-		int bubbleWidth = node.getBubbleWidth();
 		int bubbleRounded = 10;
-
+			
+		//Sets the name to the node name
+		g.setFont(new Font("Arial", 1, 12));
+		String nameString = node.getName();		
+		//if a port is selected a new namestring is set
+		if(parent.getSelectedPort() != null && isSelected()) {	
+			nameString += " : " + parent.getSelectedPort().toString();	
+		}
+		
+		//Sets the width of the bubble so it contains the text
+		node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(nameString));
+		
+		//Checks if the info when a port is selected need to enlarge the bubble
+		//This info is value and comments for each port, it also increase the height
+		if(isSelected() && parent.getSelectedPort() != null) {
+			g.setFont(new Font("Arial", 1, 10));
+			for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {	
+				String s = asp.getValue() + (asp.getComment() != "" ? " \"" + asp.getComment() + "\"" : "");
+				if(g.getFontMetrics().stringWidth(nameString) < g.getFontMetrics().stringWidth(s)){
+					node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(s));
+				}
+				//Increases the height of the bubble when more aspects are added
+				bubbleHeight += g.getFontMetrics().getHeight()-1;	
+			}
+		}
+		g.setFont(new Font("Arial", 1, 12));	
+	
+		int bubbleWidth = node.getBubbleWidth();
 		
 		Point bubblePoint = getCenter();
 
 		if(isSelected()) {
-			bubbleWidth += 200;
-			bubbleHeight = 100;
+			//bubbleHeight = 100;
 			if(parent.getSelectedPort() != null) {
 				bubblePoint = node.getPortLocation(parent.getSelectedPort());
 			}
 		}
-		
+
 		// define coordinates for bubble
 		Rectangle bubbleRect = new Rectangle(
 				bubblePoint.x + (node.getSize()/3),
@@ -257,19 +277,13 @@ public class GraphNode extends JComponent {
 		// draw name
 //		g.setFont(new Font("Arial", 1, 12));
 		
-		String nameString = node.getName();
-		if(parent.getSelectedPort() != null && isSelected()) {
-			nameString += " : " + parent.getSelectedPort().toString();
-		}
-		
 		g.drawString(
 				nameString, 
 				bubbleRect.x + margin,
 				bubbleRect.y + margin);
-
+	
 		if(isSelected()) {
 			g.setFont(new Font("Arial", 1, 10));
-			
 			
 			if(parent.getSelectedPort() != null) { 
 				String[] cpcs = node.getCPCtext(parent.getSelectedPort());
@@ -282,8 +296,7 @@ public class GraphNode extends JComponent {
 							bubbleRect.x + margin,
 							bubbleRect.y + margin*2 + g.getFont().getSize() * counter);
 					counter++;
-				}
-				
+				}		
 				counter++;
 				
 				for(int i = 0; i < cpcs.length; i++) {
