@@ -106,7 +106,7 @@ public class FramCPCTable extends JTable {
 			
 			
 			if (cpc.hasAttribute(type)) {
-				Boolean[] cpcAsp = cpc.getAttribute(type).getCpcForAspects();		
+				boolean[] cpcAsp = cpc.getAttribute(type).getCpcForAspects();		
 					
 					CheckboxRenderer editor = new CheckboxRenderer(cpcAsp[col-3]);
 //					editor.setValue(cpcAsp[i]);

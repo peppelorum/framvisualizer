@@ -54,7 +54,13 @@ public class FramCPCTableModel extends DefaultTableModel {
 				row = cpcAttrib.toArray2();
 			}
 			else {
-				row = new Object[]{ cpcType, "", "", new Boolean(false), new Boolean(false), new Boolean(false), new Boolean(false), new Boolean(false), new Boolean(false)};
+				row = new Object[]{ cpcType, "", "", 
+					false,
+					false,
+					false,
+					false,
+					false,
+					false};
 			}
 			this.addRow(row);
 		}
@@ -68,7 +74,7 @@ public class FramCPCTableModel extends DefaultTableModel {
 				String value = (String)getValueAt(row, 1);
 				String comment = (String)getValueAt(row, 2);
 				
-				Boolean[] tmp = new Boolean[6];
+				boolean[] tmp = new boolean[6];
 				
 				Object b;
 				Boolean c;
@@ -79,7 +85,7 @@ public class FramCPCTableModel extends DefaultTableModel {
 										
 					if(b instanceof Boolean) {
 						c = (Boolean)b;
-						tmp[i] = c;
+						tmp[i] = (boolean)c;
 					}
 				}				
 				getCPC().setAttribute(type, value, comment, tmp);
