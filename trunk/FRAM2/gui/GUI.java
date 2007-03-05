@@ -72,9 +72,9 @@ public class GUI extends JFrame implements ActionListener{
     private JSplitPane tableAndGraph;
     private JSplitPane split2;
     private JPanel lineButtons = new JPanel();
+    private JPanel nodeButtons = new JPanel();
     private Container tableContainer = new Container();
     
-    private JButton toggleLockLine;
     private JButton toggleHideLine;
         
     private boolean showAllLabels = true;
@@ -97,13 +97,15 @@ public class GUI extends JFrame implements ActionListener{
 				if(visualizer.getSelectedNode() != null) {
 					framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
 					lineButtons.setVisible(false);
+					nodeButtons.setVisible(true);
 				}
 				else if(visualizer.getSelectedLine() != null) {
 					lineButtons.setVisible(true);
-					
+					nodeButtons.setVisible(false);
 				}
 				else {
 					lineButtons.setVisible(false);
+					nodeButtons.setVisible(false);
 				}
 				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
 				
@@ -173,7 +175,7 @@ public class GUI extends JFrame implements ActionListener{
 		JButton redLine;
 		Icon red_icon = new ImageIcon(getClass().getResource("/icons/color_red.GIF"));
 		redLine = new JButton(red_icon);
-		redLine.setText("red");
+		redLine.setSize(10,10);
 		redLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				framVisualizer.getSelectedLine().setLineColor(Color.RED);
@@ -183,7 +185,6 @@ public class GUI extends JFrame implements ActionListener{
 		JButton blackLine;
 		Icon black_icon = new ImageIcon(getClass().getResource("/icons/color_black.GIF"));
 		blackLine = new JButton(black_icon);
-		blackLine.setText("black");
 		blackLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				framVisualizer.getSelectedLine().setLineColor(Color.BLACK);
@@ -193,7 +194,6 @@ public class GUI extends JFrame implements ActionListener{
 		JButton greenLine;
 		Icon green_icon = new ImageIcon(getClass().getResource("/icons/color_green.GIF"));
 		greenLine = new JButton(green_icon);
-		greenLine.setText("green");
 		greenLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				framVisualizer.getSelectedLine().setLineColor(Color.GREEN);
@@ -211,23 +211,37 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		
 		});
+		JButton biggerNodeButton;
+		Icon bigger_icon = new ImageIcon(getClass().getResource("/icons/bigger.GIF"));
+		biggerNodeButton = new JButton(bigger_icon); 
+		biggerNodeButton.setText("Bigger");
+		biggerNodeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()+5);
+				framVisualizer.repaint();
+			}
 		
+		});
 		lineButtons.add(unlockLineButton);
 		lineButtons.add(toggleHideLine);
 		lineButtons.add(blackLine);
 		lineButtons.add(greenLine);
 		lineButtons.add(redLine);
 		lineButtons.setVisible(false);
-//		lineButtons.add(redLine);
+		
+// Fix JPanel for nodes.. aint workin
+		nodeButtons.add(biggerNodeButton);
+		nodeButtons.setVisible(false);
 		JPanel CPCandLineButtons = new JPanel();
 		
 		CPCandLineButtons.setLayout(new BorderLayout());
 		CPCandLineButtons.add(new JScrollPane(framCPCTable), BorderLayout.CENTER);
+		CPCandLineButtons.add(nodeButtons, BorderLayout.SOUTH);
 		CPCandLineButtons.add(lineButtons, BorderLayout.SOUTH);
 		
 		//Split 2 = graph and CPC
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		split2.setDividerLocation(230);
+		split2.setDividerLocation(232);
 		split2.setTopComponent(CPCandLineButtons);
 		split2.setBottomComponent(framVisualizer);
 		
@@ -242,7 +256,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createDeleteButton());
 		buttonsPanel.add(createShowLabelsButton());
-//		buttonsPanel.add(createToggleSingleLabelButton());
+		buttonsPanel.add(createShowHiddenLinesButton());
 		
 		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
@@ -287,22 +301,36 @@ public class GUI extends JFrame implements ActionListener{
 					if(showAllLabels){
 						line.setShowBubbles(true);
 						showAllLabels = false;
-						line.getConnection().setShowAll(false);
 					}
 					else{
 						line.setShowBubbles(false);
 						showAllLabels = true;
-						line.getConnection().setShowAll(true);
-						}
-					
-					
+					}
 				}
 				repaint();
 			}
 			
 		});
-		
 		return buttonShowLabels;
+	}
+	private JButton createShowHiddenLinesButton() {
+		JButton buttonShowHiddenLines = new JButton();
+		buttonShowHiddenLines.setText("Toggle Hidden Lines");
+		buttonShowHiddenLines.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for(GraphLine line : framVisualizer.getGuiLineList()){
+					if(line.getConnection().isShowAll()){
+						line.getConnection().setShowAll(false);
+					}			
+					else{
+						line.getConnection().setShowAll(true);
+					}
+				}
+				repaint();
+			}
+			
+		});
+		return buttonShowHiddenLines;
 	}
 //	private JButton createToggleSingleLabelButton() {
 //		JButton buttonToggleSingleLabel = new JButton();
