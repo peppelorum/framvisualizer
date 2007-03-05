@@ -22,7 +22,7 @@ public class CheckboxRenderer extends Component implements TableCellRenderer{
 		JCheckBox panel = new JCheckBox();
 
 		if(selected instanceof Boolean) {
-			if (selected){
+			if ((boolean)selected){
 				panel.setSelected(true);
 			} else {
 				panel.setSelected(false);
