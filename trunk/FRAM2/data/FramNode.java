@@ -478,7 +478,7 @@ public class FramNode implements java.io.Serializable {
 			}
 		}
 		
-		setSize(DEFAULT_SIZE + 5 * connectedList.size());
+		//setSize(DEFAULT_SIZE + 5 * connectedList.size());
 		
 		return connectedList;
 	}
@@ -691,4 +691,17 @@ public class FramNode implements java.io.Serializable {
 			return NODE_DEFAULT_COLOR;
 		}
 	}
+	
+	public String[] getCPCtext(FramNode.NodePort port) {
+		ArrayList<String> cpcs = new ArrayList<String>();
+		
+		for(CPCAttribute attrib : getCPC().getAttributesForPart(port)) {
+			cpcs.add(attrib.getType() + ": " + attrib.getValue());
+		}
+		
+		String[] cpcStrings = new String[cpcs.size()];
+		cpcs.toArray(cpcStrings);
+		return cpcStrings;
+	}
+
 }

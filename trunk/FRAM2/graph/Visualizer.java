@@ -226,7 +226,32 @@ public class Visualizer extends JComponent {
 				newZoom += arg0.getWheelRotation() * -0.05;
 				
 				setZoomFactor(newZoom);
+				
 				repaint();
+				
+				//float zoomDifference = newZoom - getZoomFactor();
+				//Point corr = removeZoomOffset(arg0.getPoint());
+								
+				//corr.x /= newZoom;
+				//corr.y /= newZoom;
+								
+				//corr.x += arg0.getX();
+				//corr.y += arg0.getY();
+				
+				//corr.x += offset.x;
+				//corr.y += offset.y;
+				//corr.x /= 2;
+				//corr.y /= 2;
+				
+				//corr.x *= zoomDifference;
+				//corr.y *= zoomDifference;
+				
+				//corr = addZoom(corr);
+				
+				//offset.x -= corr.x;
+				//offset.y -= corr.y;
+				
+
 			}
 			
 		});

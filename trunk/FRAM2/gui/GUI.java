@@ -66,6 +66,7 @@ public class GUI extends JFrame implements ActionListener{
     private FramCPCTable framCPCTable = new FramCPCTable();
     private JSplitPane tableAndGraph;
     private JSplitPane split2;
+    private JPanel lineButtons = new JPanel();
     private Container tableContainer = new Container();
         
 	public GUI(){
@@ -84,6 +85,11 @@ public class GUI extends JFrame implements ActionListener{
 				Visualizer visualizer = (Visualizer)e.getSource();
 				if(visualizer.getSelectedNode() != null) {
 					framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
+					lineButtons.setVisible(false);
+				}
+				else if(visualizer.getSelectedLine() != null) {
+					lineButtons.setVisible(true);
+					
 				}
 				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
 			}
@@ -131,10 +137,29 @@ public class GUI extends JFrame implements ActionListener{
 		tableAndGraph.setDividerLocation(450);
 		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
 		
+		JButton toggleHideLine = new JButton();
+		toggleHideLine.setText("Hide line");
+		toggleHideLine.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				framVisualizer.getSelectedLine().setVisibility(!framVisualizer.getSelectedLine().getVisibility());
+				framVisualizer.repaint();
+			}
+			
+		});
+		
+		lineButtons.add(toggleHideLine);
+		
+		JPanel CPCandLineButtons = new JPanel();
+		
+		CPCandLineButtons.setLayout(new BorderLayout());
+		CPCandLineButtons.add(new JScrollPane(framCPCTable), BorderLayout.CENTER);
+		CPCandLineButtons.add(lineButtons, BorderLayout.SOUTH);
+		
 		//Split 2 = graph and CPC
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		split2.setDividerLocation(200);
-		split2.setTopComponent(new JScrollPane(framCPCTable));
+		split2.setDividerLocation(230);
+		split2.setTopComponent(CPCandLineButtons);
 		split2.setBottomComponent(framVisualizer);
 		
 		tableAndGraph.setRightComponent(split2);

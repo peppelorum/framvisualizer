@@ -33,6 +33,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 
+import data.Aspect;
 import data.FramNode;
 import data.FramNode.NodePort;
 
@@ -193,22 +194,28 @@ public class GraphNode extends JComponent {
 		int bubbleWidth = node.getBubbleWidth();
 		int bubbleRounded = 10;
 
+		
+		Point bubblePoint = getCenter();
+
 		if(isSelected()) {
-			bubbleHeight = 60;
+			bubbleWidth += 200;
+			bubbleHeight = 100;
+			if(parent.getSelectedPort() != null) {
+				bubblePoint = node.getPortLocation(parent.getSelectedPort());
+			}
 		}
-
-
+		
 		// define coordinates for bubble
 		Rectangle bubbleRect = new Rectangle(
-				getCenter().x + (node.getSize()/3),
-				getCenter().y - (node.getSize()-node.getSize()/3),
+				bubblePoint.x + (node.getSize()/3),
+				bubblePoint.y - (node.getSize()-node.getSize()/3),
 				bubbleWidth,
 				bubbleHeight);
 
 		// define the triangle
 		Polygon triAngle = new Polygon();
 		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + 3);
-		triAngle.addPoint(getCenter().x, getCenter().y);
+		triAngle.addPoint(bubblePoint.x, bubblePoint.y);
 		triAngle.addPoint(bubbleRect.x+1, bubbleRect.y + (node.getSize()/4));
 
 		// fill bubble background
@@ -249,17 +256,51 @@ public class GraphNode extends JComponent {
 
 		// draw name
 //		g.setFont(new Font("Arial", 1, 12));
+		
+		String nameString = node.getName();
+		if(parent.getSelectedPort() != null && isSelected()) {
+			nameString += " : " + parent.getSelectedPort().toString();
+		}
+		
 		g.drawString(
-				node.getName(), 
+				nameString, 
 				bubbleRect.x + margin,
 				bubbleRect.y + margin);
 
 		if(isSelected()) {
 			g.setFont(new Font("Arial", 1, 10));
-			g.drawString(
-					node.getComment(), 
-					bubbleRect.x + margin,
-					bubbleRect.y + margin*2);
+			
+			
+			if(parent.getSelectedPort() != null) { 
+				String[] cpcs = node.getCPCtext(parent.getSelectedPort());
+				
+				int counter = 0;
+				for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {
+					g.drawString(
+							asp.getValue() + 
+								(asp.getComment() != "" ? " \"" + asp.getComment() + "\"" : ""),
+							bubbleRect.x + margin,
+							bubbleRect.y + margin*2 + g.getFont().getSize() * counter);
+					counter++;
+				}
+				
+				counter++;
+				
+				for(int i = 0; i < cpcs.length; i++) {
+					g.drawString(
+							cpcs[i], 
+							bubbleRect.x + margin,
+							bubbleRect.y + margin*2 + g.getFont().getSize() * (i + counter));
+				}
+			}
+			else {
+				g.drawString(
+						node.getComment(), 
+						bubbleRect.x + margin,
+						bubbleRect.y + margin*2);
+			}
+
+			
 		}
 
 	}
