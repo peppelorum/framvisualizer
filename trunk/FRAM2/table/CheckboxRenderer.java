@@ -6,7 +6,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-
+/**
+ * Renders a checkbox in a jtable cell
+ * @author petbe082
+ *
+ */
 public class CheckboxRenderer extends Component implements TableCellRenderer{
 
 	private static final long serialVersionUID = 1L;
