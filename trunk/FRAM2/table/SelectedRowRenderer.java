@@ -31,14 +31,15 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ * Marks the selected first row in the table with a nice blue color
+ * @author petbe082
+ *
+ */
+
 public class SelectedRowRenderer extends DefaultTableCellRenderer 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 565106872194092865L;
-
-
 
 	public Component getTableCellRendererComponent (JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) 
 	{
@@ -52,12 +53,10 @@ public class SelectedRowRenderer extends DefaultTableCellRenderer
 				if(aspectTable.isSelected()) {
 					cell.setBackground(Color.getHSBColor(0.6f, 0.3f, 0.9f));
 				}
-	
 			} else{
 				cell.setBackground(Color.white);
 			}
 		}
-
 		return this;
 	}
 }
