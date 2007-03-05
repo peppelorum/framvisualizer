@@ -64,7 +64,7 @@ public class FramNode implements java.io.Serializable {
 	private Point position = new Point(0, 0);
 	
 	private Color color;
-	public final Color NODE_DEFAULT_COLOR = Color.getHSBColor(0.1F, 0.6F, 0.8F);
+	public final Color NODE_DEFAULT_COLOR = Color.getHSBColor(0.6f, 0.3f, 0.9f);
 	
 	public static String[] stepTwoDefaultValues = new String[] {
 		"",

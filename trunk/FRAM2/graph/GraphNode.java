@@ -45,7 +45,7 @@ public class GraphNode extends JComponent {
 	private FramNode node;
 	private Visualizer parent;
 
-	private Color nodeColorSel = Color.getHSBColor(0.1F, 0.6F, 0.5F);
+	private Color nodeColorSel = Color.getHSBColor(0.6f, 0.3f, 0.7f);
 
 
 	public GraphNode(FramNode node, Visualizer parent) {
