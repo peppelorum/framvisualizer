@@ -55,6 +55,7 @@ public class FramAspectTable extends JTable {
 	private Aspect selectedAspect;
 	private ArrayList<ActionListener> selectedChangedRecipients;
 	private FramNodeEditor parent;
+	private FramAspectTableModel model;
 
 	private static final long serialVersionUID = 3518691723356609315L;
 	
@@ -72,6 +73,9 @@ public class FramAspectTable extends JTable {
 	}
 	
 	public FramAspectTable(FramNode node, FramNodeList listInput, FramNodeEditor parent) {
+		
+		model = new FramAspectTableModel(node);
+		
 		this.parent = parent;
 		list = listInput;
 		selectedChangedRecipients = new ArrayList<ActionListener>(); 
@@ -121,7 +125,9 @@ public class FramAspectTable extends JTable {
 		
 		node = newNode;
 		
-		setModel(new FramAspectTableModel(node));
+
+		
+		setModel(model);
 		node.addNodeChangedListener(nodeChangedListener);
 		
 		updateTable();
@@ -146,7 +152,7 @@ public class FramAspectTable extends JTable {
 	public void cleanUp() {
 		if(node != null) {
 			node.removeNodeChangedListener(nodeChangedListener);
-			FramAspectTableModel model = (FramAspectTableModel)getModel();
+			model = (FramAspectTableModel)getModel();
 			model.cleanUp();
 		}
 	}
@@ -157,11 +163,11 @@ public class FramAspectTable extends JTable {
 	public TableCellEditor getCellEditor(int row, int col) {		
 		if (col == 3 && row > 0){			
 			TableCellEditor editor = super.getCellEditor(row,col);
-			return new ButtonEditor(editor, list, node);
+			return new ButtonEditor(model, editor, list, node);
 		} else if(col == 1){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
-			return new ButtonInTableCell(new ComboBoxCellEditor(combo));
+			return new ComboBoxCellEditor(combo);
 		} else {
 			return super.getCellEditor(row,col);
 		}
