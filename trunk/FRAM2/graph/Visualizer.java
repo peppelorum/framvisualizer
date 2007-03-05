@@ -24,6 +24,7 @@
 
 package graph;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -33,8 +34,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import data.ConnectionInfo;
@@ -61,6 +65,8 @@ public class Visualizer extends JComponent {
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
 
+	private boolean showWallpaper;
+	
 	private Point offset = new Point(100, 100);
 	private Point originalOffset;
 	private float zoomFactor = 1;
@@ -74,6 +80,14 @@ public class Visualizer extends JComponent {
 	 */
 	private static final long serialVersionUID = -3214964902776275054L;
 
+	public boolean isWallpaperVisible() {
+		return showWallpaper;
+	}
+	
+	public void setWallpaperVisible(boolean val) {
+		showWallpaper = val;
+	}
+	
 	public Visualizer() {
 		this(new FramNodeList("empty"));
 	}
@@ -371,10 +385,36 @@ public class Visualizer extends JComponent {
 		}
 	}
 	
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {		
+		g.setColor(Color.white);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		if(showWallpaper) {
+			URL url;
+			try {
+				url = new URL("http://www.wright.edu/isap/erik_hollnagel.jpg");
+				ImageIcon img = new ImageIcon(url);
+				for(int i = 0; i < 5; i++) {
+					for(int j = 0; j < 5; j++) {
+						img.paintIcon(this, g, i * img.getIconWidth(), j * img.getIconHeight());
+					}
+				}
+				//g.drawImage(img, 0, 0, null);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//"http://www.wright.edu/isap/erik_hollnagel.jpg");
+		
+		
+		
+		
 		java.awt.Graphics2D g2d = (java.awt.Graphics2D)g;
 		g2d.scale(getZoomFactor(), getZoomFactor());
 		g.translate(offset.x, offset.y);
+		
+
 		
 		if(list.size() > 0) {
 			
