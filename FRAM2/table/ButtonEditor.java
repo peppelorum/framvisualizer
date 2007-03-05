@@ -166,9 +166,9 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
             textArea.setCaretPosition(0);
         }
         
-        FramAspectTable tablenode = (FramAspectTable)table;
+        //FramAspectTable tablenode = (FramAspectTable)table;
     	
-    	FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
+    	//FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
     	
     	
     	
