@@ -24,11 +24,9 @@
 
 package gui;
 
-import graph.GraphLine;
 import graph.Visualizer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -36,8 +34,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -53,7 +49,6 @@ import javax.swing.JTextField;
 import table.FramCPCTable;
 import table.FramNodeEditorList;
 
-import data.ConnectionInfo;
 import data.FramNode;
 import data.FramNodeList;
 
@@ -72,13 +67,8 @@ public class GUI extends JFrame implements ActionListener{
     private JSplitPane tableAndGraph;
     private JSplitPane split2;
     private JPanel lineButtons = new JPanel();
-    private JPanel nodeButtons = new JPanel();
     private Container tableContainer = new Container();
-    
-    private JButton toggleHideLine;
         
-    private boolean showAllLabels = true;
-    
 	public GUI(){
 		framNodeEditorList.addActionListener(new ActionListener(){
 
@@ -97,18 +87,12 @@ public class GUI extends JFrame implements ActionListener{
 				if(visualizer.getSelectedNode() != null) {
 					framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
 					lineButtons.setVisible(false);
-					nodeButtons.setVisible(true);
 				}
 				else if(visualizer.getSelectedLine() != null) {
 					lineButtons.setVisible(true);
-					nodeButtons.setVisible(false);
-				}
-				else {
-					lineButtons.setVisible(false);
-					nodeButtons.setVisible(false);
+					
 				}
 				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
-				
 			}
 		});
 		
@@ -154,16 +138,10 @@ public class GUI extends JFrame implements ActionListener{
 		tableAndGraph.setDividerLocation(450);
 		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
 		
-		Icon hide_icon = new ImageIcon(getClass().getResource("/icons/hide.GIF"));
-		Icon show_icon = new ImageIcon(getClass().getResource("/icons/eye.GIF"));
-		if ((framVisualizer.getSelectedLine() != null) && (framVisualizer.getSelectedLine().getVisibility())){
-			toggleHideLine = new JButton(hide_icon);
-			toggleHideLine.setText("hide line");
-		} else {
-			toggleHideLine = new JButton(show_icon);
-			toggleHideLine.setText("show line");
-		}
+		JButton toggleHideLine = new JButton();
+		toggleHideLine.setText("Hide line");
 		toggleHideLine.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				framVisualizer.getSelectedLine().setVisibility(!framVisualizer.getSelectedLine().getVisibility());
 				framVisualizer.repaint();
@@ -171,77 +149,17 @@ public class GUI extends JFrame implements ActionListener{
 			
 		});
 		
-		
-		JButton redLine;
-		Icon red_icon = new ImageIcon(getClass().getResource("/icons/color_red.GIF"));
-		redLine = new JButton(red_icon);
-		redLine.setSize(10,10);
-		redLine.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedLine().setLineColor(Color.RED);
-				framVisualizer.repaint();
-			}
-		});
-		JButton blackLine;
-		Icon black_icon = new ImageIcon(getClass().getResource("/icons/color_black.GIF"));
-		blackLine = new JButton(black_icon);
-		blackLine.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedLine().setLineColor(Color.BLACK);
-				framVisualizer.repaint();
-			}
-		});
-		JButton greenLine;
-		Icon green_icon = new ImageIcon(getClass().getResource("/icons/color_green.GIF"));
-		greenLine = new JButton(green_icon);
-		greenLine.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedLine().setLineColor(Color.GREEN);
-				framVisualizer.repaint();
-			}
-		});
-		JButton unlockLineButton;
-		Icon unlock_icon = new ImageIcon(getClass().getResource("/icons/unlock.GIF"));
-		unlockLineButton = new JButton(unlock_icon);
-		unlockLineButton.setText("unlock");
-		unlockLineButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedLine().setMoved(false);
-				framVisualizer.repaint();
-			}
-		
-		});
-		JButton biggerNodeButton;
-		Icon bigger_icon = new ImageIcon(getClass().getResource("/icons/bigger.GIF"));
-		biggerNodeButton = new JButton(bigger_icon); 
-		biggerNodeButton.setText("Bigger");
-		biggerNodeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()+5);
-				framVisualizer.repaint();
-			}
-		
-		});
-		lineButtons.add(unlockLineButton);
 		lineButtons.add(toggleHideLine);
-		lineButtons.add(blackLine);
-		lineButtons.add(greenLine);
-		lineButtons.add(redLine);
-		lineButtons.setVisible(false);
 		
-// Fix JPanel for nodes.. aint workin
-		nodeButtons.add(biggerNodeButton);
-		nodeButtons.setVisible(false);
 		JPanel CPCandLineButtons = new JPanel();
 		
 		CPCandLineButtons.setLayout(new BorderLayout());
 		CPCandLineButtons.add(new JScrollPane(framCPCTable), BorderLayout.CENTER);
-		CPCandLineButtons.add(nodeButtons, BorderLayout.SOUTH);
 		CPCandLineButtons.add(lineButtons, BorderLayout.SOUTH);
 		
 		//Split 2 = graph and CPC
 		split2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		split2.setDividerLocation(232);
+		split2.setDividerLocation(230);
 		split2.setTopComponent(CPCandLineButtons);
 		split2.setBottomComponent(framVisualizer);
 		
@@ -256,7 +174,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonsPanel.add(createNewNodeButton());
 		buttonsPanel.add(createDeleteButton());
 		buttonsPanel.add(createShowLabelsButton());
-		buttonsPanel.add(createShowHiddenLinesButton());
+		buttonsPanel.add(createToggleSingleLabelButton());
 		
 		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
@@ -297,57 +215,36 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowLabels.setText("Toggle all labels");
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(GraphLine line : framVisualizer.getGuiLineList()){
-					if(showAllLabels){
-						line.setShowBubbles(true);
-						showAllLabels = false;
-					}
-					else{
-						line.setShowBubbles(false);
-						showAllLabels = true;
-					}
-				}
+//				for(GraphLine line : framVisualizer.getGuiLineList()){
+////					if(line.getConnection().isShowBubbles()){
+////						line.getConnection().setShowBubbles(false);
+////					}
+////					else{
+////							line.getConnection().setShowBubbles(true);
+////						}
+//				}
 				repaint();
 			}
-			
 		});
+		
 		return buttonShowLabels;
 	}
-	private JButton createShowHiddenLinesButton() {
-		JButton buttonShowHiddenLines = new JButton();
-		buttonShowHiddenLines.setText("Toggle Hidden Lines");
-		buttonShowHiddenLines.addActionListener(new ActionListener() {
+	private JButton createToggleSingleLabelButton() {
+		JButton buttonToggleSingleLabel = new JButton();
+		buttonToggleSingleLabel.setText("Toggle single label");
+		buttonToggleSingleLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(GraphLine line : framVisualizer.getGuiLineList()){
-					if(line.getConnection().isShowAll()){
-						line.getConnection().setShowAll(false);
-					}			
-					else{
-						line.getConnection().setShowAll(true);
-					}
-				}
+				
+				//ConnectionInfo cInfo = framVisualizer.getSelectedLine();
+				
+//				cInfo.setShowBubbles(false); 
+				
 				repaint();
 			}
-			
 		});
-		return buttonShowHiddenLines;
+		
+		return buttonToggleSingleLabel;
 	}
-//	private JButton createToggleSingleLabelButton() {
-//		JButton buttonToggleSingleLabel = new JButton();
-//		buttonToggleSingleLabel.setText("Toggle single label");
-//		buttonToggleSingleLabel.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				ConnectionInfo cInfo = framVisualizer.getSelectedLine();
-//				
-//				cInfo.getGraphLine().setShowBubbles(false); 
-//				
-//				repaint();
-//			}
-//		});
-//		
-//		return buttonToggleSingleLabel;
-//	}
 	
 	
 	 /**
@@ -372,19 +269,8 @@ public class GUI extends JFrame implements ActionListener{
 	            framNodeEditorList.getList().SaveFile(file.getPath());
 	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
-    	}else if(e.getActionCommand()== "Save to XML"){
-    		//fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-    		fc.setFileFilter(new XMLfilter());
-    		fc.setAcceptAllFileFilterUsed(false);
-    		
-    		int returnVal = fc.showSaveDialog(this);
-   		 
-    		if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            File file = fc.getSelectedFile();
-	            framNodeEditorList.getList().SaveXMLFile(file.getPath());
-	            //saveToNodeList(model).SaveFile(file.getName());
-	        }	
-    	}else if(e.getActionCommand()=="Load"){
+    	}
+    	else if(e.getActionCommand()=="Load"){
     		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
     		fc.setFileFilter(new XMLfilter());
     		
@@ -455,11 +341,6 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem = new JMenuItem("Save");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
-		
-		menuItem = new JMenuItem("Save to XML");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
-		
 		return menu;
 	}
 	private JMenu createHelpMenu(){

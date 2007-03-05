@@ -201,10 +201,10 @@ public class FramNodeEditorList extends JComponent {
 	 * Set selected editor
 	 * */
 	public void setSelectedNodeEditor(FramNodeEditor value) {
-		if(selectedNodeEditor != null && selectedNodeEditor != value) {
-			selectedNodeEditor.deSelected();
-			selectedNodeEditor = null;
-		}
+//		if(selectedNodeEditor != null && selectedNodeEditor != value) {
+//			//selectedNodeEditor.deSelected();
+//			selectedNodeEditor = null;
+//		}
 		
 		if(selectedNodeEditor != value) {
 			selectedNodeEditor = value;
@@ -214,7 +214,9 @@ public class FramNodeEditorList extends JComponent {
 
 		// Scroll editor into visible position
 		if(selectedNodeEditor != null) {
-			this.scrollRectToVisible(selectedNodeEditor.getBounds());
+			if(!this.getBounds().contains(selectedNodeEditor.getBounds())) {
+				this.scrollRectToVisible(selectedNodeEditor.getBounds());
+			}
 		}
 		refresh();
 				

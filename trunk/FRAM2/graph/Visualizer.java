@@ -25,8 +25,10 @@
 package graph;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -64,6 +66,7 @@ public class Visualizer extends JComponent {
 	private ArrayList<GraphLine> guiLineList;
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
+	private boolean showHiddenLines;
 
 	private boolean showWallpaper;
 	
@@ -225,7 +228,18 @@ public class Visualizer extends JComponent {
 				float newZoom = getZoomFactor();
 				newZoom += arg0.getWheelRotation() * -0.05;
 			
-				setZoomFactor(newZoom, arg0.getPoint());
+				Point centerPoint;
+				
+				if(newZoom < getZoomFactor()) {
+					centerPoint = new Point(getWidth()/2, getHeight()/2);
+					//centerPoint.x += arg0.getX();
+					//centerPoint.y += arg0.getY();
+				}
+				else {
+					centerPoint = arg0.getPoint();
+				}
+				
+				setZoomFactor(newZoom, centerPoint);
 				
 				repaint();
 
@@ -429,36 +443,49 @@ public class Visualizer extends JComponent {
 		g2d.scale(getZoomFactor(), getZoomFactor());
 		g.translate(offset.x, offset.y);
 		
-
+		
+//		Point thisPosition = addZoomOffset(new Point(0,0));
+//		Dimension thisSize = this.getSize();
+//		thisSize.width *= getZoomFactor();
+//		thisSize.height *= getZoomFactor();
+//		Rectangle thisRect = new Rectangle(thisPosition, thisSize);
 		
 		if(list.size() > 0) {
 			
 			for(GraphNode guinode : guiNodeList) {
-				if(guinode.getNode().isFilterVisible()) {
-					guinode.paintComponent(g);
+				if(g.getClipBounds().intersects(guinode.getNode().getRectangle())) {
+					if(guinode.getNode().isFilterVisible()) {
+						guinode.paintComponent(g);
+						guinode.paintName(g);
+					}
 				}
 			}
 			
 			for(GraphLine guiline : guiLineList) {
-				if(guiline.getConnection().isFilterVisible()) {
-					guiline.paintComponent(g);
-				}
-			}			
-
-			for(GraphLine guiline : guiLineList) {
-				if(guiline.getConnection().isFilterVisible()) {
-					guiline.paintNameBubble(g);
+				if(guiline.getVisibility() || isShowHiddenLines()) {
+					if(guiline.getConnection().isFilterVisible()) {
+						guiline.paintComponent(g);
+						guiline.paintNameBubble(g);
+					}
 				}
 			}
 			
 			for(GraphNode guinode : guiNodeList) {
-				if(guinode.getNode().isFilterVisible()) {
-					guinode.paintName(g);
-					if(guinode.isHovered() 
-							|| guinode.isSelected()
-							|| connectedToSelectedNode.contains(guinode.getNode())) {
-						guinode.paintNameBubble(g);
+				if(g.getClipBounds().intersects(guinode.getNode().getRectangle())) {
+					if(guinode.getNode().isFilterVisible()) {
+						if(guinode.isHovered() 
+								|| guinode.isSelected()
+								|| connectedToSelectedNode.contains(guinode.getNode())) {
+							guinode.paintNameBubble(g);
+						}
 					}
+				}
+			}
+			
+			if(getSelectedNode() != null) {
+				GraphNode selectedGuiNode = getGuiNode(getSelectedNode());
+				if(selectedGuiNode != null) {
+					selectedGuiNode.paintNameBubble(g);
 				}
 			}
 		
@@ -545,5 +572,13 @@ public class Visualizer extends JComponent {
 	
 	public ArrayList<GraphLine> getGuiLineList() {
 		return guiLineList;
+	}
+	
+	public boolean isShowHiddenLines() {
+		return this.showHiddenLines;
+	}
+	
+	public void setShowHiddenLines(boolean val) {
+		this.showHiddenLines = val;
 	}
 }
