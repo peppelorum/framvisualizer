@@ -165,15 +165,9 @@ public class Filemanager {
 			MyOutput.println("<Connections>");
 			for(ConnectionInfo cInfo : nodeList.getConnections()){
 				MyOutput.println("\t<Connection>");
-				MyOutput.println("\t\t<From>");
-				MyOutput.println("\t\t<Name>" + cInfo.getFrom().getFunctionName() + "</Name>");
-				MyOutput.println("\t\t<Port>" + cInfo.getFrom().getConnectionPort() + "</Port>");
-				MyOutput.println("\t\t</From>");
+				MyOutput.println("\t\t<From port=\"" + cInfo.getFrom().getConnectionPort() + "\" >" + cInfo.getFrom().getFunctionName() + "</From>");
 				
-				MyOutput.println("\t\t<To>");
-				MyOutput.println("\t\t<Name>" + cInfo.getFrom().getFunctionName() + "</Name>");
-				MyOutput.println("\t\t<Port>" + cInfo.getFrom().getConnectionPort() + "</Port>");
-				MyOutput.println("\t\t</To>");
+				MyOutput.println("\t\t<To port=\" " + cInfo.getTo().getConnectionPort() + "\" >" + cInfo.getTo().getFunctionName() + "</To>");
 				
 				MyOutput.println("\t\t<Value>" + cInfo.getAspect() + "</Value>");
 				
