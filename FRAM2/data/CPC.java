@@ -64,8 +64,12 @@ public class CPC implements Serializable {
 	public CPC(FramNode node) {
 		this.parent = node;
 		list = new ArrayList<CPCAttribute>();
-		
 	}
+	
+	public String[] getCPCTypes(){
+		return CPC_TYPES;
+	}
+	
 	public void setAttribute(String type, String value, String comment, boolean[] cpcForAspects){
 		if(hasAttribute(type)) {
 			CPCAttribute attrib = getAttribute(type);
