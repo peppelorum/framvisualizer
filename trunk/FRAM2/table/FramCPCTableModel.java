@@ -24,8 +24,6 @@
 
 package table;
 
-import java.util.ArrayList;
-
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;

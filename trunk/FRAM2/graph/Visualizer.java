@@ -31,6 +31,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -61,6 +63,7 @@ public class Visualizer extends JComponent {
 
 	private Point offset = new Point(100, 100);
 	private Point originalOffset;
+	private float zoomFactor = 1;
 	
 	private ArrayList<ActionListener> selectedChangedRecipients = new ArrayList<ActionListener>();
 	
@@ -202,14 +205,26 @@ public class Visualizer extends JComponent {
 	}
 	
 	private void init() {
+		this.addMouseWheelListener(new MouseWheelListener() {
+
+			public void mouseWheelMoved(MouseWheelEvent arg0) {
+				float newZoom = getZoomFactor();
+				newZoom += arg0.getWheelRotation() * -0.05;
+				
+				setZoomFactor(newZoom);
+				repaint();
+			}
+			
+		});
+		
 		this.addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent arg0) {
 				FramNode node = getSelectedNode();
 				ConnectionInfo cInfo = getSelectedLine();
 				
-				Point newLocation = addOffset(arg0.getPoint());
-				
+				Point newLocation = removeZoom(arg0.getPoint());
+			
 				int xDiff = newLocation.x - mouseDownPoint.x;
 				int yDiff = newLocation.y - mouseDownPoint.y;
 				
@@ -219,37 +234,26 @@ public class Visualizer extends JComponent {
 							nodeOriginalPoint.x + xDiff,
 							nodeOriginalPoint.y + yDiff));
 					
-					
-					repaint();
-					
+				}
 				//move connection label
-				}else if(cInfo != null){
+				else if(cInfo != null){
 					
 					cInfo.getGraphLine().setPosition(new Point(
 							connectionOriginalPoint.x + xDiff,
 							connectionOriginalPoint.y + yDiff));
 					cInfo.getGraphLine().setMoved(true);
-					repaint();
 				}
 				//panning
-				else {
-										
-					mouseDownPoint.x -= offset.x;
-					mouseDownPoint.y -= offset.y;
-					
+				else {					
 					offset.x = originalOffset.x + xDiff;
 					offset.y = originalOffset.y + yDiff;
-					
-					mouseDownPoint.x += offset.x;
-					mouseDownPoint.y += offset.y;
-					
-					repaint();
 				}
+				repaint();
 				
 			}
 
 			public void mouseMoved(MouseEvent arg0) {
-				FramNode n = getNodeAt(removeOffset(arg0.getPoint()));
+				FramNode n = getNodeAt(removeZoomOffset(arg0.getPoint()));
 				setHoveredNode(n);
 			}
 			
@@ -272,10 +276,10 @@ public class Visualizer extends JComponent {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
-				mouseDownPoint = addOffset(arg0.getPoint());
-				FramNode node = getNodeAt(removeOffset(removeOffset(mouseDownPoint)));
-				FramNode.NodePort port = getPortAt(removeOffset(removeOffset(mouseDownPoint)), node);
-				ConnectionInfo cInfo = getConnectionAt(removeOffset(removeOffset(mouseDownPoint)));
+				mouseDownPoint = removeZoom(arg0.getPoint());
+				FramNode node = getNodeAt(removeZoomOffset(arg0.getPoint()));
+				FramNode.NodePort port = getPortAt(removeZoomOffset(arg0.getPoint()), node);
+				ConnectionInfo cInfo = getConnectionAt(removeZoomOffset(arg0.getPoint()));
 				
 				originalOffset = (Point)offset.clone();
 				
@@ -286,9 +290,11 @@ public class Visualizer extends JComponent {
 						selectNode(node, port);
 						selectedLine = null;
 					}else{
+						selectNode(null, null);
+						selectConnection(null);
 						//selectNode(node);
-						selectedNode = null;
-						selectedLine = null;
+						//selectedNode = null;
+						//selectedLine = null;
 					}
 				
 				repaint();
@@ -354,7 +360,20 @@ public class Visualizer extends JComponent {
 		repaint();
 	}
 
+	public float getZoomFactor() {
+		return zoomFactor;
+	}
+	
+	public void setZoomFactor(float val) {
+		zoomFactor = val;
+		if(zoomFactor < 0.1f) {
+			zoomFactor = 0.1f;
+		}
+	}
+	
 	public void paintComponent(Graphics g) {
+		java.awt.Graphics2D g2d = (java.awt.Graphics2D)g;
+		g2d.scale(getZoomFactor(), getZoomFactor());
 		g.translate(offset.x, offset.y);
 		
 		if(list.size() > 0) {
@@ -394,22 +413,52 @@ public class Visualizer extends JComponent {
 		return null;
 	}
 	
+	
+	
+	
+	public Point addZoom(Point input) {
+		Point changed = (Point)input.clone();
+
+		changed.x *= getZoomFactor();
+		changed.y *= getZoomFactor();
+	
+		return changed;
+	}
+	
+	public Point removeZoom(Point input) {
+		Point changed = (Point)input.clone();
+		
+		changed.x /= getZoomFactor();
+		changed.y /= getZoomFactor();
+		
+		return changed;
+	}
+
 	public Point addOffset(Point input) {
 		Point changed = (Point)input.clone();
 		
 		changed.x += offset.x;
 		changed.y += offset.y;
-		
+	
 		return changed;
 	}
 	
 	public Point removeOffset(Point input) {
 		Point changed = (Point)input.clone();
-		
+
 		changed.x -= offset.x;
 		changed.y -= offset.y;
 		
 		return changed;
+	}
+	
+	
+	public Point addZoomOffset(Point input) {
+		return addOffset(addZoom(input));
+	}
+	
+	public Point removeZoomOffset(Point input) {		
+		return removeOffset(removeZoom(input));
 	}
 	
 	public void addSelectedChangedListener(ActionListener listener) {

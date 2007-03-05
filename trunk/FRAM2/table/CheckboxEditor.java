@@ -46,7 +46,7 @@ public class CheckboxEditor extends AbstractCellEditor implements TableCellEdito
 				AbstractButton abstractButton = (AbstractButton) e.getSource();
 				boolean selecteda = abstractButton.getModel().isSelected();
 
-				String newLabel = (selecteda ? SELECTED_LABEL : DESELECTED_LABEL);
+				//String newLabel = (selecteda ? SELECTED_LABEL : DESELECTED_LABEL);
 				abstractButton.setSelected(selecteda);
 
 				if (selecteda) {

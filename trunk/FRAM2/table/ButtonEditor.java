@@ -1,7 +1,6 @@
 package table;
 
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -48,14 +46,9 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 	
 	protected JTable table; 
 	protected int row, column; 
-	
-	private FramNodeList list;
-	private FramNode node;
-	
+		
 	public ButtonEditor(TableCellEditor editor, FramNodeList lista, FramNode nodea){ 
 		this.editor = editor; 
-		this.list = lista;
-		this.node = nodea;
 
 		Border empty;
 		empty = BorderFactory.createEmptyBorder();
