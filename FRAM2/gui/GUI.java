@@ -344,8 +344,19 @@ public class GUI extends JFrame implements ActionListener{
 	            framNodeEditorList.getList().SaveFile(file.getPath());
 	            //saveToNodeList(model).SaveFile(file.getName());
 	        }	
-    	}
-    	else if(e.getActionCommand()=="Load"){
+    	}else if(e.getActionCommand()== "Save to XML"){
+    		//fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+    		fc.setFileFilter(new XMLfilter());
+    		fc.setAcceptAllFileFilterUsed(false);
+    		
+    		int returnVal = fc.showSaveDialog(this);
+   		 
+    		if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+	            framNodeEditorList.getList().SaveXMLFile(file.getPath());
+	            //saveToNodeList(model).SaveFile(file.getName());
+	        }	
+    	}else if(e.getActionCommand()=="Load"){
     		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
     		fc.setFileFilter(new XMLfilter());
     		
@@ -416,6 +427,11 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem = new JMenuItem("Save");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Save to XML");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+		
 		return menu;
 	}
 	private JMenu createHelpMenu(){
