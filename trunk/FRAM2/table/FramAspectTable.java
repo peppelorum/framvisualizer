@@ -174,9 +174,9 @@ public class FramAspectTable extends JTable {
 		if (col == 3 && row > 0){
 			return new ButtonRenderer();
 		} else if(row == 0){
-			return new CustomCellRenderer ();
+			return new SelectedRowRenderer ();
 		} else if (row > 0){
-			return new CustomCellRenderer ();
+			return new SelectedRowRenderer ();
 		}else {
 			return super.getCellRenderer(row,col);
 		}

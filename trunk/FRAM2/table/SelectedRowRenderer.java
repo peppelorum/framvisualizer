@@ -31,7 +31,7 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class CustomCellRenderer extends DefaultTableCellRenderer 
+public class SelectedRowRenderer extends DefaultTableCellRenderer 
 {
 	/**
 	 * 
