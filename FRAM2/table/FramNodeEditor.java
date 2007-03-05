@@ -24,25 +24,17 @@
 
 package table;
 
-import java.awt.Container;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import data.FramNode;
 
 public class FramNodeEditor extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 197489600332691308L;
 
 	private FramNode node;
@@ -51,8 +43,8 @@ public class FramNodeEditor extends JPanel {
 	//private boolean visible = true;
 
 	private FramNodeEditorList editorParent;
-	private Container buttonsTop = new JPanel();
-	private Container buttonsBottom = new JPanel();
+//	private Container buttonsTop = new JPanel();
+//	private Container buttonsBottom = new JPanel();
 	
 	private void moveBox(int xRelative, int yRelative) {
 		int x = xRelative + getX();
@@ -101,7 +93,8 @@ public class FramNodeEditor extends JPanel {
 		this.node = node;
 		tableNode = new FramAspectTable(node, editorList.getList(), this);
 
-		JButton buttonMove = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.GIF")));
+//		JButton buttonMove = new JButton(new ImageIcon(getClass().getResource("/icons/bigger.GIF")));
+
 		tableNode.addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent arg0) {
@@ -110,45 +103,42 @@ public class FramNodeEditor extends JPanel {
 
 			public void mouseMoved(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
-
-
 		});
 
 
-		buttonsTop.add(buttonMove);
+//		buttonsTop.add(buttonMove);
+//
+//		JButton addNewNodeBefore = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
+//		//addNewNodeBefore.setText("Add new before");
+//		addNewNodeBefore.addActionListener(new ActionListener() {
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//		});
+//
+//		JButton addNewNodeAfter = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
+//		//addNewNodeAfter.setText("Add new after");
+//		addNewNodeAfter.addActionListener(new ActionListener() {
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//		});
 
-		JButton addNewNodeBefore = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
-		//addNewNodeBefore.setText("Add new before");
-		addNewNodeBefore.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		JButton addNewNodeAfter = new JButton(new ImageIcon(getClass().getResource("/icons/plus.GIF")));
-		//addNewNodeAfter.setText("Add new after");
-		addNewNodeAfter.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		buttonsTop.add(addNewNodeBefore);
-		buttonsBottom.add(addNewNodeAfter);
-
-		buttonsTop.setLayout(new BoxLayout(buttonsTop, BoxLayout.X_AXIS));
-		buttonsBottom.setLayout(new BoxLayout(buttonsBottom, BoxLayout.X_AXIS));
-		this.add(buttonsTop);
+//		buttonsTop.add(addNewNodeBefore);
+//		buttonsBottom.add(addNewNodeAfter);
+//
+//		buttonsTop.setLayout(new BoxLayout(buttonsTop, BoxLayout.X_AXIS));
+//		buttonsBottom.setLayout(new BoxLayout(buttonsBottom, BoxLayout.X_AXIS));
+//		this.add(buttonsTop);
 		this.add(tableNode);
-		this.add(buttonsBottom);
+//		this.add(buttonsBottom);
 
 		deSelected();
 	}
@@ -190,8 +180,8 @@ public class FramNodeEditor extends JPanel {
 			tableNode.getCellEditor().stopCellEditing();
 		}
 		
-		buttonsTop.setVisible(false);
-		buttonsBottom.setVisible(false);
+//		buttonsTop.setVisible(false);
+//		buttonsBottom.setVisible(false);
 		//this.setEnabled(false);
 		//this.setBorder(BorderFactory.createLineBorder(Color.getHSBColor(0f,0f,0.9f), 2));
 	}
