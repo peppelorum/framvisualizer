@@ -60,6 +60,7 @@ public class FramNode implements java.io.Serializable {
 	private ArrayList<Aspect> preconditions;
 	transient private ArrayList<ActionListener> nodeChangedRecipients;
 	private CPC cpc;
+	private boolean filterVisible = true;
 	
 	private Point position = new Point(0, 0);
 	
@@ -113,6 +114,18 @@ public class FramNode implements java.io.Serializable {
 	
 	public void init() {
 		nodeChangedRecipients = new ArrayList<ActionListener>();
+	}
+	
+	public boolean isFilterVisible() {
+		return filterVisible;
+	}
+	
+	public void setFilterVisible(boolean val) {
+		filterVisible = val;
+		
+		for(ConnectionInfo conn : this.getConnections()) {
+			conn.setFilterVisible(val);
+		}
 	}
 	
 	public FramNodeList getList() {
@@ -373,6 +386,23 @@ public class FramNode implements java.io.Serializable {
 	
 	public void updateSize() {
 		getConnectedNodes();
+	}
+	
+	public ArrayList<ConnectionInfo> getConnections() {
+		ArrayList<ConnectionInfo> connections = new ArrayList<ConnectionInfo>();
+		
+		FramNodeList list = getList();
+		if(list != null) {
+
+			for(ConnectionInfo coninfo : list.getConnections()) {
+					if(coninfo.getFrom().getNode() == this
+							||coninfo.getTo().getNode() == this) {
+						connections.add(coninfo);
+				}
+			}
+		}
+		
+		return connections;
 	}
 	
 	public ArrayList<FramNode> getConnectedNodes() {

@@ -101,26 +101,10 @@ public class GUI extends JFrame implements ActionListener{
 		searchField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				FramNodeEditorList searchedTableList = new FramNodeEditorList();
 				JTextField textfield = (JTextField)e.getSource();
 				String search = textfield.getText();
-				
-//				System.out.println(search);
-//				System.out.println(search.length());
-				FramNodeList searchedList = framNodeEditorList.getList().getAllAspectsAndComments(search);
-				
-				if (search.length() == 0){
-					tableContainer.remove(0);
-					tableContainer.add(framNodeEditorList);
-					framVisualizer.setList(framNodeEditorList.getList());
-				} else {
-					searchedTableList.setList(searchedList);
-					
-					tableContainer.remove(0);
-					tableContainer.add(searchedTableList);
-					framVisualizer.setList(searchedList);
-				}
-				//Rectangle r = tableContainer.getBounds();
+				framNodeEditorList.getList().setVisibilityFilter(search);
+
 				validate();
 				repaint();
 
