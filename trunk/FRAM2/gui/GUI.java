@@ -33,8 +33,11 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -48,8 +51,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 import table.FramCPCTable;
 import table.FramNodeEditorList;
@@ -89,6 +96,10 @@ public class GUI extends JFrame implements ActionListener{
     
     private boolean showAllLabels = true;
     
+    
+    int key;
+    JTextField searchField;
+    
 	public GUI(){
 		/*
 		 * Sensitive programmers be advised.
@@ -100,6 +111,11 @@ public class GUI extends JFrame implements ActionListener{
 		 * 
 		 * */
 		
+		this.setSize(900, 600);
+		Container contentPane = getContentPane();
+		contentPane.setLayout(new BorderLayout());
+		
+		
 		framNodeEditorList.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
@@ -108,7 +124,6 @@ public class GUI extends JFrame implements ActionListener{
 					framCPCTable.setCPC(nodeList.getSelectedNode().getCPC());
 					framVisualizer.selectNode(nodeList.getSelectedNode(), null);
 				}
-				
 			}
 		});
 
@@ -136,32 +151,14 @@ public class GUI extends JFrame implements ActionListener{
 				
 			}
 		});
-		
-		this.setSize(900, 600);
-		
-		Container contentPane = getContentPane();
-		
-		
-		contentPane.setLayout(new BorderLayout());
-		
-		JMenuBar menuBar = new JMenuBar();	
-		JTextField searchField = new JTextField(20);
-		searchField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-				JTextField textfield = (JTextField)e.getSource();
-				String search = textfield.getText();
-				framNodeEditorList.getList().setVisibilityFilter(search);
+				
 
-				validate();
-				repaint();
-
-			}
-		});
 		
 		tableContainer.setLayout(new BoxLayout(tableContainer, BoxLayout.Y_AXIS));
-				
+		
+		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(createFileMenu());
+		menuBar.add(createNodeMenu());
 		menuBar.add(createHelpMenu());
 		setJMenuBar(menuBar);
 
@@ -304,20 +301,72 @@ public class GUI extends JFrame implements ActionListener{
 		tableAndGraph.setRightComponent(split2);
 		
 		
-		//tableAndGraph.setRightComponent(framVisualizer);		
+		//tableAndGraph.setRightComponent(framVisualizer);
 		
-		JPanel buttonsPanel = new JPanel(new FlowLayout());
 		
-		buttonsPanel.add(searchField);
-		buttonsPanel.add(createNewNodeButton());
-		buttonsPanel.add(createDeleteButton());
+		searchField = new JTextField(20);	
+		searchField.addActionListener(new SearchFieldTextActionListener());
+		searchField.getDocument().addDocumentListener(new SearchFieldDocumentListener());
+		searchField.getDocument().putProperty("name", "Text Field");
 		
-		contentPane.add(buttonsPanel, BorderLayout.PAGE_START);	
+		JPanel toolbar = new JPanel();
+		toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.LINE_AXIS));
+		
+		toolbar.add(new JLabel("Search:"));
+		toolbar.add(searchField);
+		toolbar.add(createNewNodeButton());
+		toolbar.add(createDeleteButton());
+		
+		contentPane.add(toolbar, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
 
+		this.setTitle("FRAM Visualizer");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
+	
+    class SearchFieldDocumentListener implements DocumentListener {
+        final String newline = "\n";
+
+        public void insertUpdate(DocumentEvent e) {
+//            updateLog(e, "inserted into");
+			String search = searchField.getText();
+			framNodeEditorList.getList().setVisibilityFilter(search);
+        }
+        public void removeUpdate(DocumentEvent e) {
+//            updateLog(e, "removed from");
+			String search = searchField.getText();		
+			framNodeEditorList.getList().setVisibilityFilter(search);
+        }
+        public void changedUpdate(DocumentEvent e) {
+            //Plain text components don't fire these events.
+        }
+        
+        /**
+         * A debug method for the DocumentListener
+         * @param e
+         * @param action
+         */
+        public void updateLog(DocumentEvent e, String action) {
+            Document doc = (Document)e.getDocument();
+            int changeLength = e.getLength();
+            
+            System.out.println(
+                changeLength + " character"
+              + ((changeLength == 1) ? " " : "s ")
+              + action + " " + doc.getProperty("name") + "."
+              + newline
+              + "  Text length = " + doc.getLength() + newline);            
+        }
+    }
+    
+    class SearchFieldTextActionListener implements ActionListener {
+        /** Handle the text field Return. */
+        public void actionPerformed(ActionEvent e) {
+            searchField.selectAll();
+        }
+    }
+
 	
 	public void updateHideLineButton() {
 		if(framVisualizer.getSelectedLine() != null &&
@@ -539,8 +588,6 @@ public class GUI extends JFrame implements ActionListener{
 		JMenu exportMenu = new JMenu("Export");
 		menu.add(exportMenu);
 		
-		
-		
 		menuItem = new JMenuItem("Export to XML");
 		menuItem.addActionListener(this);
 		exportMenu.add(menuItem);
@@ -556,6 +603,25 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem = new JMenuItem("Export to format 3");
 		menuItem.addActionListener(this);
 		exportMenu.add(menuItem);
+		
+		return menu;
+	}
+	private JMenu createNodeMenu(){
+		JMenu menu;
+		JMenuItem menuItem;				
+		
+		menu = new JMenu("Node");
+		menu.setMnemonic('N');
+		
+		menuItem = new JMenuItem("New node");
+		menuItem.setMnemonic('n');
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Delete node");
+		menuItem.setMnemonic('o');
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
 		
 		return menu;
 	}
