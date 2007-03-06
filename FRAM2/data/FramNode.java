@@ -62,7 +62,7 @@ public class FramNode implements java.io.Serializable {
 	private CPC cpc;
 	private boolean filterVisible = true;
 	private int portDistance = 12;
-
+	private boolean flagged;
 	
 	private Point position = new Point(0, 0);
 	
@@ -704,6 +704,14 @@ public class FramNode implements java.io.Serializable {
 		String[] cpcStrings = new String[cpcs.size()];
 		cpcs.toArray(cpcStrings);
 		return cpcStrings;
+	}
+	
+	public boolean isFlagged() {
+		return flagged;
+	}
+	
+	public void setFlagged(boolean val) {
+		flagged = val;
 	}
 
 }
