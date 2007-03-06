@@ -332,11 +332,15 @@ public class GUI extends JFrame implements ActionListener{
 //            updateLog(e, "inserted into");
 			String search = searchField.getText();
 			framNodeEditorList.getList().setVisibilityFilter(search);
+			validate();
+			repaint();
         }
         public void removeUpdate(DocumentEvent e) {
 //            updateLog(e, "removed from");
 			String search = searchField.getText();		
 			framNodeEditorList.getList().setVisibilityFilter(search);
+			validate();
+			repaint();
         }
         public void changedUpdate(DocumentEvent e) {
             //Plain text components don't fire these events.
