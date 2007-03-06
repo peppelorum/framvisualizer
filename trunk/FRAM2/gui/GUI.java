@@ -82,6 +82,7 @@ public class GUI extends JFrame implements ActionListener{
     private Container tableContainer = new Container();
     private JButton toggleHideLine;
     private JButton newNode;
+    private JToggleButton toggleFlagNode;
     
 	private final Icon ICON_HIDE = new ImageIcon(getClass().getResource("/icons/hide.GIF"));
 	private final Icon ICON_SHOW = new ImageIcon(getClass().getResource("/icons/eye.GIF"));
@@ -119,6 +120,7 @@ public class GUI extends JFrame implements ActionListener{
 					framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
 					lineButtons.setVisible(false);
 					nodeButtons.setVisible(true);
+					updateFlagNodeButton();
 				}
 				else if(visualizer.getSelectedLine() != null) {
 					lineButtons.setVisible(true);
@@ -254,9 +256,22 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		
 		});
+		
+		toggleFlagNode = new JToggleButton();
+		toggleFlagNode.setText("Flag");
+		toggleFlagNode.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				framVisualizer.getSelectedNode().setFlagged(!framVisualizer.getSelectedNode().isFlagged());
+				updateFlagNodeButton();
+				repaint();
+			}
+			
+		});
+		
 		nodeButtons.add(smallerNodeButton);
 		nodeButtons.add(biggerNodeButton);
-		nodeButtons.add(new JButton());
+		nodeButtons.add(toggleFlagNode);
 		
 		nodeButtons.setVisible(false);
 
@@ -313,6 +328,12 @@ public class GUI extends JFrame implements ActionListener{
 		else {
 			toggleHideLine.setIcon(ICON_SHOW);
 			toggleHideLine.setText("Show line");
+		}
+	}
+	
+	public void updateFlagNodeButton() {
+		if(framVisualizer.getSelectedNode() != null) {
+			toggleFlagNode.setSelected(framVisualizer.getSelectedNode().isFlagged());
 		}
 	}
 	

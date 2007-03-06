@@ -67,6 +67,7 @@ public class Visualizer extends JComponent {
 	private Point mouseDownPoint;
 	private Point nodeOriginalPoint;
 	private boolean showHiddenLines;
+	String secretCode = "";
 
 	private boolean showWallpaper;
 	
@@ -308,6 +309,7 @@ public class Visualizer extends JComponent {
 
 			public void mousePressed(MouseEvent arg0) {
 				requestFocus();
+				secretCode = "";
 				
 				mouseDownPoint = removeZoom(arg0.getPoint());
 				FramNode node = getNodeAt(removeZoomOffset(arg0.getPoint()));
@@ -364,7 +366,12 @@ public class Visualizer extends JComponent {
 			}
 
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+				secretCode += arg0.getKeyChar();
+				
+				if(secretCode.equals("whoyodaddy")) {
+					showWallpaper = !showWallpaper;
+					repaint();
+				}
 			}
 			
 		});

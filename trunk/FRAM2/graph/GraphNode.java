@@ -177,6 +177,29 @@ public class GraphNode extends JComponent {
 				name, 
 				(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
 				node.getPosition().y+node.getSize()/2);
+		
+		if(node.isFlagged()) {
+			g.setColor(Color.red);
+			Rectangle rect = node.getRectangle();
+			Polygon flag = new Polygon();
+			flag.addPoint(
+					rect.x - rect.width/5, 
+					rect.y + rect.height / 4);
+			flag.addPoint(
+					rect.x + rect.width/3 - rect.width/5, 
+					rect.y);
+			flag.addPoint(
+					rect.x + rect.width/3 - rect.width/5, 
+					rect.y + rect.height / 3);
+						
+			g.fillPolygon(flag);
+			g.setColor(Color.black);
+			g.drawLine(
+					flag.xpoints[2], 
+					flag.ypoints[2], 
+					flag.xpoints[2], 
+					(int)(flag.ypoints[2] + rect.getHeight()/3));
+		}
 	}
 
 	/**
