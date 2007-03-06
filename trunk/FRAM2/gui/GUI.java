@@ -89,6 +89,16 @@ public class GUI extends JFrame implements ActionListener{
     private boolean showAllLabels = true;
     
 	public GUI(){
+		/*
+		 * Sensitive programmers be advised.
+		 * 
+		 * The code in this constructor is not tidy...
+		 * 
+		 *  
+		 * 
+		 * 
+		 * */
+		
 		framNodeEditorList.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
@@ -213,6 +223,15 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		
 		});
+
+		lineButtons.add(unlockLineButton);
+		lineButtons.add(toggleHideLine);
+		lineButtons.add(blackLine);
+		lineButtons.add(greenLine);
+		lineButtons.add(redLine);
+		lineButtons.setVisible(false);
+		
+// Fix JPanel for nodes.. aint workin
 		JButton biggerNodeButton;
 		Icon bigger_icon = new ImageIcon(getClass().getResource("/icons/bigger.GIF"));
 		biggerNodeButton = new JButton(bigger_icon); 
@@ -224,29 +243,39 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		
 		});
-		lineButtons.add(unlockLineButton);
-		lineButtons.add(toggleHideLine);
-		lineButtons.add(blackLine);
-		lineButtons.add(greenLine);
-		lineButtons.add(redLine);
-		lineButtons.setVisible(false);
+		JButton smallerNodeButton;
+		Icon smaller_icon = new ImageIcon(getClass().getResource("/icons/smaller.GIF"));
+		smallerNodeButton = new JButton(smaller_icon); 
+		smallerNodeButton.setText("Smaller");
+		smallerNodeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()-5);
+				framVisualizer.repaint();
+			}
 		
-// Fix JPanel for nodes.. aint workin
+		});
+		nodeButtons.add(smallerNodeButton);
 		nodeButtons.add(biggerNodeButton);
 		nodeButtons.add(new JButton());
 		
 		nodeButtons.setVisible(false);
-		JPanel panelVisualizerAndButtons = new JPanel();
-		JPanel vButtons = new JPanel();
-		vButtons.setLayout(new BorderLayout());
+
 		JPanel generalButtons = new JPanel();
 		generalButtons.add(createShowLabelsButton());
 		generalButtons.add(createShowHiddenLinesButton());
+		JPanel metaGeneralButtons = new JPanel();
+		metaGeneralButtons.add(generalButtons);
 		
-		vButtons.add(generalButtons, BorderLayout.WEST);
-		vButtons.add(nodeButtons, BorderLayout.EAST);
-		vButtons.add(lineButtons, BorderLayout.EAST);
+		JPanel nodeAndLineButtons = new JPanel();
+		nodeAndLineButtons.add(nodeButtons);
+		nodeAndLineButtons.add(lineButtons);
 		
+		JPanel vButtons = new JPanel();
+		vButtons.setLayout(new BorderLayout());
+		vButtons.add(metaGeneralButtons, BorderLayout.WEST);
+		vButtons.add(nodeAndLineButtons, BorderLayout.EAST);
+
+		JPanel panelVisualizerAndButtons = new JPanel();
 		panelVisualizerAndButtons.setLayout(new BorderLayout());
 		panelVisualizerAndButtons.add(vButtons, BorderLayout.NORTH);
 		panelVisualizerAndButtons.add(framVisualizer, BorderLayout.CENTER);
