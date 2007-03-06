@@ -450,7 +450,7 @@ public class GUI extends JFrame implements ActionListener{
 	            File file = fc.getSelectedFile();
 	            framNodeEditorList.getList().SaveXMLFile(file.getPath());
 	        }	
-    	}else if(e.getActionCommand()=="Load"){
+    	}else if(e.getActionCommand()=="Open"){
     		fc.removeChoosableFileFilter(xmlFilter);
     		fc.setFileFilter(framFilter);
     		fc.setAcceptAllFileFilterUsed(false);
@@ -468,13 +468,13 @@ public class GUI extends JFrame implements ActionListener{
     		aboutFrame.add(panel);
     		JLabel text = new JLabel("<html><h3>FRAM Visualizer</h3>" +
     				"<p>FRAM Visualizer is an open-source tool to help model <br>system with FRAM (Functional Resonance Accident Model). </p>" +
-    				"<p><br>First developed at Linkï¿½ping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladï¿½n<br></p>" +
+    				"<p><br>First developed at Linköping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladén<br></p>" +
     				"<p><br>FRAM Visualizer is licensed under GNU General Public License (GPL)</p>"+
     				"<p>https://sourceforge.net/projects/framvisualizer/</p>" +
     				"<p><br>Copyright (C) 2007  Peppe Bergqvist peppe@peppesbodega.nu, <br>" +
     				"Fredrik Gustafsson fregu808@student.liu.se,<br>" +
     				"Jonas Haraldsson haraldsson@gmail.com, <br> " +
-    				"Gustav Ladï¿½n gusla438@student.liu.se</p></html>");
+    				"Gustav Ladén gusla438@student.liu.se</p></html>");
 
     		panel.add(text);
     		aboutFrame.setSize(150, 200);
@@ -518,19 +518,21 @@ public class GUI extends JFrame implements ActionListener{
 		JMenu menu;
 		JMenuItem menuItem;				
 		
-		menu = new JMenu("File");		
+		menu = new JMenu("File");
+		menu.setMnemonic('F');
 		
 		menuItem = new JMenuItem("New");
-		menuItem.setMnemonic('N');
+		menuItem.setMnemonic('n');
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
-		menuItem = new JMenuItem("Load");
-		menuItem.setMnemonic('L');
+		menuItem = new JMenuItem("Open");
+		menuItem.setMnemonic('o');
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Save");
+		menuItem.setMnemonic('s');
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
