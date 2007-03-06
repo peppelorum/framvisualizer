@@ -150,9 +150,8 @@ public class Filemanager {
 					if (node.getCPC().hasAttribute(cpc)) {
 						CPCAttribute a = node.getCPC().getAttribute(cpc);
 						MyOutput.println("\t\t\t<CPC>");
-						MyOutput.println("\t\t\t\t<Type>" + a.getType() + "</Type>");
-						MyOutput.println("\t\t\t\t<Value>" + a.getValue() + "</Value>");
-						MyOutput.println("\t\t\t\t<Comment>" + a.getComment() + "</Comment>");
+						MyOutput.println("\t\t\t\t<Type "+ "value=\""+a.getValue() +"\" comment=\"" + a.getComment() + "\">" + a.getType() + "</Type>");
+
 						MyOutput.println("\t\t\t\t<CPCForAspects>");
 						
 						boolean[] f = a.getCpcForAspects();
@@ -162,7 +161,7 @@ public class Filemanager {
 						MyOutput.println("\t\t\t\t<R>" + f[3] + "</R>");
 						MyOutput.println("\t\t\t\t<T>" + f[4] + "</T>");
 						MyOutput.println("\t\t\t\t<C>" + f[5] + "</C>");
-						
+						MyOutput.println("\t\t\t\t</CPCForAspects>");
 						MyOutput.println("\t\t\t</CPC>");
 					}
 				}
@@ -175,7 +174,7 @@ public class Filemanager {
 				MyOutput.println("\t<Connection>");
 				MyOutput.println("\t\t<From port=\"" + cInfo.getFrom().getConnectionPort() + "\" >" + cInfo.getFrom().getFunctionName() + "</From>");
 				
-				MyOutput.println("\t\t<To port=\" " + cInfo.getTo().getConnectionPort() + "\" >" + cInfo.getTo().getFunctionName() + "</To>");
+				MyOutput.println("\t\t<To port=\"" + cInfo.getTo().getConnectionPort() + "\" >" + cInfo.getTo().getFunctionName() + "</To>");
 				
 				MyOutput.println("\t\t<Value>" + cInfo.getAspect() + "</Value>");
 				
