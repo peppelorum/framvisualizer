@@ -50,6 +50,10 @@ public class Filemanager {
 	 */
 	protected static void saveFile(Object obj, String filename){
 		
+		if(!filename.toLowerCase().endsWith(".fram")){
+			filename = filename + ".fram";
+		}
+		
 		FileOutputStream fos;
 		ObjectOutputStream oos;
 		try {
@@ -113,6 +117,10 @@ public class Filemanager {
 	 */
 	protected static void saveXMLFile(FramNodeList nodeList, String filename){
 		PrintStream MyOutput = null;
+		if(!filename.toLowerCase().endsWith(".xml")){
+			filename = filename + ".xml";
+		}
+			
 		try {
 			MyOutput = new PrintStream(new FileOutputStream(filename));
 		} 
