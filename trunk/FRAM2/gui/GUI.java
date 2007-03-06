@@ -55,8 +55,8 @@ import table.FramCPCTable;
 import table.FramNodeEditorList;
 
 import data.ConnectionInfo;
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 public class GUI extends JFrame implements ActionListener{
 	
@@ -359,7 +359,7 @@ public class GUI extends JFrame implements ActionListener{
         newNode.setText("New node");
         newNode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-				framNodeEditorList.add(new FramNode());
+				framNodeEditorList.add(new FramFunction());
 			}
         });
         return newNode;
@@ -426,7 +426,7 @@ public class GUI extends JFrame implements ActionListener{
      */
     public void actionPerformed(ActionEvent e) {
     	if(e.getActionCommand()== "New"){
-    		FramNodeList newList = new FramNodeList("");
+    		FramFunctionList newList = new FramFunctionList("");
     		framNodeEditorList.setList(newList);
     		framVisualizer.setList(newList);
     	}
@@ -458,7 +458,7 @@ public class GUI extends JFrame implements ActionListener{
     		int returnVal = fc.showOpenDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
     			File file = fc.getSelectedFile();
-    			framNodeEditorList.setList(FramNodeList.LoadFile(file.getPath()));
+    			framNodeEditorList.setList(FramFunctionList.LoadFile(file.getPath()));
     			framVisualizer.setList(framNodeEditorList.getList());
 
     		}
@@ -468,13 +468,13 @@ public class GUI extends JFrame implements ActionListener{
     		aboutFrame.add(panel);
     		JLabel text = new JLabel("<html><h3>FRAM Visualizer</h3>" +
     				"<p>FRAM Visualizer is an open-source tool to help model <br>system with FRAM (Functional Resonance Accident Model). </p>" +
-    				"<p><br>First developed at Linköping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladén<br></p>" +
+    				"<p><br>First developed at Linkï¿½ping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladï¿½n<br></p>" +
     				"<p><br>FRAM Visualizer is licensed under GNU General Public License (GPL)</p>"+
     				"<p>https://sourceforge.net/projects/framvisualizer/</p>" +
     				"<p><br>Copyright (C) 2007  Peppe Bergqvist peppe@peppesbodega.nu, <br>" +
     				"Fredrik Gustafsson fregu808@student.liu.se,<br>" +
     				"Jonas Haraldsson haraldsson@gmail.com, <br> " +
-    				"Gustav Ladén gusla438@student.liu.se</p></html>");
+    				"Gustav Ladï¿½n gusla438@student.liu.se</p></html>");
 
     		panel.add(text);
     		aboutFrame.setSize(150, 200);
@@ -534,9 +534,26 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
+		JMenu exportMenu = new JMenu("Export");
+		menu.add(exportMenu);
+		
+		
+		
 		menuItem = new JMenuItem("Export to XML");
 		menuItem.addActionListener(this);
-		menu.add(menuItem);
+		exportMenu.add(menuItem);
+		
+		menuItem = new JMenuItem("Export to format 1");
+		menuItem.addActionListener(this);
+		exportMenu.add(menuItem);
+		
+		menuItem = new JMenuItem("Export to format 2");
+		menuItem.addActionListener(this);
+		exportMenu.add(menuItem);
+		
+		menuItem = new JMenuItem("Export to format 3");
+		menuItem.addActionListener(this);
+		exportMenu.add(menuItem);
 		
 		return menu;
 	}

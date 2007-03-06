@@ -44,8 +44,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import data.ConnectionInfo;
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 /**
  * Visualize the nodes and connections, also handles mouse captures (panning, moving etc)
@@ -56,11 +56,11 @@ public class Visualizer extends JComponent {
 
 
 
-	private FramNodeList list;
-	private FramNode selectedNode;
-	private FramNode hoveredNode;
-	private FramNode.NodePort selectedPort;
-	private ArrayList<FramNode> connectedToSelectedNode = new ArrayList<FramNode>();
+	private FramFunctionList list;
+	private FramFunction selectedNode;
+	private FramFunction hoveredNode;
+	private FramFunction.NodePort selectedPort;
+	private ArrayList<FramFunction> connectedToSelectedNode = new ArrayList<FramFunction>();
 	private ConnectionInfo selectedLine;
 	private ArrayList<GraphNode> guiNodeList;
 	private ArrayList<GraphLine> guiLineList;
@@ -93,19 +93,19 @@ public class Visualizer extends JComponent {
 	}
 	
 	public Visualizer() {
-		this(new FramNodeList("empty"));
+		this(new FramFunctionList("empty"));
 	}
 	
-	public Visualizer(FramNodeList list) {		
+	public Visualizer(FramFunctionList list) {		
 		setList(list);
 		
 		init();
 	}
 	
-	public FramNode getNodeAt(Point position) {
-		FramNode node = null;
+	public FramFunction getNodeAt(Point position) {
+		FramFunction node = null;
 				
-		for(FramNode n : list) {
+		for(FramFunction n : list) {
 			if(n.getRectangle(true).contains(position)) {
 				node = n;
 				break;
@@ -115,9 +115,9 @@ public class Visualizer extends JComponent {
 		return node;
 	}
 	
-	public FramNode.NodePort getPortAt(Point position, FramNode node) {
+	public FramFunction.NodePort getPortAt(Point position, FramFunction node) {
 		if(node != null) {
-			for(FramNode.NodePort port : FramNode.NodePort.values()) {
+			for(FramFunction.NodePort port : FramFunction.NodePort.values()) {
 				if(node.getPortRectangle(port).contains(position)) {
 					return port;
 				}
@@ -145,10 +145,10 @@ public class Visualizer extends JComponent {
 	private void updateConnectedToSelectedList() {
 		connectedToSelectedNode.clear();
 		
-		FramNode selected = getSelectedNode();
+		FramFunction selected = getSelectedNode();
 		if(selected != null) {
 
-			for(FramNode n : selected.getConnectedNodes()) {
+			for(FramFunction n : selected.getConnectedNodes()) {
 				connectedToSelectedNode.add(n);
 			}
 		}
@@ -156,7 +156,7 @@ public class Visualizer extends JComponent {
 		repaint();
 	}
 	
-	public void selectNode(FramNode node, FramNode.NodePort port) {
+	public void selectNode(FramFunction node, FramFunction.NodePort port) {
 		boolean triggerEvent = true;
 		if(node == selectedNode) {
 			triggerEvent = false;
@@ -193,11 +193,11 @@ public class Visualizer extends JComponent {
 		triggerSelectedChanged();
 	}
 	
-	public FramNode getSelectedNode() {
+	public FramFunction getSelectedNode() {
 		return selectedNode;
 	}
 	
-	public FramNode.NodePort getSelectedPort() {
+	public FramFunction.NodePort getSelectedPort() {
 		return selectedPort;
 	}
 	
@@ -205,11 +205,11 @@ public class Visualizer extends JComponent {
 		return selectedLine;
 	}
 		
-	public FramNode getHoveredNode() {
+	public FramFunction getHoveredNode() {
 		return hoveredNode;
 	}
 	
-	public void setHoveredNode(FramNode val) {
+	public void setHoveredNode(FramFunction val) {
 		boolean refresh = false;
 		if(val != hoveredNode) {
 			refresh = true;
@@ -251,7 +251,7 @@ public class Visualizer extends JComponent {
 		this.addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent arg0) {
-				FramNode node = getSelectedNode();
+				FramFunction node = getSelectedNode();
 				ConnectionInfo cInfo = getSelectedLine();
 				
 				Point newLocation = removeZoom(arg0.getPoint());
@@ -284,7 +284,7 @@ public class Visualizer extends JComponent {
 			}
 
 			public void mouseMoved(MouseEvent arg0) {
-				FramNode n = getNodeAt(removeZoomOffset(arg0.getPoint()));
+				FramFunction n = getNodeAt(removeZoomOffset(arg0.getPoint()));
 				setHoveredNode(n);
 			}
 			
@@ -312,8 +312,8 @@ public class Visualizer extends JComponent {
 				secretCode = "";
 				
 				mouseDownPoint = removeZoom(arg0.getPoint());
-				FramNode node = getNodeAt(removeZoomOffset(arg0.getPoint()));
-				FramNode.NodePort port = getPortAt(removeZoomOffset(arg0.getPoint()), node);
+				FramFunction node = getNodeAt(removeZoomOffset(arg0.getPoint()));
+				FramFunction.NodePort port = getPortAt(removeZoomOffset(arg0.getPoint()), node);
 				ConnectionInfo cInfo = getConnectionAt(removeZoomOffset(arg0.getPoint()));
 				
 				originalOffset = (Point)offset.clone();
@@ -378,7 +378,7 @@ public class Visualizer extends JComponent {
 	}
 	
 
-	public void setList(FramNodeList list) {
+	public void setList(FramFunctionList list) {
 		this.list = list;
 		
 		list.addListChangedListener(new ActionListener() {
@@ -403,7 +403,7 @@ public class Visualizer extends JComponent {
 		p.x = 0;
 		p.y = 0;
 //		int maxX = (int)Math.floor(Math.sqrt(list.size())) * spacer;
-		for(FramNode node : list) {
+		for(FramFunction node : list) {
 			guiNodeList.add(new GraphNode(node, this));
 //			if(node.getPosition().x == 0 &&
 //					node.getPosition().y == 0) {
@@ -537,7 +537,7 @@ public class Visualizer extends JComponent {
 		}
 	}
 
-	public GraphNode getGuiNode(FramNode node) {
+	public GraphNode getGuiNode(FramFunction node) {
 		for(GraphNode guinode : guiNodeList) {
 			if(node == guinode.getNode()) {
 				return guinode;

@@ -31,7 +31,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import data.FramNode;
+import data.FramFunction;
 
 /**
  * A panel that holds the aspecttable, handles mouse drag etc for a function
@@ -43,7 +43,7 @@ public class FramNodeEditor extends JPanel {
 
 	private static final long serialVersionUID = 197489600332691308L;
 
-	private FramNode node;
+	private FramFunction node;
 	private FramAspectTable tableNode;
 	private FramNodeEditorList editorParent;
 	
@@ -88,7 +88,7 @@ public class FramNodeEditor extends JPanel {
 		}
 	}
 
-	public FramNodeEditor(FramNode node, FramNodeEditorList editorList) {
+	public FramNodeEditor(FramFunction node, FramNodeEditorList editorList) {
 
 		this.editorParent = editorList;
 
@@ -114,7 +114,7 @@ public class FramNodeEditor extends JPanel {
 		deSelected();
 	}
 
-	public FramNode getNode() {
+	public FramFunction getNode() {
 		return node;
 	}
 

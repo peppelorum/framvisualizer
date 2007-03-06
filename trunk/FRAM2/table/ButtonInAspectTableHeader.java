@@ -40,8 +40,8 @@ import javax.swing.JTextArea;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 public class ButtonInAspectTableHeader implements ActionListener, TableCellEditor{
 	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("plus.GIF")); 
@@ -52,10 +52,10 @@ public class ButtonInAspectTableHeader implements ActionListener, TableCellEdito
 	protected JTable table; 
 	protected int row, column; 
 	
-	private FramNodeList list;
-	private FramNode node;
+	private FramFunctionList list;
+	private FramFunction node;
 	
-	public ButtonInAspectTableHeader(TableCellEditor editor, FramNodeList lista, FramNode nodea){ 
+	public ButtonInAspectTableHeader(TableCellEditor editor, FramFunctionList lista, FramFunction nodea){ 
 		this.editor = editor; 
 		this.list = lista;
 		this.node = nodea;
@@ -69,7 +69,7 @@ public class ButtonInAspectTableHeader implements ActionListener, TableCellEdito
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("NEW NODE! NEW NODE READY!");
 				addFunction(table, row, column);
-				list.add(new FramNode());
+				list.add(new FramFunction());
 			}
 		});
 		

@@ -42,7 +42,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
 import data.Aspect;
-import data.FramNode;
+import data.FramFunction;
 
 public class ButtonInTableCell implements ActionListener, TableCellEditor{
 	public final Icon PLUS_ICON = new ImageIcon(getClass().getResource("/icons/plus.GIF")); 
@@ -120,9 +120,9 @@ public class ButtonInTableCell implements ActionListener, TableCellEditor{
         
         FramAspectTable tablenode = (FramAspectTable)table;
     	
-    	FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
+    	FramFunction.NodePort conn = FramFunction.NodePort.valueOf(table.getValueAt(row, 0).toString());
     	
-    	FramNode node = tablenode.getNode();
+    	FramFunction node = tablenode.getNode();
     	ArrayList<Aspect> aspList = node.getAttributes(conn);
     	aspList.add(new Aspect(""));
     	node.setAttributes(conn, aspList);

@@ -42,8 +42,8 @@ import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 
 import data.Aspect;
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 	/**
@@ -73,7 +73,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 	protected JTable table; 
 	protected int row, column; 
 		
-	public ButtonEditor(FramAspectTableModel model, TableCellEditor editor, FramNodeList lista, FramNode nodea){ 
+	public ButtonEditor(FramAspectTableModel model, TableCellEditor editor, FramFunctionList lista, FramFunction nodea){ 
 		this.editor = editor; 
 		this.model = model;
 
@@ -139,9 +139,9 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
         
         FramAspectTable tablenode = (FramAspectTable)table;
     	
-    	FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
+    	FramFunction.NodePort conn = FramFunction.NodePort.valueOf(table.getValueAt(row, 0).toString());
 
-    	FramNode node = tablenode.getNode();
+    	FramFunction node = tablenode.getNode();
     	ArrayList<Aspect> aspList = node.getAttributes(conn);
     	System.out.println("Add: "+ row);
     	System.out.println(aspList.size());

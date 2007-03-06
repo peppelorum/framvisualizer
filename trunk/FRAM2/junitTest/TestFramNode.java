@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import data.Aspect;
-import data.FramNode;
+import data.FramFunction;
 import junit.framework.TestCase;
 
 public class TestFramNode extends TestCase {
@@ -16,11 +16,11 @@ public class TestFramNode extends TestCase {
 	}
 	
 	/**
-	 * Testar att lägga till ett värde i varje kopplinsgpunkt
+	 * Testar att lï¿½gga till ett vï¿½rde i varje kopplinsgpunkt
 	 *
 	 */
     public void testInput1values() {
-        FramNode test = new FramNode("Testnamn");
+        FramFunction test = new FramFunction("Testnamn");
         assertEquals("Testnamn", test.getName());
         
         test.addInput("testar");
@@ -43,11 +43,11 @@ public class TestFramNode extends TestCase {
     }
     
     /**
-     * Testar att lägga till två värden i varje kopplingspunkt
+     * Testar att lï¿½gga till tvï¿½ vï¿½rden i varje kopplingspunkt
      *
      */
     public void testInput2values() {
-        FramNode test = new FramNode("Testnamn");
+        FramFunction test = new FramFunction("Testnamn");
         assertEquals("Testnamn", test.getName());
         
         test.addInput("testar");
@@ -85,7 +85,7 @@ public class TestFramNode extends TestCase {
     }
     
     public void testGetAllAttributes(){
-    	 FramNode test = new FramNode("Testnamn");
+    	 FramFunction test = new FramFunction("Testnamn");
          
          test.addInput("testarInput");
          test.addOutput("testarOutput");
@@ -121,13 +121,13 @@ public class TestFramNode extends TestCase {
     }
 
     public void testActionListener() {
-    	FramNode node = new FramNode("gammaltNamn");
+    	FramFunction node = new FramFunction("gammaltNamn");
     	
     	node.addNodeChangedListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				FramNode source = (FramNode)e.getSource();
+				FramFunction source = (FramFunction)e.getSource();
 				if(e.getActionCommand() != "NameChanged") {
 					source.setName(e.getActionCommand());
 				}
@@ -155,7 +155,7 @@ public class TestFramNode extends TestCase {
     	node.addPrecondition("test");
     	assertEquals(node.getName(), "PreconditionsAdded");
     	
-    	for(FramNode.NodePort point : FramNode.NodePort.values()) {
+    	for(FramFunction.NodePort point : FramFunction.NodePort.values()) {
     		ArrayList<Aspect> testList = new ArrayList<Aspect>();
     		testList.add(new Aspect("test2"));
     		

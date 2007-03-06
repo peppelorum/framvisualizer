@@ -3,8 +3,8 @@ package junitTest;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 import junit.framework.TestCase;
 
@@ -16,8 +16,8 @@ public class TestFramNodeList extends TestCase {
 	
 	
 	public void testSparaEnNod() {
-		FramNodeList testList = new FramNodeList("TestList");
-		FramNode testNode = new FramNode("testar");
+		FramFunctionList testList = new FramFunctionList("TestList");
+		FramFunction testNode = new FramFunction("testar");
 		
 		testNode.setName("Namn"); 
 		testList.add(testNode);
@@ -26,9 +26,9 @@ public class TestFramNodeList extends TestCase {
 	}
 	
 	public void testGetAllaNamn(){
-		FramNodeList testList = new FramNodeList("TestList");
-		FramNode testNode = new FramNode("NamnNod1");
-		FramNode testNode2 = new FramNode("NamnNod2");
+		FramFunctionList testList = new FramFunctionList("TestList");
+		FramFunction testNode = new FramFunction("NamnNod1");
+		FramFunction testNode2 = new FramFunction("NamnNod2");
 		
 		testList.add(testNode);
 		testList.add(testNode2);
@@ -46,12 +46,12 @@ public class TestFramNodeList extends TestCase {
 				TestFramNode.class);
 	}
 	
-	public static FramNodeList createFramList(){
-		FramNodeList lista = new FramNodeList("TestList");
+	public static FramFunctionList createFramList(){
+		FramFunctionList lista = new FramFunctionList("TestList");
 		
-		FramNode nod1 = new FramNode("Nyhetsbyrå");
-		FramNode nod2 = new FramNode("Skogen");
-		FramNode nod3 = new FramNode("Världen");
+		FramFunction nod1 = new FramFunction("Nyhetsbyrï¿½");
+		FramFunction nod2 = new FramFunction("Skogen");
+		FramFunction nod3 = new FramFunction("Vï¿½rlden");
 		
 		lista.add(nod1);
 		lista.add(nod2);
@@ -69,15 +69,15 @@ public class TestFramNodeList extends TestCase {
 		nod1.addResources("Papper2");
 		
 		nod2.addOutput("Papper");
-		nod2.addInput("Träd");
-		nod2.addPrecondition("Skogen växer");
-		nod2.addControl("Växthuseffekten");
+		nod2.addInput("Trï¿½d");
+		nod2.addPrecondition("Skogen vï¿½xer");
+		nod2.addControl("Vï¿½xthuseffekten");
 		nod2.addTime("Varje dag");
-		nod2.addResources("Väder");
+		nod2.addResources("Vï¿½der");
 		
 		nod3.addOutput("Nyheter");
-		nod3.addInput("Växthuseffekten");
-		nod3.addPrecondition("Nåt har hänt");
+		nod3.addInput("Vï¿½xthuseffekten");
+		nod3.addPrecondition("Nï¿½t har hï¿½nt");
 		nod3.addControl("TT");
 		nod3.addTime("Varje dag");
 		nod3.addResources("Tidningar");
@@ -99,19 +99,19 @@ public class TestFramNodeList extends TestCase {
 	
 	
 	public void testActionListener() {
-		FramNodeList lista = createFramList();
+		FramFunctionList lista = createFramList();
 		lista.addListChangedListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
-				FramNodeList source = (FramNodeList)e.getSource();
+				FramFunctionList source = (FramFunctionList)e.getSource();
 				if(e.getActionCommand() != "NameChanged") {
 					source.setName(e.getActionCommand());
 				}
 			}
 		});
 		
-		FramNode nod = new FramNode();
+		FramFunction nod = new FramFunction();
 		lista.setName("gammaltNamn");
 		assertEquals(lista.getName(), "gammaltNamn");
 		lista.add(nod);
@@ -131,20 +131,20 @@ public class TestFramNodeList extends TestCase {
 	
 	
 	public void testConnections() {
-		FramNodeList list = new FramNodeList("");
+		FramFunctionList list = new FramFunctionList("");
 		
-		FramNode node1 = new FramNode("test1");
+		FramFunction node1 = new FramFunction("test1");
 		node1.addOutput("a1");
 		list.add(node1);
 		
-		FramNode node2 = new FramNode("test2");
+		FramFunction node2 = new FramFunction("test2");
 		node2.addInput("a1");
 		list.add(node2);
 		
 		assertEquals(1, node1.getConnectedNodes().size());
 		assertEquals(node2, node1.getConnectedNodes().get(0));
 		
-		FramNode node3 = new FramNode("test3");
+		FramFunction node3 = new FramFunction("test3");
 		node3.addInput("a1");
 		list.add(node3);
 		
@@ -152,7 +152,7 @@ public class TestFramNodeList extends TestCase {
 		assertEquals(node2, node1.getConnectedNodes().get(0));
 		assertEquals(node3, node1.getConnectedNodes().get(1));
 		
-		FramNode node4 = new FramNode("test4");
+		FramFunction node4 = new FramFunction("test4");
 		node4.addPrecondition("a1");
 		list.add(node4);
 			

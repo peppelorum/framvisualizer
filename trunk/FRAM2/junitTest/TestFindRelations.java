@@ -3,9 +3,9 @@ package junitTest;
 import java.util.ArrayList;
 
 import data.ConnectionInfo;
-import data.FramNode;
+import data.FramFunction;
 import data.RelationInfo;
-import data.FramNode.NodePort;
+import data.FramFunction.NodePort;
 
 
 import junit.framework.TestCase;
@@ -26,7 +26,7 @@ public class TestFindRelations extends TestCase {
 	}
 	
 	public void testRelationCompare() {
-		FramNode node = new FramNode("test1");
+		FramFunction node = new FramFunction("test1");
 		RelationInfo relInfo = new RelationInfo(node, "Input");
 		RelationInfo relInfo2 = new RelationInfo(node, "Input");
 		
