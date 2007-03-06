@@ -36,8 +36,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -368,7 +366,7 @@ public class Visualizer extends JComponent {
 			public void keyTyped(KeyEvent arg0) {
 				secretCode += arg0.getKeyChar();
 				
-				if(secretCode.equals("whoyodaddy")) {
+				if(secretCode.equals("fram")) {
 					showWallpaper = !showWallpaper;
 					repaint();
 				}
