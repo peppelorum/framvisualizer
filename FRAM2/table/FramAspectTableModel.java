@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -33,9 +33,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import data.Aspect;
-import data.FramNode;
-import data.FramNodeList;
-import data.FramNode.NodePort;
+import data.FramFunction;
+import data.FramFunctionList;
+import data.FramFunction.NodePort;
 
 
 public class FramAspectTableModel extends DefaultTableModel {
@@ -66,7 +66,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 					node.setComment(newComment);
 				}
 				else {
-					FramNode.NodePort conn = NodePort.valueOf(changedLabel);
+					FramFunction.NodePort conn = NodePort.valueOf(changedLabel);
 					ArrayList<Aspect> newValList = new ArrayList<Aspect>();
 					
 					for(int i = 0; i < getRowCount(); i++) {
@@ -83,13 +83,13 @@ public class FramAspectTableModel extends DefaultTableModel {
 		
 	};
 	private static final long serialVersionUID = 9008215613909069521L;
-	FramNode node;
+	FramFunction node;
 	
 	public FramAspectTableModel() {
-		this(new FramNode(""));
+		this(new FramFunction(""));
 	}
 	
-	public FramAspectTableModel(FramNode node) {
+	public FramAspectTableModel(FramFunction node) {
 		nodeChangedListener = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -110,7 +110,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	}
 	
 		
-	public void setNode(FramNode newNode) {
+	public void setNode(FramFunction newNode) {
 		// TODO: remove list changed listener
 		
 		cleanUp();
@@ -121,7 +121,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	}
 		
 	private void generateCells() {
-		// ta bort lyssnaren så att inte båda lyssnarna är igång samtidigt
+		// ta bort lyssnaren sï¿½ att inte bï¿½da lyssnarna ï¿½r igï¿½ng samtidigt
 		this.removeTableModelListener(currentTableModelListener);
 		
 		this.setColumnCount(4);
@@ -139,7 +139,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	}
 
 	
-	public Object[] createNodeCells(FramNode node) {
+	public Object[] createNodeCells(FramFunction node) {
 	
 		ArrayList<Object> rows = new ArrayList<Object>();
 		rows.add(new Object[] { node.getName(), "", node.getComment()});
@@ -169,11 +169,11 @@ public class FramAspectTableModel extends DefaultTableModel {
 	}
 	
 	
-	public FramNode getNode() {
+	public FramFunction getNode() {
 		return node;
 	}
 	
-	public FramNodeList getList() {
+	public FramFunctionList getList() {
 		if(node==null) {
 			return null;
 		}

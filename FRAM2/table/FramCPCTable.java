@@ -30,7 +30,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import data.CPC;
-import data.FramNode;
+import data.FramFunction;
 
 /**
  * A table that holds all the aspects for the current function
@@ -92,7 +92,7 @@ public class FramCPCTable extends JTable {
 			return editor;
 		}
 		else {
-			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(FramNode.stepTwoDefaultValues);
+			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(FramFunction.stepTwoDefaultValues);
 			combo.setEditable(true);
 			return new ComboBoxCellEditor(combo);
 		}

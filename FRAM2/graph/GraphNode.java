@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -34,8 +34,8 @@ import java.awt.Rectangle;
 import javax.swing.JComponent;
 
 import data.Aspect;
-import data.FramNode;
-import data.FramNode.NodePort;
+import data.FramFunction;
+import data.FramFunction.NodePort;
 
 
 public class GraphNode extends JComponent {
@@ -43,13 +43,13 @@ public class GraphNode extends JComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = 4452948217399228756L;
-	private FramNode node;
+	private FramFunction node;
 	private Visualizer parent;
 
 	private Color nodeColorSel = Color.getHSBColor(0.6f, 0.3f, 0.7f);
 
 
-	public GraphNode(FramNode node, Visualizer parent) {
+	public GraphNode(FramFunction node, Visualizer parent) {
 		this.node = node;
 		this.parent = parent;
 	}
@@ -62,7 +62,7 @@ public class GraphNode extends JComponent {
 		return parent.getHoveredNode() == node;
 	}
 
-	public FramNode getNode() {
+	public FramFunction getNode() {
 		return node;
 	}
 
@@ -114,7 +114,7 @@ public class GraphNode extends JComponent {
 
 		g.setFont(new Font("Arial", 1, 10));
 		
-		for(NodePort conn : FramNode.NodePort.values()) {
+		for(NodePort conn : FramFunction.NodePort.values()) {
 			Rectangle portRect = node.getPortRectangle(conn);
 			
 			g.setColor(bgColor);

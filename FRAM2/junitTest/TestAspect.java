@@ -1,7 +1,7 @@
 package junitTest;
 
 import data.Aspect;
-import data.FramNode;
+import data.FramFunction;
 import junit.framework.TestCase;
 
 public class TestAspect extends TestCase {
@@ -44,7 +44,7 @@ public class TestAspect extends TestCase {
 	}
 	
 	public void testParent() {
-		FramNode node = new FramNode("");
+		FramFunction node = new FramFunction("");
 		aspect1.setParent(node);
 		assertEquals(node, aspect1.getParent());
 	}

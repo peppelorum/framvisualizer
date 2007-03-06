@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@
 
 package data;
 
-import data.FramNode.NodePort;
+import data.FramFunction.NodePort;
 
 public class RelationInfo implements java.io.Serializable {
 
@@ -32,10 +32,10 @@ public class RelationInfo implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5282137696278770529L;
-	private FramNode function;
+	private FramFunction function;
 	private NodePort connectionType; //input, output, resources 
 
-	public RelationInfo(FramNode function, String connectionType){
+	public RelationInfo(FramFunction function, String connectionType){
 		this.function = function;
 		this.connectionType = NodePort.valueOf(connectionType);
 	}
@@ -44,7 +44,7 @@ public class RelationInfo implements java.io.Serializable {
 		return function.getName();
 	}
 	
-	public FramNode getNode() {
+	public FramFunction getNode() {
 		return function;
 	}
 	

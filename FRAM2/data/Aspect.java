@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -38,7 +38,7 @@ public class Aspect implements java.io.Serializable {
 	private static final long serialVersionUID = 8030263320025000436L;
 	private String value;
 	private String comment;
-	private FramNode parent;
+	private FramFunction parent;
 	
 	public Aspect(String value){
 		this.value = value;
@@ -79,10 +79,10 @@ public class Aspect implements java.io.Serializable {
 		return true;
 	}
 	
-	public void setParent(FramNode newParent) {
+	public void setParent(FramFunction newParent) {
 		parent = newParent;
 	}
-	public FramNode getParent() {
+	public FramFunction getParent() {
 		return parent;
 	}
 }

@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -33,8 +33,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 
 import data.Aspect;
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 
 /**
@@ -46,13 +46,13 @@ public class FramNodeEditorList extends JComponent {
 
 	private static final long serialVersionUID = 1011531247926476853L;
 	
-	private FramNodeList list;
+	private FramFunctionList list;
 	private ActionListener listChangedListener;
 	private Aspect selectedAspect;
 	private ArrayList<ActionListener> selectedAspectChangedRecipients;
 	private FramNodeEditor selectedNodeEditor;
 	
-	public FramNodeEditorList(FramNodeList list) {
+	public FramNodeEditorList(FramFunctionList list) {
 		selectedAspectChangedRecipients = new ArrayList<ActionListener>();
 		listChangedListener = new ActionListener() {
 
@@ -68,24 +68,24 @@ public class FramNodeEditorList extends JComponent {
 	}
 	
 	public FramNodeEditorList(){		
-		this(new FramNodeList("ny"));
+		this(new FramFunctionList("ny"));
 	}
 	
-	public void add(FramNode item){		
+	public void add(FramFunction item){		
 		list.add(item);
 	}
 	
 	/*
 	 * Get the list with data
 	 * */
-	public FramNodeList getList() {
+	public FramFunctionList getList() {
 		return list;
 	}
 	
 	/*
 	 * Set list (data class)
 	 * */
-	public void setList(FramNodeList value) {
+	public void setList(FramFunctionList value) {
 		cleanUp();
 		
 		list = value;
@@ -107,7 +107,7 @@ public class FramNodeEditorList extends JComponent {
 			}
 		}
 		
-		for(FramNode node : list) {
+		for(FramFunction node : list) {
 			boolean isHere = false;
 			for(Component c : this.getComponents()) {
 				FramNodeEditor guiNode = (FramNodeEditor)c;
@@ -185,7 +185,7 @@ public class FramNodeEditorList extends JComponent {
 		}
 	}
 	
-	public FramNode getSelectedNode() {
+	public FramFunction getSelectedNode() {
 		if(getSelectedNodeEditor() != null) {
 			return getSelectedNodeEditor().getNode();
 		}
@@ -220,14 +220,14 @@ public class FramNodeEditorList extends JComponent {
 				
 	}
 	
-	public void setSelectedNode(FramNode node) {
+	public void setSelectedNode(FramFunction node) {
 		setSelectedNodeEditor(getEditorForNode(node));
 	}
 	
 	/*
 	 * Find the editor for the input node
 	 * */
-	public FramNodeEditor getEditorForNode(FramNode node) {
+	public FramNodeEditor getEditorForNode(FramFunction node) {
 		for(Component c : this.getComponents()) {
 			if(c instanceof FramNodeEditor) {
 				FramNodeEditor e = (FramNodeEditor)c;

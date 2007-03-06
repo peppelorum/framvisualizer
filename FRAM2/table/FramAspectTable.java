@@ -37,8 +37,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import data.Aspect;
-import data.FramNode;
-import data.FramNodeList;
+import data.FramFunction;
+import data.FramFunctionList;
 
 
 /**
@@ -49,8 +49,8 @@ import data.FramNodeList;
 
 public class FramAspectTable extends JTable {
 	
-	private FramNode node;
-	private FramNodeList list;
+	private FramFunction node;
+	private FramFunctionList list;
 	private ActionListener nodeChangedListener;
 	private Aspect selectedAspect;
 	private ArrayList<ActionListener> selectedChangedRecipients;
@@ -60,7 +60,7 @@ public class FramAspectTable extends JTable {
 	private static final long serialVersionUID = 3518691723356609315L;
 	
 	public FramAspectTable() {
-		this(new FramNode(""), new FramNodeList(""), null);
+		this(new FramFunction(""), new FramFunctionList(""), null);
 	}
 	
 	public boolean isCellEditable(int row, int column) {
@@ -72,7 +72,7 @@ public class FramAspectTable extends JTable {
 		return super.isCellEditable(row, column);
 	}
 	
-	public FramAspectTable(FramNode node, FramNodeList listInput, FramNodeEditor parent) {
+	public FramAspectTable(FramFunction node, FramFunctionList listInput, FramNodeEditor parent) {
 		
 		model = new FramAspectTableModel(node);
 		
@@ -116,11 +116,11 @@ public class FramAspectTable extends JTable {
 		});
 	}
 	
-	public FramNode getNode() {
+	public FramFunction getNode() {
 		return node;
 	}
 	
-	public void setNode(FramNode newNode) {
+	public void setNode(FramFunction newNode) {
 		cleanUp();
 		
 		node = newNode;
@@ -234,7 +234,7 @@ public class FramAspectTable extends JTable {
 		return parent.isSelected();
 	}
 	
-	public FramNodeList getList() {
+	public FramFunctionList getList() {
 		return list;
 	}
 }

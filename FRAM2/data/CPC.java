@@ -26,14 +26,14 @@ package data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import data.FramNode.NodePort;
+import data.FramFunction.NodePort;
 
 public class CPC implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9034461918811470582L;
-	private FramNode parent;
+	private FramFunction parent;
 	
 	public static boolean typeExists(String type) {
 		for(String t : CPC_TYPES) {
@@ -61,7 +61,7 @@ public class CPC implements Serializable {
 	
 	private ArrayList<CPCAttribute> list;
 	
-	public CPC(FramNode node) {
+	public CPC(FramFunction node) {
 		this.parent = node;
 		list = new ArrayList<CPCAttribute>();
 	}
@@ -102,7 +102,7 @@ public class CPC implements Serializable {
 		return null;
 	}
 	
-	public FramNode getParent() {
+	public FramFunction getParent() {
 		return parent;
 	}
 	
@@ -129,7 +129,7 @@ public class CPC implements Serializable {
 		return -1;
 	}
 	
-	public ArrayList<CPCAttribute> getAttributesForPart(FramNode.NodePort port) {
+	public ArrayList<CPCAttribute> getAttributesForPart(FramFunction.NodePort port) {
 		ArrayList<CPCAttribute> attribs = new ArrayList<CPCAttribute>();
 		
 		for(CPCAttribute attrib : list) {

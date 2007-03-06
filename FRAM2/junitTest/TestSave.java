@@ -1,6 +1,6 @@
 package junitTest;
 
-import data.FramNodeList;
+import data.FramFunctionList;
 import junit.framework.TestCase;
 
 public class TestSave extends TestCase {
@@ -10,15 +10,15 @@ public class TestSave extends TestCase {
 	}
 	
 	 public void testOpenedFileIsEqualToSaved(){
-		 FramNodeList sparad = TestFramNodeList.createFramList();
+		 FramFunctionList sparad = TestFramNodeList.createFramList();
 		 sparad.SaveFile("Functions.xml");
-		 FramNodeList laddad = FramNodeList.LoadFile("Functions.xml");
+		 FramFunctionList laddad = FramFunctionList.LoadFile("Functions.xml");
 		 
 		 assertTrue(sparad.equals(laddad));
 		 
 	 }
 	 
-	 public void checkAllNodes(FramNodeList sparad, FramNodeList laddad){
+	 public void checkAllNodes(FramFunctionList sparad, FramFunctionList laddad){
 		 
 		 assertEquals(laddad.size(), sparad.size());
 			
