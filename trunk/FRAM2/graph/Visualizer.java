@@ -320,7 +320,9 @@ public class Visualizer extends JComponent {
 						selectConnection(cInfo);
 						selectedNode = null;
 					}else if(node != null){
-						selectNode(node, port);
+						if (node.isFilterVisible()) {
+							selectNode(node, port);
+						}
 						selectedLine = null;
 					}else{
 						selectNode(null, null);
