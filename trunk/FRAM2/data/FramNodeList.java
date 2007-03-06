@@ -50,6 +50,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	 */
 	private static final long serialVersionUID = -935987379291262564L;
 	transient private ArrayList<ActionListener> listChangedRecipients;
+	transient private ActionListener nodeChangedListener;
 	
 	private String name;
 	private ArrayList<ConnectionInfo> connections = new ArrayList<ConnectionInfo>();
@@ -66,9 +67,19 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 	
 	public void init() {
 		listChangedRecipients = new ArrayList<ActionListener>();
+		nodeChangedListener = new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {				
+				if(contains(e.getSource())) {
+					listChanged("NodeChanged");
+				}
+			}
+						
+		};
 		
 		for(FramNode node : this) {
 			node.init();
+			node.addNodeChangedListener(nodeChangedListener);
 		}
 	}
 	
@@ -155,17 +166,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		
 		this.listChanged("NodeAdded");
 		
-		o.addNodeChangedListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				if(contains(e.getSource())) {
-					listChanged("NodeChanged");
-				}
-			}
-						
-		});
+		o.addNodeChangedListener(nodeChangedListener);
 		
 		return result;
 	}
@@ -187,17 +188,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		
 		this.listChanged("NodeAdded");
 		
-		o.addNodeChangedListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				if(contains(e.getSource())) {
-					listChanged("NodeChanged");
-				}
-			}
-						
-		});
+		o.addNodeChangedListener(nodeChangedListener);
 		
 		return result;
 	}
@@ -206,6 +197,7 @@ public class FramNodeList extends ArrayList<FramNode> implements java.io.Seriali
 		boolean result = super.remove(o);
 		
 		removeAllConnectionsForNode(o);
+		o.removeNodeChangedListener(nodeChangedListener);
 		
 		this.listChanged("NodeRemoved");
 		

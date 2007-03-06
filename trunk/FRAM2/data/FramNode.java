@@ -637,7 +637,9 @@ public class FramNode implements java.io.Serializable {
 	}
 	
 	public void addNodeChangedListener(ActionListener listener) {
-		this.nodeChangedRecipients.add(listener);
+		if(!nodeChangedRecipients.contains(listener)) {
+			this.nodeChangedRecipients.add(listener);
+		}
 	}
 	
 	public void removeNodeChangedListener(ActionListener listener) {

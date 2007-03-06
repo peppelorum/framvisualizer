@@ -133,7 +133,8 @@ public class CPC implements Serializable {
 		ArrayList<CPCAttribute> attribs = new ArrayList<CPCAttribute>();
 		
 		for(CPCAttribute attrib : list) {
-			if(attrib.getCpcForAspects()[getPortNumber(port)]) {
+			if(attrib.getCpcForAspects()[getPortNumber(port)] &&
+					(attrib.getValue() != "" || attrib.getComment() != "")) {
 				attribs.add(attrib);
 			}
 		}
