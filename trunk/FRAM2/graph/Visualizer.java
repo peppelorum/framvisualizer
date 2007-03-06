@@ -458,20 +458,26 @@ public class Visualizer extends JComponent {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		if(showWallpaper) {
-			URL url;
-			try {
-				url = new URL("http://www.wright.edu/isap/erik_hollnagel.jpg");
-				ImageIcon img = new ImageIcon(url);
-				for(int i = 0; i < 5; i++) {
-					for(int j = 0; j < 5; j++) {
-						img.paintIcon(this, g, i * img.getIconWidth(), j * img.getIconHeight());
-					}
+			ImageIcon img = new ImageIcon(getClass().getResource("/icons/erik_hollnagel.jpg"));
+			for(int i = 0; i < 5; i++) {
+				for(int j = 0; j < 5; j++) {
+					img.paintIcon(this, g, i * img.getIconWidth(), j * img.getIconHeight());
 				}
-				//g.drawImage(img, 0, 0, null);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+//			URL url;
+//			try {
+//				//url = new URL("http://www.wright.edu/isap/erik_hollnagel.jpg");
+//				ImageIcon img = new ImageIcon(getClass().getResource("/icons/erik_hollnagel.jpg"));
+//				for(int i = 0; i < 5; i++) {
+//					for(int j = 0; j < 5; j++) {
+//						img.paintIcon(this, g, i * img.getIconWidth(), j * img.getIconHeight());
+//					}
+//				}
+//				//g.drawImage(img, 0, 0, null);
+//			} catch (MalformedURLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 		//"http://www.wright.edu/isap/erik_hollnagel.jpg");
 		
