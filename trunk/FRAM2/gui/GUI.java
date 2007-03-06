@@ -361,15 +361,17 @@ public class GUI extends JFrame implements ActionListener{
     		framVisualizer.setList(newList);
     	}
     	else if(e.getActionCommand()== "Save"){
+    		fc.removeChoosableFileFilter(xmlFilter);
     		fc.setFileFilter(framFilter);
     		fc.setAcceptAllFileFilterUsed(false);
-    		
+
     		int returnVal = fc.showSaveDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
 	            framNodeEditorList.getList().SaveFile(file.getPath());
 	        }	
     	}else if(e.getActionCommand()== "Export to XML"){
+    		fc.removeChoosableFileFilter(framFilter);
     		fc.setFileFilter(xmlFilter);
     		fc.setAcceptAllFileFilterUsed(false);
     		
@@ -379,6 +381,7 @@ public class GUI extends JFrame implements ActionListener{
 	            framNodeEditorList.getList().SaveXMLFile(file.getPath());
 	        }	
     	}else if(e.getActionCommand()=="Load"){
+    		fc.removeChoosableFileFilter(xmlFilter);
     		fc.setFileFilter(framFilter);
     		fc.setAcceptAllFileFilterUsed(false);
     		
