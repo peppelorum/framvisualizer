@@ -299,8 +299,7 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 	
 	/**
 	 * Used in the filter/search box
-	 * 
-	 * Returns an FramNodeList with all the nodes that contains a name, aspect or comment that you've searched for
+	 * Filters and sets all the nodes not searched for as temporary invisible
 	 * 
 	 * @return FramNodeList filtered result 
 	 */
