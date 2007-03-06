@@ -211,6 +211,18 @@ public class GraphNode extends JComponent {
 				//Increases the height of the bubble when more aspects are added
 				bubbleHeight += g.getFontMetrics().getHeight()-1;	
 			}
+			//If the port have CPCs add some height
+			if(node.getCPCtext(parent.getSelectedPort()).length > 0){
+				bubbleHeight += 10;
+			}
+			//Add height for each CPC
+			//and check if the width need to be changed
+			for(String s : node.getCPCtext(parent.getSelectedPort())){
+				if(g.getFontMetrics().stringWidth(nameString) < g.getFontMetrics().stringWidth(s)){
+					node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(s));
+				}
+				bubbleHeight += g.getFontMetrics().getHeight()-1;
+			}
 		}
 		g.setFont(new Font("Arial", 1, 12));	
 	
@@ -275,9 +287,10 @@ public class GraphNode extends JComponent {
 				triAngle.xpoints[1], 
 				triAngle.ypoints[1]);
 
-		// draw name
-//		g.setFont(new Font("Arial", 1, 12));
 		
+		
+		//Draw the name in the bubble
+		g.setFont(new Font("Arial", 1, 12));
 		g.drawString(
 				nameString, 
 				bubbleRect.x + margin,
@@ -290,6 +303,8 @@ public class GraphNode extends JComponent {
 				String[] cpcs = node.getCPCtext(parent.getSelectedPort());
 				
 				int counter = 0;
+				//TODO What the hell does this print and where? can't find it
+				
 				for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {
 					g.drawString(
 							asp.getValue() + 
@@ -300,6 +315,7 @@ public class GraphNode extends JComponent {
 				}		
 				counter++;
 				
+				//Draw the CPC info
 				for(int i = 0; i < cpcs.length; i++) {
 					g.drawString(
 							cpcs[i], 
