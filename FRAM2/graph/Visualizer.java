@@ -29,6 +29,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -286,6 +288,7 @@ public class Visualizer extends JComponent {
 			}
 			
 		});
+		
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent arg0) {
@@ -304,6 +307,8 @@ public class Visualizer extends JComponent {
 			}
 
 			public void mousePressed(MouseEvent arg0) {
+				requestFocus();
+				
 				mouseDownPoint = removeZoom(arg0.getPoint());
 				FramNode node = getNodeAt(removeZoomOffset(arg0.getPoint()));
 				FramNode.NodePort port = getPortAt(removeZoomOffset(arg0.getPoint()), node);
@@ -331,6 +336,35 @@ public class Visualizer extends JComponent {
 
 			public void mouseReleased(MouseEvent arg0) {
 				
+			}
+			
+		});
+		
+		this.addKeyListener(new KeyListener() {
+
+			public void keyPressed(KeyEvent arg0) {
+				Point centerPoint = new Point(getWidth()/2, getHeight()/2);
+				
+				int key = arg0.getKeyCode();
+								
+				if(key == KeyEvent.VK_PLUS || key == 107) {
+					setZoomFactor(getZoomFactor() + 0.2f, centerPoint);
+					repaint();
+				}
+				else if(key == KeyEvent.VK_MINUS || key == 109) {
+					setZoomFactor(getZoomFactor() - 0.2f, centerPoint);
+					repaint();
+				}
+				
+			}
+
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
 			}
 			
 		});

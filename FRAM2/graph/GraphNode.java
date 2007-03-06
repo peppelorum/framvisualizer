@@ -201,27 +201,34 @@ public class GraphNode extends JComponent {
 		
 		//Checks if the info when a port is selected need to enlarge the bubble
 		//This info is value and comments for each port, it also increase the height
-		if(isSelected() && parent.getSelectedPort() != null) {
+		if(isSelected() && parent.getSelectedPort() != null) {		
 			g.setFont(new Font("Arial", 1, 10));
+			int fontHeight = g.getFontMetrics().getHeight()-1;
+			
 			for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {	
 				String s = asp.getValue() + (asp.getComment() != "" ? " \"" + asp.getComment() + "\"" : "");
 				if(g.getFontMetrics().stringWidth(nameString) < g.getFontMetrics().stringWidth(s)){
 					node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(s));
 				}
 				//Increases the height of the bubble when more aspects are added
-				bubbleHeight += g.getFontMetrics().getHeight()-1;	
+				bubbleHeight += fontHeight;	
 			}
+			
 			//If the port have CPCs add some height
 			if(node.getCPCtext(parent.getSelectedPort()).length > 0){
 				bubbleHeight += 10;
 			}
+			
 			//Add height for each CPC
 			//and check if the width need to be changed
-			for(String s : node.getCPCtext(parent.getSelectedPort())){
-				if(g.getFontMetrics().stringWidth(nameString) < g.getFontMetrics().stringWidth(s)){
-					node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(s));
+			String[] cpcs = node.getCPCtext(parent.getSelectedPort());
+			int cpcWidth = 0;
+			for(int i = 0; i < cpcs.length; i++) {
+				cpcWidth = margin+10 + g.getFontMetrics().stringWidth(cpcs[i]);
+				if(cpcWidth > node.getBubbleWidth()) {
+					node.setBubbleWidth(cpcWidth);
 				}
-				bubbleHeight += g.getFontMetrics().getHeight()-1;
+				bubbleHeight += fontHeight;
 			}
 		}
 		g.setFont(new Font("Arial", 1, 12));	
