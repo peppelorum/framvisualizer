@@ -135,7 +135,7 @@ public class GUI extends JFrame implements ActionListener{
 					framCPCTable.setCPC(visualizer.getSelectedNode().getCPC());
 					lineButtons.setVisible(false);
 					nodeButtons.setVisible(true);
-					updateFlagNodeButton();
+//					updateFlagNodeButton();
 				}
 				else if(visualizer.getSelectedLine() != null) {
 					lineButtons.setVisible(true);
@@ -231,44 +231,44 @@ public class GUI extends JFrame implements ActionListener{
 		lineButtons.setVisible(false);
 		
 // Fix JPanel for nodes.. aint workin
-		JButton biggerNodeButton;
-		Icon bigger_icon = new ImageIcon(getClass().getResource("/icons/bigger.GIF"));
-		biggerNodeButton = new JButton(bigger_icon); 
-		biggerNodeButton.setText("Bigger");
-		biggerNodeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()+5);
-				framVisualizer.repaint();
-			}
-		
-		});
-		JButton smallerNodeButton;
-		Icon smaller_icon = new ImageIcon(getClass().getResource("/icons/smaller.GIF"));
-		smallerNodeButton = new JButton(smaller_icon); 
-		smallerNodeButton.setText("Smaller");
-		smallerNodeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()-5);
-				framVisualizer.repaint();
-			}
-		
-		});
-		
-		toggleFlagNode = new JToggleButton();
-		toggleFlagNode.setText("Flag");
-		toggleFlagNode.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				framVisualizer.getSelectedNode().setFlagged(!framVisualizer.getSelectedNode().isFlagged());
-				updateFlagNodeButton();
-				repaint();
-			}
-			
-		});
-		
-		nodeButtons.add(smallerNodeButton);
-		nodeButtons.add(biggerNodeButton);
-		nodeButtons.add(toggleFlagNode);
+//		JButton biggerNodeButton;
+//		Icon bigger_icon = new ImageIcon(getClass().getResource("/icons/bigger.GIF"));
+//		biggerNodeButton = new JButton(bigger_icon); 
+//		biggerNodeButton.setText("Bigger");
+//		biggerNodeButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()+5);
+//				framVisualizer.repaint();
+//			}
+//		
+//		});
+//		JButton smallerNodeButton;
+//		Icon smaller_icon = new ImageIcon(getClass().getResource("/icons/smaller.GIF"));
+//		smallerNodeButton = new JButton(smaller_icon); 
+//		smallerNodeButton.setText("Smaller");
+//		smallerNodeButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				framVisualizer.getSelectedNode().setSize(framVisualizer.getSelectedNode().getSize()-5);
+//				framVisualizer.repaint();
+//			}
+//		
+//		});
+//		
+//		toggleFlagNode = new JToggleButton();
+//		toggleFlagNode.setText("Flag");
+//		toggleFlagNode.addActionListener(new ActionListener() {
+//
+//			public void actionPerformed(ActionEvent arg0) {
+//				framVisualizer.getSelectedNode().setFlagged(!framVisualizer.getSelectedNode().isFlagged());
+//				updateFlagNodeButton();
+//				repaint();
+//			}
+//			
+//		});
+//		
+//		nodeButtons.add(smallerNodeButton);
+//		nodeButtons.add(biggerNodeButton);
+//		nodeButtons.add(toggleFlagNode);
 		
 		nodeButtons.setVisible(false);
 
