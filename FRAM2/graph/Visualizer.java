@@ -79,7 +79,7 @@ public class Visualizer extends JComponent {
 	private Point originalOffset;
 	private float zoomFactor = 1;
 
-	JPopupMenu popup;
+	JPopupMenu popupNodeMenu, popupGraphMenu;
 
 	private ArrayList<ActionListener> selectedChangedRecipients = new ArrayList<ActionListener>();
 
@@ -110,8 +110,11 @@ public class Visualizer extends JComponent {
 		init();
 
 
-		popup = new JPopupMenu();
-		popup.add(new NodeMenu(this, popup));
+		popupNodeMenu = new JPopupMenu();
+		popupNodeMenu.add(new NodeMenu(list, this, popupNodeMenu));
+		
+		popupGraphMenu = new JPopupMenu();
+		popupGraphMenu.add(new GraphMenu(list, this, popupGraphMenu));
 
 	}
 	
@@ -212,6 +215,16 @@ public class Visualizer extends JComponent {
 		return selectedNode;
 	}
 	
+	public boolean hasSelectedNode() {
+		if (selectedNode == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	
+	
 	public void deleteSelectedNode() {
 		list.remove(getSelectedNode());
 	}
@@ -284,7 +297,7 @@ public class Visualizer extends JComponent {
 							nodeOriginalPoint.x + xDiff,
 							nodeOriginalPoint.y + yDiff));
 //					popup.show(e.getComponent(), e.getX(), e.getY());
-					popup.setVisible(false);
+					popupNodeMenu.setVisible(false);
 //					popup.setLocation(x, y)
 
 				}
@@ -368,7 +381,7 @@ public class Visualizer extends JComponent {
 							break;
 						}
 						case InputEvent.BUTTON3_MASK: {
-							popup.show(e.getComponent(), e.getX(), e.getY());
+							popupNodeMenu.show(e.getComponent(), e.getX(), e.getY());
 //							System.out.println("That's the RIGHT button");    
 							
 							break;
@@ -378,6 +391,23 @@ public class Visualizer extends JComponent {
 					}
 					selectedLine = null;
 				}else{
+					
+					switch(e.getModifiers()) {
+					case InputEvent.BUTTON1_MASK: {
+//						System.out.println("That's the LEFT button");
+						break;
+					}
+					case InputEvent.BUTTON2_MASK: {
+//						System.out.println("That's the MIDDLE button");
+						break;
+					}
+					case InputEvent.BUTTON3_MASK: {
+						popupGraphMenu.show(e.getComponent(), e.getX(), e.getY());
+//						System.out.println("That's the RIGHT button");    
+						
+						break;
+					}
+					}		
 					
 					System.out.println("noll");
 

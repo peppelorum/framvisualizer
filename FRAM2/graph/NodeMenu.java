@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 
+import data.FramFunctionList;
+
 public class NodeMenu extends Component {
 	
 	/**
@@ -15,7 +17,7 @@ public class NodeMenu extends Component {
 	private static final long serialVersionUID = 1L;
 	Visualizer vis;
 	
-	public NodeMenu(Visualizer visa, JComponent comp){
+	public NodeMenu(FramFunctionList list, Visualizer visa, JComponent comp){
 		
 		this.vis = visa;
 				
