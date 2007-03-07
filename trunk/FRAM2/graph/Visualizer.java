@@ -124,8 +124,9 @@ public class Visualizer extends JComponent {
 		//Create the popup menu.
 		popup = new JPopupMenu();
 		
-		JMenuItem menuItem = new JMenuItem("Bigger");
-		menuItem = new JMenuItem("Smaller");
+		JMenuItem menuItem;
+		
+		menuItem = new JMenuItem("Bigger");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getSelectedNode().setSize(getSelectedNode().getSize()+5);
