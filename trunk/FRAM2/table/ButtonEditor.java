@@ -98,14 +98,13 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAspect(table, row, column);
-				//list.moveUpNode(node);
 			}
 		});
 	} 
 	
-	public JButton editor()
+	public TableCellEditor editor()
 	{
-		return editora;
+		return editor;
 	}
 		
 	public Component getTableCellEditorComponent(JTable table, Object value
@@ -120,7 +119,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 		this.row = row; 
 		this.column = column; 
 		return panel; 
-	} 
+	}
 	
 	public Object getCellEditorValue()
 	{
@@ -131,6 +130,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
     	
         JTextArea textArea = new JTextArea(10, 50);
         Object value = table.getValueAt(row, column);
+        String aspect = table.getValueAt(row, 0).toString();
        
         if(value!=null){
             textArea.setText((String)value);
@@ -138,22 +138,19 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
         }
         
         FramAspectTable tablenode = (FramAspectTable)table;
-    	
-    	FramFunction.NodePort conn = FramFunction.NodePort.valueOf(table.getValueAt(row, 0).toString());
+    	FramFunction.NodePort conn = FramFunction.NodePort.valueOf(aspect);
 
     	FramFunction node = tablenode.getNode();
     	ArrayList<Aspect> aspList = node.getAttributes(conn);
-    	System.out.println("Add: "+ row);
-    	System.out.println(aspList.size());
     	
     	
-//    	if (aspList.size() > 1){
-//    		aspList.add(row, new Aspect(""));
-//    	} else {
+    	if (aspList.size() == 0){
     		aspList.add(new Aspect(""));
-//    	}
-    	
-    	node.setAttributes(conn, aspList);
+    		aspList.add(new Aspect(""));
+    		node.setAttributes(conn, aspList);
+    	} else {
+    		model.insertRow(row + 1, new Object[] {aspect , "", ""});
+    	}
     }
     
     protected void removeAspect(JTable table, int row, int column){
@@ -166,22 +163,26 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
             textArea.setCaretPosition(0);
         }
         
-        //FramAspectTable tablenode = (FramAspectTable)table;
+        FramAspectTable tablenode = (FramAspectTable)table;
     	
-    	//FramNode.NodePort conn = FramNode.NodePort.valueOf(table.getValueAt(row, 0).toString());
+        FramFunction.NodePort conn = FramFunction.NodePort.valueOf(table.getValueAt(row, 0).toString());
     	
     	
-    	
+    	System.out.println(table.getValueAt(row, 0).toString());
     	System.out.println("Remove: "+ row);
     	System.out.println("ModelRows: "+ model.getRowCount());
     	
+    	System.out.println(model.getValueAt(row, 1));
+    	
     	model.removeRow(row);
     	
-//    	FramNode node = tablenode.getNode();
-//    	ArrayList<Aspect> aspList;
+//    	model.removeRow(row);
 //    	
+//    	FramFunction node = tablenode.getNode();
+//    	ArrayList<Aspect> aspList;
+//
 //    	int l = 0;
-//    	for(FramNode.NodePort port : FramNode.NodePort.values()){
+//    	for(FramFunction.NodePort port : FramFunction.NodePort.values()){
 //    		if (port.equals(conn)) {
 //    			break;
 //    		}
@@ -190,16 +191,18 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
 //    		System.out.println("l: "+ l);
 //    	}
 //    	
+//    	
+////    	
 //    	aspList = node.getAttributes(conn);
-//    	
-//    	
+////    	
+////    	
 //    	System.out.println("Remove: "+ row);
 //    	System.out.println(aspList.size());
 //    	System.out.println(l);
 //    	if (aspList.size() > 1){
-//    		aspList.remove(row - l);
+////    		aspList.remove(row - l);
 //    	}
-//    	
+////    	
 //    	node.setAttributes(conn, aspList);
     }
 }

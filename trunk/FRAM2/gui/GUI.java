@@ -401,7 +401,9 @@ public class GUI extends JFrame implements ActionListener{
 		buttonDelete.setText("Delete node");
 		buttonDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				framVisualizer.deleteSelectedNode();
+				if (framVisualizer.hasSelectedNode()) {
+					framVisualizer.deleteSelectedNode();
+				}
 			}
 		});
 		
@@ -647,7 +649,7 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 				
-		menu.add(new NodeMenu(framVisualizer, menu));
+		menu.add(new NodeMenu(framNodeEditorList.getList(), framVisualizer, menu));
 		
 		return menu;
 	}
