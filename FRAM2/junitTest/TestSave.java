@@ -11,7 +11,7 @@ public class TestSave extends TestCase {
 	
 	 public void testOpenedFileIsEqualToSaved(){
 		 FramFunctionList sparad = TestFramNodeList.createFramList();
-		 sparad.SaveFile("Functions.xml");
+		 sparad.saveFile("", "Functions.xml");
 		 FramFunctionList laddad = FramFunctionList.LoadFile("Functions.xml");
 		 
 		 assertTrue(sparad.equals(laddad));

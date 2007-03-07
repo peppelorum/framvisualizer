@@ -256,12 +256,18 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 	 * 
 	 * @param filename 
 	 */
-	public void SaveFile(String filename){
-		Filemanager.saveFile(this, filename);
-	}
-	
-	public void SaveXMLFile(String filename){
-		Filemanager.saveXMLFile(this, filename);
+	public void saveFile(String function, String filename){
+		if (function.equalsIgnoreCase("saveXMLFile")){
+			Filemanager.saveXMLFile(this, filename);
+		} else if (function.equalsIgnoreCase("save format 1")){
+			Filemanager.saveToFormat1(this, filename);
+		} else if (function.equalsIgnoreCase("save format 2")){
+			Filemanager.saveToFormat2(this, filename);
+		} else if (function.equalsIgnoreCase("save format 3")){
+			Filemanager.saveToFormat3(this, filename);
+		} else {
+			Filemanager.saveFile(this, filename);
+		}
 	}
 	
 	/**

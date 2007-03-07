@@ -491,7 +491,7 @@ public class GUI extends JFrame implements ActionListener{
     		int returnVal = fc.showSaveDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
-	            framNodeEditorList.getList().SaveFile(file.getPath());
+	            framNodeEditorList.getList().saveFile("", file.getPath());
 	        }	
     	}else if(e.getActionCommand()== "Export to XML"){
     		fc.removeChoosableFileFilter(framFilter);
@@ -501,9 +501,33 @@ public class GUI extends JFrame implements ActionListener{
     		int returnVal = fc.showSaveDialog(this);
     		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
-	            framNodeEditorList.getList().SaveXMLFile(file.getPath());
-	        }	
-    	}else if(e.getActionCommand()=="Open"){
+	            framNodeEditorList.getList().saveFile("saveXMLFile", file.getPath());
+	        }
+    	}else if(e.getActionCommand()== "Export to format 1"){
+    		fc.resetChoosableFileFilters();
+    
+    		int returnVal = fc.showSaveDialog(this);
+    		if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+	            framNodeEditorList.getList().saveFile("save format 1", file.getPath());
+	        }
+    	}else if(e.getActionCommand()== "Export to format 2"){
+    		fc.resetChoosableFileFilters();
+    		
+    		int returnVal = fc.showSaveDialog(this);
+    		if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+	            framNodeEditorList.getList().saveFile("save format 2", file.getPath());
+	        }
+    	}else if(e.getActionCommand()== "Export to format 3"){
+    		fc.resetChoosableFileFilters();
+    		
+    		int returnVal = fc.showSaveDialog(this);
+    		if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+	            framNodeEditorList.getList().saveFile("save format 3", file.getPath());
+	        }
+    	}else if(e.getActionCommand()=="Load"){
     		fc.removeChoosableFileFilter(xmlFilter);
     		fc.setFileFilter(framFilter);
     		fc.setAcceptAllFileFilterUsed(false);
