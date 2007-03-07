@@ -110,50 +110,11 @@ public class Visualizer extends JComponent {
 		init();
 
 
-		rightClickMenu();
-
-
+		popup = new JPopupMenu();
+		popup.add(new NodeMenu(this, popup));
 
 	}
 	
-	public void rightClickMenu() {
-		
-//		JMenuBar menuBar = new JMenuBar();
-
-		//...where the GUI is constructed:
-		//Create the popup menu.
-		popup = new JPopupMenu();
-		
-		JMenuItem menuItem;
-		
-		menuItem = new JMenuItem("Bigger");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getSelectedNode().setSize(getSelectedNode().getSize()+5);
-				repaint();
-			}
-		});
-		popup.add(menuItem);
-		
-		menuItem = new JMenuItem("Smaller");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getSelectedNode().setSize(getSelectedNode().getSize()-5);
-				repaint();
-			}
-		});
-		popup.add(menuItem);
-		
-		menuItem = new JMenuItem("Flag");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getSelectedNode().setFlagged(!getSelectedNode().isFlagged());
-//				updateFlagNodeButton();
-				repaint();
-			}
-		});
-		popup.add(menuItem);
-	}
 
 
 	public FramFunction getNodeAt(Point position) {
@@ -249,6 +210,10 @@ public class Visualizer extends JComponent {
 
 	public FramFunction getSelectedNode() {
 		return selectedNode;
+	}
+	
+	public void deleteSelectedNode() {
+		list.remove(getSelectedNode());
 	}
 
 	public FramFunction.NodePort getSelectedPort() {
@@ -395,15 +360,15 @@ public class Visualizer extends JComponent {
 						
 						switch(e.getModifiers()) {
 						case InputEvent.BUTTON1_MASK: {
-//							System.out.println("That's the LEFT button");     
+//							System.out.println("That's the LEFT button");
 							break;
 						}
 						case InputEvent.BUTTON2_MASK: {
-//							System.out.println("That's the MIDDLE button");     
+//							System.out.println("That's the MIDDLE button");
 							break;
 						}
 						case InputEvent.BUTTON3_MASK: {
-							popup.show(e.getComponent(), e.getX(), e.getY());				
+							popup.show(e.getComponent(), e.getX(), e.getY());
 //							System.out.println("That's the RIGHT button");    
 							
 							break;
@@ -413,6 +378,8 @@ public class Visualizer extends JComponent {
 					}
 					selectedLine = null;
 				}else{
+					
+					System.out.println("noll");
 
 					selectNode(null, null);
 					selectConnection(null);

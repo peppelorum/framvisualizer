@@ -25,6 +25,7 @@
 package gui;
 
 import graph.GraphLine;
+import graph.NodeMenu;
 import graph.Visualizer;
 
 import java.awt.BorderLayout;
@@ -317,6 +318,8 @@ public class GUI extends JFrame implements ActionListener{
 		toolbar.add(createNewNodeButton());
 		toolbar.add(createDeleteButton());
 		
+		
+		
 		contentPane.add(toolbar, BorderLayout.PAGE_START);	
 		contentPane.add(tableAndGraph, BorderLayout.CENTER);
 
@@ -390,9 +393,7 @@ public class GUI extends JFrame implements ActionListener{
 		}
 	}
 	
-	public void deleteSelectedNode() {
-		framNodeEditorList.getList().remove(framVisualizer.getSelectedNode());
-	}
+
 	
 
 	private JButton createDeleteButton() {
@@ -400,7 +401,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttonDelete.setText("Delete node");
 		buttonDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				deleteSelectedNode();
+				framVisualizer.deleteSelectedNode();
 			}
 		});
 		
@@ -585,7 +586,7 @@ public class GUI extends JFrame implements ActionListener{
         public String getDescription() {
             return "FRAM Visualizer files (*.fram)";
         }
-    }  
+    }
     
 	/**
 	 * Creates the Filemenu
@@ -636,7 +637,7 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	private JMenu createNodeMenu(){
 		JMenu menu;
-		JMenuItem menuItem;				
+		JMenuItem menuItem;
 		
 		menu = new JMenu("Node");
 		menu.setMnemonic('N');
@@ -645,11 +646,8 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem.setMnemonic('n');
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
-		
-		menuItem = new JMenuItem("Delete node");
-		menuItem.setMnemonic('o');
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
+				
+		menu.add(new NodeMenu(framVisualizer, menu));
 		
 		return menu;
 	}
