@@ -54,11 +54,14 @@ public class LineMenu extends Component implements ActionListener {
 		ArrayList<color> colors = new ArrayList<color>();
 
 		
-		colors.add(new color("Orange", Color.orange));
+		
 		colors.add(new color("Black", Color.black));
+		colors.add(new color("Gray", Color.LIGHT_GRAY));
 		colors.add(new color("Green", Color.green));
+		colors.add(new color("Orange", Color.orange));
 		colors.add(new color("Red", Color.red));
-		colors.add(new color("Blu", Color.blue));
+		colors.add(new color("Blue", Color.blue));
+		
 	
 		
 		for(color a : colors) {
