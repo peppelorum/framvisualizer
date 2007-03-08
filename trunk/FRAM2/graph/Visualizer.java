@@ -230,6 +230,7 @@ public class Visualizer extends JComponent {
 
 	public void deleteSelectedNode() {
 		list.remove(getSelectedNode());
+
 	}
 
 	public FramFunction.NodePort getSelectedPort() {
@@ -414,6 +415,8 @@ public class Visualizer extends JComponent {
 						break;
 					}
 					case InputEvent.BUTTON3_MASK: {
+						//Enables the GraphMenu
+						//Not working as expected though
 //						popupGraphMenu.show(e.getComponent(), e.getX(), e.getY());
 //						System.out.println("That's the RIGHT button");    
 						break;
@@ -564,6 +567,7 @@ public class Visualizer extends JComponent {
 		g2d.scale(getZoomFactor(), getZoomFactor());
 		g.translate(offset.x, offset.y);
 
+		
 
 //		Point thisPosition = addZoomOffset(new Point(0,0));
 //		Dimension thisSize = this.getSize();
