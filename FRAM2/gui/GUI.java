@@ -130,12 +130,14 @@ public class GUI extends JFrame implements ActionListener{
 				else if(visualizer.getSelectedLine() != null) {
 					lineButtons.setVisible(true);
 					nodeButtons.setVisible(false);
+					framCPCTable.setCPC(null);
 
 //					updateHideLineButton();
 				}
 				else {
 					lineButtons.setVisible(false);
 					nodeButtons.setVisible(false);
+					framCPCTable.setCPC(null);
 				}
 				framNodeEditorList.setSelectedNode(framVisualizer.getSelectedNode());
 
@@ -279,6 +281,7 @@ public class GUI extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if (framVisualizer.hasSelectedNode()) {
 					framVisualizer.deleteSelectedNode();
+					framCPCTable.setCPC(null);
 				}
 			}
 		});
@@ -513,7 +516,11 @@ public class GUI extends JFrame implements ActionListener{
 
 		menuItem = new JMenuItem("New node");
 		menuItem.setMnemonic('n');
-		menuItem.addActionListener(this);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				framNodeEditorList.add(new FramFunction());
+			}
+		});
 		menu.add(menuItem);
 
 		menu.add(new NodeMenu(framNodeEditorList.getList(), framVisualizer, menu));
