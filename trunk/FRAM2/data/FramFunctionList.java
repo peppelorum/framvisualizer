@@ -371,6 +371,7 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 							if(searchValue.equals(connectionTo[1])){
 								RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
 								RelationInfo toNode = new RelationInfo(this.get(j), connectionTo[0]);
+							
 								if(!searchValue.equals("") && 												//Removes matches for "" searches
 										!(fromNode.getFunctionName().equals(toNode.getFunctionName()) &&
 										fromNode.getConnectionPort().equals(toNode.getConnectionPort()))){   //Filters out the connection to itself at the same port
@@ -378,8 +379,8 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 								foundConnections.add(new ConnectionInfo(fromNode,toNode, searchValue));
 								}
 							}
-						}	
-				}
+						}
+					}
 			}	
 		}
 		
@@ -398,12 +399,13 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 		for(int i = 0;i<connections.size();i++){
 			if(!foundConnections.contains(connections.get(i))){
 				connections.remove(i);
+				updateConnections();
 			}
 		}
 		
 		connections.addAll(temp);
 		filterConnections();
-		removeDuplicates();
+//		removeDuplicates();
 		
 	}
 	
