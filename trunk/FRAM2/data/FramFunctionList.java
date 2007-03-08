@@ -340,8 +340,7 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 					conn.getTo().getNode().isFilterVisible());
 			
 			conn.setFilterVisible(isVisible);
-		}
-		
+		}		
 	}
 	
 	
