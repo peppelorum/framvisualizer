@@ -30,6 +30,7 @@ import graph.Visualizer;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -203,8 +204,8 @@ public class GUI extends JFrame implements ActionListener{
 		searchField.getDocument().putProperty("name", "Text Field");
 
 		JPanel toolbar = new JPanel();
-		toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.LINE_AXIS));
-
+		toolbar.setLayout(new FlowLayout());
+		
 		toolbar.add(new JLabel("Search:"));
 		toolbar.add(searchField);
 		toolbar.add(createNewNodeButton());
@@ -224,7 +225,7 @@ public class GUI extends JFrame implements ActionListener{
 		final String newline = "\n";
 
 		public void insertUpdate(DocumentEvent e) {
-//			updateLog(e, "inserted into");
+			updateLog(e, "inserted into");
 			String search = searchField.getText();
 			framNodeEditorList.getList().setVisibilityFilter(search);
 			validate();
