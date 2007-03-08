@@ -41,11 +41,13 @@ public class Aspect implements java.io.Serializable {
 	private FramFunction parent;
 	
 	public Aspect(String value){
+		value = value.trim();
 		this.value = value;
 		this.comment = "";
 	}
 	
 	public Aspect(String value, String comment){
+		value = value.trim();
 		this.value = value;
 		this.comment = comment;
 	}
@@ -54,6 +56,7 @@ public class Aspect implements java.io.Serializable {
 		this.comment = comment;
 	}
 	public void setValue(String value) {
+		value = value.trim();
 		this.value = value;
 	}
 	public String getComment() {
