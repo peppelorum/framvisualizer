@@ -333,9 +333,13 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 			}
 			
 			node.setFilterVisible(visible);
-			for(ConnectionInfo conn : node.getConnections()) {
-				conn.setVisibility(visible);
-			}
+		}
+		
+		for(ConnectionInfo conn : this.getConnections()) {
+			boolean isVisible = (conn.getFrom().getNode().isFilterVisible() &&
+					conn.getTo().getNode().isFilterVisible());
+			
+			conn.setFilterVisible(isVisible);
 		}
 		
 	}
