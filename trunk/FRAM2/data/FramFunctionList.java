@@ -359,14 +359,15 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 			
 		for(int i=0;i<this.size();i++){
 			node = this.get(i);
+			foundConnections.addAll(findInternalConnections(this.get(i)));
 			for(int currentFromAspect=0; currentFromAspect<node.getAllAspects().size();currentFromAspect++){
 				String[] connectionFrom = node.getAllAspects().get(currentFromAspect);
 				
 				searchValue = connectionFrom[1];   //connectionFrom[0] contains the port
 				
 					alreadyFound.add(searchValue);
-
-					for(int j=i;j<this.size();j++){			
+					
+					for(int j=i+1;j<this.size();j++){			
 						for(String[] connectionTo : this.get(j).getAllAspects() ){
 							if(searchValue.equals(connectionTo[1])){
 								RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
@@ -405,31 +406,33 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 		
 		connections.addAll(temp);
 		filterConnections();
-//		removeDuplicates();
+
 		
 	}
 	
 	/**
-	 * 	Removes duplicate hits within a node, such as
-	 *	Output (value) -> Input (value)
-	 *	Input (value) -> Output(value) <--- duplicate
+	 * 	Finds all connections within one node
+	 *  easy to comment if it isn't wanted
 	 *
 	 */
-	private void removeDuplicates(){
-		for(int i=0;i<connections.size();i++){
-			ConnectionInfo cInfo = connections.get(i);
-			for(int j=i+1;j<connections.size();j++){
-				ConnectionInfo cInfo2 = connections.get(j);
-
-				if(cInfo.getAspect().equals(cInfo.getAspect()) &&
-						cInfo.getFrom().getConnectionPort().equals(cInfo2.getTo().getConnectionPort()) &&
-						cInfo.getTo().getConnectionPort().equals(cInfo2.getFrom().getConnectionPort()))
-				{
-					connections.remove(j);
+	private ArrayList<ConnectionInfo> findInternalConnections(FramFunction node){
+		ArrayList<ConnectionInfo> conList = new ArrayList<ConnectionInfo>();
+		
+		for (int i = 0; i<node.getAllAspects().size(); i++){
+			String[] connectionFrom = node.getAllAspects().get(i);
+			for (int j = i+1; j<node.getAllAspects().size(); j++){
+				String[] connectionTo = node.getAllAspects().get(j);
+				if (connectionFrom[1].equals(connectionTo[1])){
+					RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
+					RelationInfo toNode = new RelationInfo(node, connectionTo[0]);
+					conList.add(new ConnectionInfo(fromNode,toNode, connectionFrom[1]));
 				}
 			}
 		}
+		return conList;
 	}
+
+
 	
 	/**
 	 * Filters the connections for a node
