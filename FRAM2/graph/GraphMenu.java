@@ -35,13 +35,12 @@ public class GraphMenu extends Component {
 		});
 		comp.add(menuItem);
 		
-		menuItem = new JMenuItem("Add node");
+		menuItem = new JMenuItem("New node");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 
 				list.add(new FramFunction());
-				
 				vis.repaint();
 			}
 		});

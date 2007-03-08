@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -79,7 +79,7 @@ public class Visualizer extends JComponent {
 	private Point originalOffset;
 	private float zoomFactor = 1;
 
-	JPopupMenu popupNodeMenu, popupGraphMenu;
+	JPopupMenu popupNodeMenu, popupGraphMenu, popupLineMenu;
 
 	private ArrayList<ActionListener> selectedChangedRecipients = new ArrayList<ActionListener>();
 
@@ -112,12 +112,15 @@ public class Visualizer extends JComponent {
 
 		popupNodeMenu = new JPopupMenu();
 		popupNodeMenu.add(new NodeMenu(list, this, popupNodeMenu));
-		
+
 		popupGraphMenu = new JPopupMenu();
 		popupGraphMenu.add(new GraphMenu(list, this, popupGraphMenu));
 
+		popupLineMenu = new JPopupMenu();
+		popupLineMenu.add(new LineMenu(list, this, popupLineMenu));
+
 	}
-	
+
 
 
 	public FramFunction getNodeAt(Point position) {
@@ -214,7 +217,7 @@ public class Visualizer extends JComponent {
 	public FramFunction getSelectedNode() {
 		return selectedNode;
 	}
-	
+
 	public boolean hasSelectedNode() {
 		if (selectedNode == null) {
 			return false;
@@ -222,9 +225,9 @@ public class Visualizer extends JComponent {
 			return true;
 		}
 	}
-	
-	
-	
+
+
+
 	public void deleteSelectedNode() {
 		list.remove(getSelectedNode());
 	}
@@ -344,7 +347,7 @@ public class Visualizer extends JComponent {
 			}
 
 			public void mousePressed(MouseEvent e) {
-				
+
 				requestFocus();
 				secretCode = "";
 
@@ -358,19 +361,29 @@ public class Visualizer extends JComponent {
 				if(cInfo != null){
 					selectConnection(cInfo);
 					selectedNode = null;
+
+					switch(e.getModifiers()) {
+					case InputEvent.BUTTON1_MASK: {
+//						System.out.println("That's the LEFT button");
+						break;
+					}
+					case InputEvent.BUTTON2_MASK: {
+//						System.out.println("That's the MIDDLE button");
+						break;
+					}
+					case InputEvent.BUTTON3_MASK: {
+						popupLineMenu.show(e.getComponent(), e.getX(), e.getY());
+//						System.out.println("That's the RIGHT button");    
+
+						break;
+					}
+					}
+
 				}else if(node != null){
 					if (node.isFilterVisible()) {
-						
-						
+
 						selectNode(node, port);
-						
-						
-						/**
-						 * TODO
-						 * 
-						 * 
-						 */
-						
+
 						switch(e.getModifiers()) {
 						case InputEvent.BUTTON1_MASK: {
 //							System.out.println("That's the LEFT button");
@@ -383,7 +396,6 @@ public class Visualizer extends JComponent {
 						case InputEvent.BUTTON3_MASK: {
 							popupNodeMenu.show(e.getComponent(), e.getX(), e.getY());
 //							System.out.println("That's the RIGHT button");    
-							
 							break;
 						}
 						}				
@@ -391,7 +403,7 @@ public class Visualizer extends JComponent {
 					}
 					selectedLine = null;
 				}else{
-					
+
 					switch(e.getModifiers()) {
 					case InputEvent.BUTTON1_MASK: {
 //						System.out.println("That's the LEFT button");
@@ -404,12 +416,10 @@ public class Visualizer extends JComponent {
 					case InputEvent.BUTTON3_MASK: {
 						popupGraphMenu.show(e.getComponent(), e.getX(), e.getY());
 //						System.out.println("That's the RIGHT button");    
-						
 						break;
 					}
 					}		
-					
-					System.out.println("noll");
+
 
 					selectNode(null, null);
 					selectConnection(null);
@@ -548,25 +558,7 @@ public class Visualizer extends JComponent {
 					img.paintIcon(this, g, i * img.getIconWidth(), j * img.getIconHeight());
 				}
 			}
-//			URL url;
-//			try {
-//			//url = new URL("http://www.wright.edu/isap/erik_hollnagel.jpg");
-//			ImageIcon img = new ImageIcon(getClass().getResource("/icons/erik_hollnagel.jpg"));
-//			for(int i = 0; i < 5; i++) {
-//			for(int j = 0; j < 5; j++) {
-//			img.paintIcon(this, g, i * img.getIconWidth(), j * img.getIconHeight());
-//			}
-//			}
-//			//g.drawImage(img, 0, 0, null);
-//			} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			}
 		}
-		//"http://www.wright.edu/isap/erik_hollnagel.jpg");
-
-
-
 
 		java.awt.Graphics2D g2d = (java.awt.Graphics2D)g;
 		g2d.scale(getZoomFactor(), getZoomFactor());

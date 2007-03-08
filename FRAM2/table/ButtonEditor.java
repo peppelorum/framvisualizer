@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -178,19 +178,25 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor{
     	
 //    	model.removeRow(row);
 //    	
-//    	FramFunction node = tablenode.getNode();
-//    	ArrayList<Aspect> aspList;
-//
-//    	int l = 0;
-//    	for(FramFunction.NodePort port : FramFunction.NodePort.values()){
-//    		if (port.equals(conn)) {
-//    			break;
-//    		}
-//    		aspList = node.getAttributes(port);
-//    		l += aspList.size();
-//    		System.out.println("l: "+ l);
-//    	}
-//    	
+    	FramFunction node = tablenode.getNode();
+    	ArrayList<Aspect> aspList;
+
+    	int l = 0;
+    	for(FramFunction.NodePort port : FramFunction.NodePort.values()){
+    		if (port.equals(conn)) {
+    			break;
+    		}
+    		aspList = node.getAttributes(port);
+    		if (aspList.size() == 0) {
+    			l = l + 1;
+    		} else {
+    			l += aspList.size();
+    		}
+    		
+    	}
+    	
+    	System.out.println("l: "+ l);
+    	
 //    	
 ////    	
 //    	aspList = node.getAttributes(conn);
