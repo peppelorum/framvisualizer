@@ -42,12 +42,6 @@ public class FramAspectTableModel extends DefaultTableModel {
 	
 	private ActionListener nodeChangedListener;
 	
-	public boolean isCellEditable(int row, int col)
-	{
-		if ((col==0 && row !=0 )|| this.getValueAt(row,0)=="")
-			return false;
-		return true;
-	}
 	
 	/**
 	 * Listener for changes in a node table, this listener propagates changes from the jtable back to the framnode and framnodelist
@@ -121,7 +115,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	}
 		
 	private void generateCells() {
-		// ta bort lyssnaren s� att inte b�da lyssnarna �r ig�ng samtidigt
+		// Remove double listeners
 		this.removeTableModelListener(currentTableModelListener);
 		
 		this.setColumnCount(4);
