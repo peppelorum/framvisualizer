@@ -423,9 +423,11 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 			for (int j = i+1; j<node.getAllAspects().size(); j++){
 				String[] connectionTo = node.getAllAspects().get(j);
 				if (connectionFrom[1].equals(connectionTo[1])){
-					RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
-					RelationInfo toNode = new RelationInfo(node, connectionTo[0]);
-					conList.add(new ConnectionInfo(fromNode,toNode, connectionFrom[1]));
+					if(!connectionTo[1].equals("")){
+						RelationInfo fromNode = new RelationInfo(node, connectionFrom[0]);
+						RelationInfo toNode = new RelationInfo(node, connectionTo[0]);
+						conList.add(new ConnectionInfo(fromNode,toNode, connectionFrom[1]));
+					}
 				}
 			}
 		}
