@@ -302,14 +302,19 @@ public class GUI extends JFrame implements ActionListener{
 		buttonShowLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(GraphLine line : framVisualizer.getGuiLineList()){
+					
 					if(showAllLabels){
 						line.setShowBubbles(true);
-						showAllLabels = false;
 					}
 					else{
 						line.setShowBubbles(false);
-						showAllLabels = true;
 					}
+				}
+				if(showAllLabels){
+					showAllLabels = false;
+				}
+				else{
+					showAllLabels = true;
 				}
 				repaint();
 			}
