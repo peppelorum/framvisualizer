@@ -123,10 +123,12 @@ public class FramFunction implements java.io.Serializable {
 	}
 	
 	public void setFilterVisible(boolean val) {
+		boolean oldVal = filterVisible;
 		filterVisible = val;
 		
-		for(ConnectionInfo conn : this.getConnections()) {
-			conn.setFilterVisible(val);
+		// Only trigger event if value is different from the old one
+		if(oldVal != val) {
+			nodeChanged("VisibilityChanged");
 		}
 	}
 	
