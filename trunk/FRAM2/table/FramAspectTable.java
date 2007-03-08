@@ -63,9 +63,13 @@ public class FramAspectTable extends JTable {
 		this(new FramFunction(""), new FramFunctionList(""), null);
 	}
 	
+	/*
+	 * Set the the second and fourth as non editable for the first row
+	 * @see javax.swing.JTable#isCellEditable(int, int)
+	 */
 	public boolean isCellEditable(int row, int column) {
 		if(row == 0) {
-			if (column != 0) {
+			if (column == 1 || column == 3) {
 				return false;
 			}
 		}
@@ -124,9 +128,7 @@ public class FramAspectTable extends JTable {
 		cleanUp();
 		
 		node = newNode;
-		
 
-		
 		setModel(model);
 		node.addNodeChangedListener(nodeChangedListener);
 		
