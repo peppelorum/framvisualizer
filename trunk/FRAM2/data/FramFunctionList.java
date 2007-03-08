@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladï¿½n <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 	
 	This program is free software; you can redistribute it and/or
@@ -149,19 +149,19 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 			int i = 1;
 			String name;
 			do{
-				name = "Ny Nod" + " " + i;
+				name = "New node" + " " + i;
 				i++;
 			}while(this.getAllNames().contains(name));
-			
-	//		framNodeEditorList.add(new FramNode(name));
 			
 			o.setName(name);
 		}
 		
 		boolean result = super.add(o);
 		if(result) {
+			System.out.println(this.size());
 			o.setList(this);
 			o.setPosition(new Point(0, 0));
+			System.out.println(this.size());
 		}
 		
 		this.listChanged("NodeAdded");
