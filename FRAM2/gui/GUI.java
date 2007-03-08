@@ -29,19 +29,12 @@ import graph.NodeMenu;
 import graph.Visualizer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -52,7 +45,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.event.DocumentEvent;
@@ -61,7 +53,6 @@ import javax.swing.text.Document;
 
 import table.FramCPCTable;
 import table.FramNodeEditorList;
-
 import data.ConnectionInfo;
 import data.FramFunction;
 import data.FramFunctionList;
@@ -88,7 +79,6 @@ public class GUI extends JFrame implements ActionListener{
 	private JPanel lineButtons = new JPanel();
 	private JPanel nodeButtons = new JPanel();
 	private Container tableContainer = new Container();
-	private JButton toggleHideLine;
 	private JButton newNode;
 	private JToggleButton toggleFlagNode;
 
