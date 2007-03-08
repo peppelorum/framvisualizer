@@ -414,7 +414,7 @@ public class Visualizer extends JComponent {
 						break;
 					}
 					case InputEvent.BUTTON3_MASK: {
-						popupGraphMenu.show(e.getComponent(), e.getX(), e.getY());
+//						popupGraphMenu.show(e.getComponent(), e.getX(), e.getY());
 //						System.out.println("That's the RIGHT button");    
 						break;
 					}
