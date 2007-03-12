@@ -300,6 +300,8 @@ public class FramFunctionList extends ArrayList<FramFunction> implements java.io
 		
 		allEntities.toArray(allEntitiesArray);
 		
+		java.util.Arrays.sort(allEntitiesArray, String.CASE_INSENSITIVE_ORDER);
+		
 		return allEntitiesArray;
 	}
 	
