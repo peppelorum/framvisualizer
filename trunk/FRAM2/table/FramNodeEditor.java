@@ -121,7 +121,7 @@ public class FramNodeEditor extends JPanel {
 				// TODO Auto-generated method stub
 			}
 		});
-
+		
 		this.add(tableNode);
 		deSelected();
 	}

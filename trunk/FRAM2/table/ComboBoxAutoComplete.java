@@ -25,7 +25,9 @@
 package table;
 
 
+import java.awt.Color;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.text.*;
 
@@ -37,6 +39,14 @@ import javax.swing.text.*;
 public class ComboBoxAutoComplete extends JComboBox	implements JComboBox.KeySelectionManager
 {
 	private static final long serialVersionUID = 3571587786729616007L;
+	
+	int lastPressedKey = -1;
+	public int getLastPressedKey() {
+		return this.lastPressedKey;
+	}
+	public void setLastPressedKey(int val) {
+		this.lastPressedKey = val;
+	}
 	
 	public class CBDocument extends PlainDocument
 	{
@@ -61,11 +71,46 @@ public class ComboBoxAutoComplete extends JComboBox	implements JComboBox.KeySele
 			if(tf != null)
 			{
 				tf.setDocument(new CBDocument());
+				tf.addKeyListener(new KeyListener() {
+
+					public void keyPressed(KeyEvent e) {
+						int[] keys = new int[] {
+								KeyEvent.VK_ENTER,
+								KeyEvent.VK_LEFT,
+								KeyEvent.VK_RIGHT,
+								KeyEvent.VK_UP,
+								KeyEvent.VK_DOWN
+						};
+						for(int key : keys) {
+							if(key == e.getKeyCode()) {
+								return;
+							}
+						}
+						setLastPressedKey(e.getKeyCode());
+					}
+
+					public void keyReleased(KeyEvent e) {
+						
+					}
+
+					public void keyTyped(KeyEvent e) {
+						
+					}
+					
+					
+				});
 				
 				addActionListener(new ActionListener()
 						{
 					public void actionPerformed(ActionEvent evt)
 					{
+						
+						// Don't select from list if last action was to delete
+						if(getLastPressedKey() == KeyEvent.VK_BACK_SPACE
+								|| getLastPressedKey() == KeyEvent.VK_DELETE) {
+							return;
+						}
+						
 						JTextField tf = (JTextField)getEditor().getEditorComponent();
 						String text = tf.getText();
 						String orgText = text;
@@ -81,10 +126,16 @@ public class ComboBoxAutoComplete extends JComboBox	implements JComboBox.KeySele
 							}
 						}
 						tf.setText(text);		
-						
-						tf.setSelectionStart(orgText.length());
-						tf.setSelectionEnd(text.length());
-						
+
+						if(orgText.length() != text.length()) {
+							tf.setSelectionStart(orgText.length());
+							tf.setSelectionEnd(text.length());
+							tf.setCaretColor(tf.getSelectionColor());
+						}
+						else {
+							tf.setCaretColor(Color.BLACK);
+						}
+
 					}
 						});
 			}
@@ -98,6 +149,7 @@ public class ComboBoxAutoComplete extends JComboBox	implements JComboBox.KeySele
 	{
 		super.fireActionEvent();
 	}
+	
 }
 
 
