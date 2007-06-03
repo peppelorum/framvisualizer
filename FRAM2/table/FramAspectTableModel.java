@@ -53,10 +53,11 @@ public class FramAspectTableModel extends DefaultTableModel {
 			
 				int changedRow = e.getFirstRow();
 				String changedLabel = getValueAt(changedRow, 0).toString();
+				String newName = getValueAt(changedRow, 1).toString();
 				String newComment = getValueAt(changedRow, 2).toString();
 		
 				if(changedRow == 0) {
-					node.setName(changedLabel);
+					node.setName(newName);
 					node.setComment(newComment);
 				}
 				else {
@@ -96,7 +97,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 		};
 		
 		String[] colNames = {"Port", "Aspect", "Comment", "Actions"};
-		 this.setColumnIdentifiers(colNames);
+		this.setColumnIdentifiers(colNames);
 		
 		setNode(node);
 		
@@ -136,7 +137,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 	public Object[] createNodeCells(FramFunction node) {
 	
 		ArrayList<Object> rows = new ArrayList<Object>();
-		rows.add(new Object[] { node.getName(), "", node.getComment()});
+		rows.add(new Object[] { "Name", node.getName(), node.getComment()});
 		
 		NodePort[] cPoints = { 
 				NodePort.Input, 

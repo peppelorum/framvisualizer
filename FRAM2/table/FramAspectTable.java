@@ -68,11 +68,15 @@ public class FramAspectTable extends JTable {
 	 * @see javax.swing.JTable#isCellEditable(int, int)
 	 */
 	public boolean isCellEditable(int row, int column) {
-		if(row == 0) {
-			if (column == 1 || column == 3) {
-				return false;
-			}
+//		if(row == 0) {
+//			if (column == 1 || column == 3) {
+//				return false;
+//			}
+//		}
+		if(column == 0) {
+			return false;
 		}
+		
 		return super.isCellEditable(row, column);
 	}
 	
@@ -166,7 +170,7 @@ public class FramAspectTable extends JTable {
 		if (col == 3 && row > 0){			
 			TableCellEditor editor = super.getCellEditor(row,col);
 			return new ButtonEditor(model, editor, list, node);
-		} else if(col == 1){
+		} else if(col == 1 && row > 0){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
 			return new ComboBoxCellEditor(combo);
