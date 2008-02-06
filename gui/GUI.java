@@ -29,12 +29,16 @@ import graph.NodeMenu;
 import graph.Visualizer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -46,12 +50,27 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import javax.swing.text.Document;
 
+//import com.thoughtworks.xstream.XStream;
+//import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import table.FramAspectTable;
+import table.FramAspectTableModel;
 import table.FramCPCTable;
 import table.FramNodeEditorList;
 import data.ConnectionInfo;
@@ -73,6 +92,8 @@ public class GUI extends JFrame implements ActionListener{
 	//GUI
 	private FramNodeEditorList framNodeEditorList = new FramNodeEditorList();
 	private Visualizer framVisualizer = new Visualizer();
+	private FramAspectTable framNodeListHeader;
+	private int[] widthOfCols;
 
 	private FramCPCTable framCPCTable = new FramCPCTable();
 	private JSplitPane tableAndGraph;
@@ -82,6 +103,8 @@ public class GUI extends JFrame implements ActionListener{
 	private Container tableContainer = new Container();
 	private JButton newNode;
 	private JToggleButton toggleFlagNode;
+	
+	private Timer timer;
 
 
 
@@ -101,6 +124,8 @@ public class GUI extends JFrame implements ActionListener{
 		 * 
 		 * 
 		 * */
+		
+		framNodeEditorList.setParent(this);
 
 		this.setSize(900, 600);
 		Container contentPane = getContentPane();
@@ -145,8 +170,6 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		});
 
-
-
 		tableContainer.setLayout(new BoxLayout(tableContainer, BoxLayout.Y_AXIS));
 
 		JMenuBar menuBar = new JMenuBar();
@@ -157,12 +180,85 @@ public class GUI extends JFrame implements ActionListener{
 
 		//The graphnodes
 		framVisualizer.setList(framNodeEditorList.getList());
+		
+		framNodeListHeader = new FramAspectTable();
+		framNodeListHeader.getTableHeader().setReorderingAllowed(false);
+		framNodeListHeader.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		TableColumn col = framNodeListHeader.getColumnModel().getColumn(0);
+		int width = 90;
+		col.setMinWidth(width);
+		col.setMaxWidth(width);
+		col.setPreferredWidth(width);
 
+		col = framNodeListHeader.getColumnModel().getColumn(3);
+		width = 30;
+		col.setMinWidth(width);
+		col.setMaxWidth(width);
+		col.setPreferredWidth(width);
+		
+		int delay = 10; //milliseconds
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				System.out.println("timer");
+				framNodeEditorList.setWidthOfCols(widthOfCols);
+				framNodeEditorList.updateColumWidth();
+				timer.stop();
+			}
+		};
+		timer = new Timer(delay, taskPerformer);
+		 
+		framNodeListHeader.getColumnModel().addColumnModelListener(new TableColumnModelListener(){
+
+			public void columnAdded(TableColumnModelEvent e) {			
+			}
+
+			public void columnMarginChanged(ChangeEvent e) {
+				
+//				if (timer.isRunning()) {
+//					timer.restart();
+//				} else {
+//					 timer.start();
+//				}
+				DefaultTableColumnModel columns = (DefaultTableColumnModel)e.getSource();
+
+				TableColumn col = new TableColumn();
+				int[] widthOfCols2 = new int[4];
+
+				for (int i = 0; i < columns.getColumnCount(); i++) {
+					col = columns.getColumn(i);
+					widthOfCols2[i] = col.getWidth();
+				}
+				widthOfCols = widthOfCols2;
+				framNodeEditorList.setWidthOfCols(widthOfCols);
+				framNodeEditorList.updateColumWidth();
+				
+			}
+
+			public void columnMoved(TableColumnModelEvent e) {		
+			}
+
+			public void columnRemoved(TableColumnModelEvent e) {			
+			}
+
+			public void columnSelectionChanged(ListSelectionEvent e) {			
+			}
+			 
+		});
+		
+//		framNodeEditorList.setColumModel(framNodeListHeader.getColumnModel());
+		
+		JTableHeader tableHeader=framNodeListHeader.getTableHeader();
+				
 		tableContainer.add(framNodeEditorList);
-
+		
 		tableAndGraph = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT );
 		tableAndGraph.setDividerLocation(450);
-		tableAndGraph.setLeftComponent(new JScrollPane(tableContainer));
+		
+		JScrollPane tableScrollPane = new JScrollPane(tableContainer);
+		tableScrollPane.setColumnHeaderView(tableHeader);
+		
+		tableAndGraph.setLeftComponent(tableScrollPane);
 
 		nodeButtons.setVisible(false);
 
@@ -410,7 +506,28 @@ public class GUI extends JFrame implements ActionListener{
 				File file = fc.getSelectedFile();
 				framNodeEditorList.getList().saveFile("save format 3", file.getPath());
 			}
-		} else if(e.getActionCommand()=="About"){
+		} 
+//		
+//		else if(e.getActionCommand()== "Serialize to XML"){
+//			
+//			XStream xstream = new XStream(new DomDriver()); // does not require XPP3 library
+//			
+//			String xml = xstream.toXML(framNodeEditorList.getList());
+//			System.out.println(xml);
+//			
+//			
+//			//fc.resetChoosableFileFilters();
+//
+//			/*
+//			int returnVal = fc.showSaveDialog(this);
+//			if (returnVal == JFileChooser.APPROVE_OPTION) {
+//				File file = fc.getSelectedFile();
+//				//framNodeEditorList.getList().saveFile("save format 3", file.getPath());
+//			}
+//			*/
+//		} 
+		
+		else if(e.getActionCommand()=="About"){
 			JFrame aboutFrame = new JFrame();
 			JPanel panel = new JPanel();
 			aboutFrame.add(panel);
@@ -505,6 +622,10 @@ public class GUI extends JFrame implements ActionListener{
 		menuItem = new JMenuItem("Export to format 3");
 		menuItem.addActionListener(this);
 		exportMenu.add(menuItem);
+		
+		menuItem = new JMenuItem("Serialize to XML");
+		menuItem.addActionListener(this);
+		exportMenu.add(menuItem);
 
 		return menu;
 	}
@@ -550,5 +671,29 @@ public class GUI extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 
 		new GUI();
+	}
+	
+	public void forceWidthOfCols() {
+//		this.widthOfCols = widthOfCols;
+		System.out.println("GUI: forcing column widths");
+		
+		TableColumn col;
+		int width;
+		
+		for (int i = 0; i < widthOfCols.length; i++) {
+			col = framNodeListHeader.getColumnModel().getColumn(i);
+			width = widthOfCols[i];
+			col.setMinWidth(width);
+			col.setMaxWidth(width);
+			col.setPreferredWidth(width);
+		}
+	}
+
+
+	public void notifyOfUpdate() {
+		// TODO Auto-generated method stub
+		System.out.println("gui got an update");
+//		forceWidthOfCols();
+		
 	}
 }

@@ -54,8 +54,9 @@ public class FramAspectTable extends JTable {
 	private ActionListener nodeChangedListener;
 	private Aspect selectedAspect;
 	private ArrayList<ActionListener> selectedChangedRecipients;
-	private FramNodeEditor parent;
+	final private FramNodeEditor parent;
 	private FramAspectTableModel model;
+	private int[] widthOfCols;
 
 	private static final long serialVersionUID = 3518691723356609315L;
 	
@@ -80,7 +81,9 @@ public class FramAspectTable extends JTable {
 		return super.isCellEditable(row, column);
 	}
 	
-	public FramAspectTable(FramFunction node, FramFunctionList listInput, FramNodeEditor parent) {
+	public FramAspectTable(FramFunction node, FramFunctionList listInput, final FramNodeEditor parent) {
+		
+		this.widthOfCols = new int[] {100, 100, 100, 30};
 		
 		model = new FramAspectTableModel(node);
 		
@@ -92,6 +95,8 @@ public class FramAspectTable extends JTable {
 			
 			public void actionPerformed(ActionEvent e) {
 				updateTable();
+				parent.notifyOfUpdate();
+//				parent.notifyOfUpdate();
 			}
 		};
 		
@@ -139,9 +144,30 @@ public class FramAspectTable extends JTable {
 		updateTable();
 	}
 	
+	public void forceWidthOfCols(int[] widthOfCols) {
+//		this.widthOfCols = widthOfCols;
+		System.out.println("update width of cols in framascpettable");
+		
+		TableColumn col;
+		int width;
+		
+		for (int i = 0; i < widthOfCols.length; i++) {
+			col = this.getColumnModel().getColumn(i);
+			width = widthOfCols[i];
+//			col.setMinWidth(width);
+//			col.setMaxWidth(width);
+			col.setPreferredWidth(width);
+//			col.setResizable(true);
+			
+		}
+	}
+	
 	private void updateTable() {
 		
+		System.out.println("updating table");
+		
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		TableColumn col = this.getColumnModel().getColumn(0);
 		int width = 90;
 		col.setMinWidth(width);
