@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import data.Aspect;
 import data.FramFunction;
@@ -55,7 +56,9 @@ public class FramAspectTableModel extends DefaultTableModel {
 				String changedLabel = getValueAt(changedRow, 0).toString();
 				String newName = getValueAt(changedRow, 1).toString();
 				String newComment = getValueAt(changedRow, 2).toString();
-		
+				
+				System.out.println("tableChanged: "+ newName);
+						
 				if(changedRow == 0) {
 					node.setName(newName);
 					node.setComment(newComment);
@@ -182,5 +185,6 @@ public class FramAspectTableModel extends DefaultTableModel {
 			node.removeNodeChangedListener(nodeChangedListener);
 		}
 	}
+
 	
 }

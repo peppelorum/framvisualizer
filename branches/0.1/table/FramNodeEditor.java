@@ -32,6 +32,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.table.TableColumnModel;
 
 import data.FramFunction;
 
@@ -163,5 +164,16 @@ public class FramNodeEditor extends JPanel {
 
 	public void paint(Graphics g) {
 		super.paint(g);
+	}
+
+	public void setColumnModel(TableColumnModel columnModel) {
+		tableNode.setColumnModel(columnModel);
+		
+	}
+
+	public void notifyOfUpdate() {
+		// TODO Auto-generated method stub
+		editorParent.notifyOfUpdate();
+		
 	}
 }
