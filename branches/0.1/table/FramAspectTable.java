@@ -31,6 +31,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -146,7 +148,7 @@ public class FramAspectTable extends JTable {
 	
 	public void forceWidthOfCols(int[] widthOfCols) {
 //		this.widthOfCols = widthOfCols;
-		System.out.println("update width of cols in framascpettable");
+//		System.out.println("update width of cols in framascpettable");
 		
 		TableColumn col;
 		int width;
@@ -164,7 +166,7 @@ public class FramAspectTable extends JTable {
 	
 	private void updateTable() {
 		
-		System.out.println("updating table");
+//		System.out.println("updating table");
 		
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -199,6 +201,14 @@ public class FramAspectTable extends JTable {
 		} else if(col == 1 && row > 0){
 			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
 			combo.setEditable(true);
+			
+//	        JComboBox companyComboBox = new JComboBox(new Object[] {"AraAra! SL", "Aragones Transports SA", "Rocca SL", "Rodriguez e Hijos SA", "Rimbau Motors SL"});
+//	        JComboBox companyComboBox = new JComboBox(node.getList().getAllAspects(true));
+//	        companyComboBox.setEditable(true);
+//	        AutoCompletion.enable(companyComboBox);
+	        
+//	        return new DefaultCellEditor(combo);
+//			return new ComboBoxCellEditor(new EditableComboBox(node.getList().getAllAspects(true)));
 			return new ComboBoxCellEditor(combo);
 		} else {
 			return super.getCellEditor(row,col);
