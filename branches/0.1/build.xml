@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+ 
+<project name="FramVisualizer"  default="dist" basedir=".">
+	<property name="branch" value="0.1"/>
+	<property name="src" location="./"/>
+	<property name="build" location="../../../build/0.1-branch"/>
+	<property name="dist"  location="../../../dist/"/>
+	 
+	 
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+    
+   	<exec executable="svn" output="svninfo.xml">
+		 <arg line="info --xml"/>
+	 </exec>
+	 
+	 <xmlproperty file="svninfo.xml" collapseattributes="true"/>
+	 <property name="svn.revision" value="${info.entry.revision}"/>
+  </target>
+  
+  <target name="compile" depends="init" description="compile the source " >
+    <javac srcdir="${src}" destdir="${build}"/>
+  </target>
+  
+	<target name="dist" depends="compile" description="generate the distribution" >
+    <mkdir dir="${dist}"/>
+
+   	<jar jarfile="${dist}/${ant.project.name}-${branch}-rev${svn.revision}.jar" basedir="${build}"> 
+        <zipfileset src="${src}/third-party-libs/commons-lang-2.3.jar" />
+        <manifest>
+                <attribute name="Main-Class" value="gui.GUI" />
+        </manifest>
+    </jar>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+</project>
