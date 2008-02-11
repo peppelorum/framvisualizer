@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav LadÃ©n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -35,8 +35,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JComponent;
 
-import org.apache.commons.lang.StringUtils;
-
+import libs.StringLib;
 
 
 import data.Aspect;
@@ -46,7 +45,7 @@ import data.FramFunction.NodePort;
 
 public class GraphNode extends JComponent {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4452948217399228756L;
 	private FramFunction node;
@@ -104,12 +103,12 @@ public class GraphNode extends JComponent {
 
 
 
-	public void paintComponent(Graphics g) { 
+	public void paintComponent(Graphics g) {
 
 		Color bgColor = node.getColor();
 
 		if(isSelected()) {
-			bgColor = nodeColorSel;				
+			bgColor = nodeColorSel;
 		}
 
 		g.setColor(bgColor);
@@ -126,8 +125,8 @@ public class GraphNode extends JComponent {
 			g.setColor(bgColor);
 			g.drawLine(
 					getCenter().x,
-					getCenter().y, 
-					portRect.x + node.getPortSize() / 2, 
+					getCenter().y,
+					portRect.x + node.getPortSize() / 2,
 					portRect.y + node.getPortSize() / 2);
 
 			if(isSelected() && parent.getSelectedPort() == conn) {
@@ -155,7 +154,7 @@ public class GraphNode extends JComponent {
 			loc.x -= 3;
 			loc.y += 3;
 			g.drawString(conn.toString().substring(0, 1), loc.x, loc.y);
-		}			
+		}
 
 
 	}
@@ -171,14 +170,14 @@ public class GraphNode extends JComponent {
 		ArrayList<String> lines = new ArrayList<String>();
 		String tmpLine = "";
 		String tk;
-	
+
 		// Check if the name has a space in it or is longer than our max width
-		if (StringUtils.countMatches(name, " ") > 0 && g.getFontMetrics().stringWidth(name) > node.getSize()-17) {
+		if (StringLib.countMatches(name, " ") > 0 && g.getFontMetrics().stringWidth(name) > node.getSize()-17) {
 
 			StringTokenizer st = new StringTokenizer(name);
 			int tokens = st.countTokens();
 			int k = 1;
-			
+
 //			System.out.println("tokens: "+ st.countTokens());
 			while (st.hasMoreTokens()) {
 				tk = st.nextToken();
@@ -188,7 +187,7 @@ public class GraphNode extends JComponent {
 					lines.add(tmpLine.trim());
 					tmpLine = "";
 				}
-				
+
 				if (k == tokens){
 					lines.add(tk.trim());
 				}
@@ -199,7 +198,7 @@ public class GraphNode extends JComponent {
 			for (String s : lines) {
 			    System.out.println(s);
 			}
-			
+
 			if (lines.size() > 3){
 				lines.set(2, lines.get(2) +"...");
 			}
@@ -223,13 +222,13 @@ public class GraphNode extends JComponent {
 			}
 
 			if(name.length() != node.getName().length()){
-				name = name.substring(0,name.length()-1);	
+				name = name.substring(0,name.length()-1);
 				name = name.trim();
-				name = name + "...";	
+				name = name + "...";
 			}
 
 			g.drawString(
-					name, 
+					name,
 					(node.getPosition().x+node.getSize()/2-(g.getFontMetrics().stringWidth(name))/2),
 					(node.getPosition().y+node.getSize()/2));
 		}
@@ -239,21 +238,21 @@ public class GraphNode extends JComponent {
 			Rectangle rect = node.getRectangle();
 			Polygon flag = new Polygon();
 			flag.addPoint(
-					rect.x - rect.width/5, 
+					rect.x - rect.width/5,
 					rect.y + rect.height / 4);
 			flag.addPoint(
-					rect.x + rect.width/3 - rect.width/5, 
+					rect.x + rect.width/3 - rect.width/5,
 					rect.y);
 			flag.addPoint(
-					rect.x + rect.width/3 - rect.width/5, 
+					rect.x + rect.width/3 - rect.width/5,
 					rect.y + rect.height / 3);
 
 			g.fillPolygon(flag);
 			g.setColor(Color.black);
 			g.drawLine(
-					flag.xpoints[2], 
-					flag.ypoints[2], 
-					flag.xpoints[2], 
+					flag.xpoints[2],
+					flag.ypoints[2],
+					flag.xpoints[2],
 					(int)(flag.ypoints[2] + rect.getHeight()/3));
 		}
 	}
@@ -269,10 +268,10 @@ public class GraphNode extends JComponent {
 
 		//Sets the name to the node name
 		g.setFont(new Font("Arial", 1, 12));
-		String nameString = node.getName();		
+		String nameString = node.getName();
 		//if a port is selected a new namestring is set
-		if(parent.getSelectedPort() != null && isSelected()) {	
-			nameString += " : " + parent.getSelectedPort().toString();	
+		if(parent.getSelectedPort() != null && isSelected()) {
+			nameString += " : " + parent.getSelectedPort().toString();
 		}
 
 		//Sets the width of the bubble so it contains the text
@@ -280,17 +279,17 @@ public class GraphNode extends JComponent {
 
 		//Checks if the info when a port is selected need to enlarge the bubble
 		//This info is value and comments for each port, it also increase the height
-		if(isSelected() && parent.getSelectedPort() != null) {		
+		if(isSelected() && parent.getSelectedPort() != null) {
 			g.setFont(new Font("Arial", 1, 10));
 			int fontHeight = g.getFontMetrics().getHeight()-1;
 
-			for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {	
+			for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {
 				String s = asp.getValue() + (asp.getComment() != "" ? " \"" + asp.getComment() + "\"" : "");
 				if(g.getFontMetrics().stringWidth(nameString) < g.getFontMetrics().stringWidth(s)){
 					node.setBubbleWidth(margin+5 + g.getFontMetrics().stringWidth(s));
 				}
 				//Increases the height of the bubble when more aspects are added
-				bubbleHeight += fontHeight;	
+				bubbleHeight += fontHeight;
 			}
 
 			//If the port have CPCs add some height
@@ -310,7 +309,7 @@ public class GraphNode extends JComponent {
 				bubbleHeight += fontHeight;
 			}
 		}
-		g.setFont(new Font("Arial", 1, 12));	
+		g.setFont(new Font("Arial", 1, 12));
 
 		int bubbleWidth = node.getBubbleWidth();
 
@@ -340,21 +339,21 @@ public class GraphNode extends JComponent {
 		// fill bubble background
 		g.setColor(Color.white);
 		g.fillRoundRect(
-				bubbleRect.x, 
-				bubbleRect.y, 
-				bubbleRect.width, 
-				bubbleRect.height, 
-				bubbleRounded, 
+				bubbleRect.x,
+				bubbleRect.y,
+				bubbleRect.width,
+				bubbleRect.height,
+				bubbleRounded,
 				bubbleRounded);
 
 		// draw bubble outline
 		g.setColor(Color.black);
 		g.drawRoundRect(
-				bubbleRect.x, 
-				bubbleRect.y, 
-				bubbleRect.width, 
-				bubbleRect.height, 
-				bubbleRounded, 
+				bubbleRect.x,
+				bubbleRect.y,
+				bubbleRect.width,
+				bubbleRect.height,
+				bubbleRounded,
 				bubbleRounded);
 
 
@@ -363,14 +362,14 @@ public class GraphNode extends JComponent {
 		g.fillPolygon(triAngle);
 		g.setColor(Color.black);
 		g.drawLine(
-				triAngle.xpoints[0], 
-				triAngle.ypoints[0], 
-				triAngle.xpoints[1], 
+				triAngle.xpoints[0],
+				triAngle.ypoints[0],
+				triAngle.xpoints[1],
 				triAngle.ypoints[1]);
 		g.drawLine(
-				triAngle.xpoints[2], 
-				triAngle.ypoints[2], 
-				triAngle.xpoints[1], 
+				triAngle.xpoints[2],
+				triAngle.ypoints[2],
+				triAngle.xpoints[1],
 				triAngle.ypoints[1]);
 
 
@@ -378,14 +377,14 @@ public class GraphNode extends JComponent {
 		//Draw the name in the bubble
 		g.setFont(new Font("Arial", 1, 12));
 		g.drawString(
-				nameString, 
+				nameString,
 				bubbleRect.x + margin,
 				bubbleRect.y + margin);
 
 		if(isSelected()) {
 			g.setFont(new Font("Arial", 1, 10));
 
-			if(parent.getSelectedPort() != null) { 
+			if(parent.getSelectedPort() != null) {
 				String[] cpcs = node.getCPCtext(parent.getSelectedPort());
 
 				int counter = 0;
@@ -393,25 +392,25 @@ public class GraphNode extends JComponent {
 
 				for(Aspect asp : node.getAttributes(parent.getSelectedPort())) {
 					g.drawString(
-							asp.getValue() + 
+							asp.getValue() +
 							(asp.getComment() != "" ? " \"" + asp.getComment() + "\"" : ""),
 							bubbleRect.x + margin,
 							bubbleRect.y + margin*2 + g.getFont().getSize() * counter);
 					counter++;
-				}		
+				}
 				counter++;
 
 				//Draw the CPC info
 				for(int i = 0; i < cpcs.length; i++) {
 					g.drawString(
-							cpcs[i], 
+							cpcs[i],
 							bubbleRect.x + margin,
 							bubbleRect.y + margin*2 + g.getFont().getSize() * (i + counter));
 				}
 			}
 			else {
 				g.drawString(
-						node.getComment(), 
+						node.getComment(),
 						bubbleRect.x + margin,
 						bubbleRect.y + margin*2);
 			}

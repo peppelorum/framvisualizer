@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav LadÃ©n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -533,13 +533,13 @@ public class GUI extends JFrame implements ActionListener{
 			aboutFrame.add(panel);
 			JLabel text = new JLabel("<html><h3>FRAM Visualizer</h3>" +
 					"<p>FRAM Visualizer is an open-source tool to help model <br>system with FRAM (Functional Resonance Accident Model). </p>" +
-					"<p><br>First developed at Linköping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladén<br></p>" +
+					"<p><br>First developed at Linkï¿½ping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladï¿½n<br></p>" +
 					"<p><br>FRAM Visualizer is licensed under GNU General Public License (GPL)</p>"+
 					"<p>https://sourceforge.net/projects/framvisualizer/</p>" +
 					"<p><br>Copyright (C) 2007  Peppe Bergqvist peppe@peppesbodega.nu, <br>" +
 					"Fredrik Gustafsson fregu808@student.liu.se,<br>" +
 					"Jonas Haraldsson haraldsson@gmail.com, <br> " +
-			"Gustav Ladén gusla438@student.liu.se</p></html>");
+			"Gustav Ladï¿½n gusla438@student.liu.se</p></html>");
 
 			panel.add(text);
 
