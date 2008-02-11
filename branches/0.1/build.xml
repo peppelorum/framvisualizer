@@ -4,7 +4,7 @@
 	<property name="branch" value="0.1"/>
 	<property name="src" location="./"/>
 	<property name="build" location="../../../build/0.1-branch"/>
-	<property name="dist"  location="../../../dist/"/>
+	<property name="dist" location="../../../dist/"/>
 	 
 	 
   <target name="init">
@@ -20,14 +20,23 @@
   </target>
   
   <target name="compile" depends="init" description="compile the source " >
-    <javac srcdir="${src}" destdir="${build}"/>
+  
+    <javac srcdir="${src}" destdir="${build}"
+    excludes="junitTest/*.java"
+    
+    />
   </target>
   
 	<target name="dist" depends="compile" description="generate the distribution" >
     <mkdir dir="${dist}"/>
+    
+	<copy todir="${build}">
+	  <fileset dir="${src}"
+	           includes="**/icons/*.GIF" />
+	</copy>
 
    	<jar jarfile="${dist}/${ant.project.name}-${branch}-rev${svn.revision}.jar" basedir="${build}"> 
-        <zipfileset src="${src}/third-party-libs/commons-lang-2.3.jar" />
+<!--        <zipfileset src="${src}/third-party-libs/commons-lang-2.3.jar" /> -->
         <manifest>
                 <attribute name="Main-Class" value="gui.GUI" />
         </manifest>
