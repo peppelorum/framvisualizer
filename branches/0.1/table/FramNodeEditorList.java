@@ -3,7 +3,7 @@
  	A visualizer for FRAM (Functional Resonance Accident Model).
  	This tool helps modelling the the FRAM table and visualize it.
 	Copyright (C) 2007  Peppe Bergqvist <peppe@peppesbodega.nu>, Fredrik Gustafsson <fregu808@student.liu.se>,
-	Jonas Haraldsson <haraldsson@gmail.com>, Gustav Ladén <gusla438@student.liu.se>
+	Jonas Haraldsson <haraldsson@gmail.com>, Gustav LadÃ©n <gusla438@student.liu.se>
 	http://sourceforge.net/projects/framvisualizer/
 
 	This program is free software; you can redistribute it and/or
@@ -26,20 +26,14 @@ package table;
 
 import gui.GUI;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.SpringLayout;
 import javax.swing.table.TableColumnModel;
-
-import org.freehep.swing.layout.FlowScrollLayout;
 
 import data.Aspect;
 import data.FramFunction;

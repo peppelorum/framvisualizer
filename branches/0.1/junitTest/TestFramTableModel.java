@@ -23,7 +23,7 @@ public class TestFramTableModel extends TestCase {
 	
 	public void testCreateNodeCells() {
 		Object[] target = new Object[] {
-				new Object[] { "Nyhetsbyrå", "" },
+				new Object[] { "NyhetsbyrÃ¥", "" },
 				new Object[] { "Input", "Nyheter" },
 				new Object[] { "Input", "Nyheter2" },
 				new Object[] { "Output", "Tidningar" },
@@ -54,7 +54,7 @@ public class TestFramTableModel extends TestCase {
 	public void testConstructor() {
 		
 		Object[] target = new Object[] {
-				new Object[] { "Nyhetsbyrå", "", "" },
+				new Object[] { "NyhetsbyrÃ¥", "", "" },
 				new Object[] { "Input", "Nyheter", "" },
 				new Object[] { "Input", "Nyheter2", "" },
 				new Object[] { "Output", "Tidningar", "" },
@@ -79,18 +79,18 @@ public class TestFramTableModel extends TestCase {
 	}
 	
 	public void testModelChangedListener() {
-		model.setValueAt("NyhetsbyråÄNDRAD", 0, 0);
-		assertEquals(model.getList().get(0).getName(), "NyhetsbyråÄNDRAD");	
+		model.setValueAt("NyhetsbyrÃ¥ Ã„NDRAD", 0, 0);
+		assertEquals(model.getList().get(0).getName(), "NyhetsbyrÃ¥ Ã„NDRAD");	
 		
 		assertEquals(model.getList().get(0).getOutput().get(0).getValue(), "Tidningar");
 		
-		model.setValueAt("Dåliga nyheter", 3, 1);
-		assertEquals(model.getList().get(0).getOutput().get(0).getValue(), "Dåliga nyheter");
+		model.setValueAt("DÃ¥liga nyheter", 3, 1);
+		assertEquals(model.getList().get(0).getOutput().get(0).getValue(), "DÃ¥liga nyheter");
 	}
 	
 	public void testListChangedListener() {
-		model.getList().get(0).setName("namnÄndratFrånListan");		
-		assertEquals("namnÄndratFrånListan", model.getValueAt(0, 0));
+		model.getList().get(0).setName("namnÃ¤ndratFrÃ¥nListan");		
+		assertEquals("namnÃ¤ndratFrÃ¥nListan", model.getValueAt(0, 0));
 		
 	}
 

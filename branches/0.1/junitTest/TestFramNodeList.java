@@ -49,9 +49,9 @@ public class TestFramNodeList extends TestCase {
 	public static FramFunctionList createFramList(){
 		FramFunctionList lista = new FramFunctionList("TestList");
 		
-		FramFunction nod1 = new FramFunction("Nyhetsbyr�");
+		FramFunction nod1 = new FramFunction("Nyhetsbyrå");
 		FramFunction nod2 = new FramFunction("Skogen");
-		FramFunction nod3 = new FramFunction("V�rlden");
+		FramFunction nod3 = new FramFunction("Världen");
 		
 		lista.add(nod1);
 		lista.add(nod2);
@@ -69,15 +69,15 @@ public class TestFramNodeList extends TestCase {
 		nod1.addResources("Papper2");
 		
 		nod2.addOutput("Papper");
-		nod2.addInput("Tr�d");
-		nod2.addPrecondition("Skogen v�xer");
-		nod2.addControl("V�xthuseffekten");
+		nod2.addInput("Träd");
+		nod2.addPrecondition("Skogen växer");
+		nod2.addControl("Växthuseffekten");
 		nod2.addTime("Varje dag");
-		nod2.addResources("V�der");
+		nod2.addResources("Väder");
 		
 		nod3.addOutput("Nyheter");
-		nod3.addInput("V�xthuseffekten");
-		nod3.addPrecondition("N�t har h�nt");
+		nod3.addInput("Växthuseffekten");
+		nod3.addPrecondition("Nåt har hänt");
 		nod3.addControl("TT");
 		nod3.addTime("Varje dag");
 		nod3.addResources("Tidningar");

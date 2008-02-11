@@ -43,7 +43,7 @@ public class TestFramNode extends TestCase {
     }
     
     /**
-     * Testar att l�gga till tv� v�rden i varje kopplingspunkt
+     * Testar att lägga till två värden i varje kopplingspunkt
      *
      */
     public void testInput2values() {
