@@ -104,7 +104,7 @@ public class GUI extends JFrame implements ActionListener{
 	private JButton newNode;
 	private JToggleButton toggleFlagNode;
 	
-	private Timer timer;
+//	private Timer timer;
 
 
 
@@ -197,16 +197,18 @@ public class GUI extends JFrame implements ActionListener{
 		col.setMaxWidth(width);
 		col.setPreferredWidth(width);
 		
-		int delay = 10; //milliseconds
-		ActionListener taskPerformer = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				System.out.println("timer");
-				framNodeEditorList.setWidthOfCols(widthOfCols);
-				framNodeEditorList.updateColumWidth();
-				timer.stop();
-			}
-		};
-		timer = new Timer(delay, taskPerformer);
+//		int delay = 10; //milliseconds
+//		ActionListener taskPerformer = new ActionListener() {
+//			public void actionPerformed(ActionEvent evt) {
+//				System.out.println("timer");
+//				framNodeEditorList.setWidthOfCols(widthOfCols);
+//				framNodeEditorList.updateColumWidth();
+//				timer.stop();
+//			}
+//		};
+//		timer = new Timer(delay, taskPerformer);
+//		
+//		framNodeEditorList.setColumModel(framNodeListHeader.getColumnModel());
 		 
 		framNodeListHeader.getColumnModel().addColumnModelListener(new TableColumnModelListener(){
 
@@ -224,14 +226,20 @@ public class GUI extends JFrame implements ActionListener{
 
 				TableColumn col = new TableColumn();
 				int[] widthOfCols2 = new int[4];
+				
+				int tot = 0;
 
 				for (int i = 0; i < columns.getColumnCount(); i++) {
 					col = columns.getColumn(i);
+//					System.out.println(col.getWidth());
+					tot += col.getWidth();
 					widthOfCols2[i] = col.getWidth();
 				}
 				widthOfCols = widthOfCols2;
+				framNodeEditorList.setTableWidth(tot);
 				framNodeEditorList.setWidthOfCols(widthOfCols);
 				framNodeEditorList.updateColumWidth();
+				
 				
 			}
 
@@ -533,13 +541,13 @@ public class GUI extends JFrame implements ActionListener{
 			aboutFrame.add(panel);
 			JLabel text = new JLabel("<html><h3>FRAM Visualizer</h3>" +
 					"<p>FRAM Visualizer is an open-source tool to help model <br>system with FRAM (Functional Resonance Accident Model). </p>" +
-					"<p><br>First developed at Link�ping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Lad�n<br></p>" +
+					"<p><br>First developed at Linköping University, Sweden by:</p><p>Peppe Bergqvist<br>Fredrik Gustafsson<br>Jonas Haraldsson<br>Gustav Ladén<br></p>" +
 					"<p><br>FRAM Visualizer is licensed under GNU General Public License (GPL)</p>"+
 					"<p>https://sourceforge.net/projects/framvisualizer/</p>" +
 					"<p><br>Copyright (C) 2007  Peppe Bergqvist peppe@peppesbodega.nu, <br>" +
 					"Fredrik Gustafsson fregu808@student.liu.se,<br>" +
 					"Jonas Haraldsson haraldsson@gmail.com, <br> " +
-			"Gustav Lad�n gusla438@student.liu.se</p></html>");
+			"Gustav Ladén gusla438@student.liu.se</p></html>");
 
 			panel.add(text);
 

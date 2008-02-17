@@ -73,7 +73,7 @@ public class FramAspectTableModel extends DefaultTableModel {
 									getValueAt(i, 1).toString(), 
 									getValueAt(i,2).toString()));
 						}
-					}					
+					}
 					node.setAttributes(conn, newValList);
 				}
 			}

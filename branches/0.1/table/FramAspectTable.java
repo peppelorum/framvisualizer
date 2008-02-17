@@ -38,6 +38,9 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+
 import data.Aspect;
 import data.FramFunction;
 import data.FramFunctionList;
@@ -163,6 +166,7 @@ public class FramAspectTable extends JTable {
 			
 		}
 	}
+
 	
 	private void updateTable() {
 		
@@ -199,16 +203,11 @@ public class FramAspectTable extends JTable {
 			TableCellEditor editor = super.getCellEditor(row,col);
 			return new ButtonEditor(model, editor, list, node);
 		} else if(col == 1 && row > 0){
-			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(node.getList().getAllAspects(true));
-			combo.setEditable(true);
-			
-//	        JComboBox companyComboBox = new JComboBox(new Object[] {"AraAra! SL", "Aragones Transports SA", "Rocca SL", "Rodriguez e Hijos SA", "Rimbau Motors SL"});
-//	        JComboBox companyComboBox = new JComboBox(node.getList().getAllAspects(true));
-//	        companyComboBox.setEditable(true);
-//	        AutoCompletion.enable(companyComboBox);
+
+	        JComboBox combo = new JComboBox(node.getList().getAllAspects(true));
+	        combo.setEditable(true);
+	        AutoCompleteDecorator.decorate(combo);
 	        
-//	        return new DefaultCellEditor(combo);
-//			return new ComboBoxCellEditor(new EditableComboBox(node.getList().getAllAspects(true)));
 			return new ComboBoxCellEditor(combo);
 		} else {
 			return super.getCellEditor(row,col);
