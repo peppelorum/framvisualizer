@@ -27,6 +27,7 @@ package table;
 import gui.GUI;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -91,17 +92,18 @@ public class FramNodeEditorList extends JComponent {
 
 	}
 
-//	public void setColumModel(TableColumnModel columnModel) {
-//		this.columnModel = columnModel;
-//	}
+	public void setColumModel(TableColumnModel columnModel) {
+		System.out.println("GRIS");
+		this.columnModel = columnModel;
+	}
 	
-//	public void updateColumModel() {
-////		System.out.println("APA!!!");
-//		for(Component c : this.getComponents()) {
-//			FramNodeEditor guiNode = (FramNodeEditor)c;
-//			guiNode.setColumnModel(columnModel);
-//		}
-//	}
+	public void updateColumModel() {
+		System.out.println("APA!!!");
+		for(Component c : this.getComponents()) {
+			FramNodeEditor guiNode = (FramNodeEditor)c;
+			guiNode.setColumnModel(this.columnModel);
+		}
+	}
 	
 	public void updateColumWidth() {
 		for(Component c : this.getComponents()) {
@@ -312,6 +314,17 @@ public class FramNodeEditorList extends JComponent {
 //		parent.notifyOfUpdate();
 		updateColumWidth();
 		
+		
+	}
+
+	public void setTableWidth(int width) {
+		
+		System.out.println("setTableWidth: "+ width);
+		
+		for(Component c : this.getComponents()) {
+			FramNodeEditor guiNode = (FramNodeEditor)c;
+			guiNode.getTableNode().setPreferredSize(new Dimension(width, 100));
+		}
 		
 	}
 

@@ -24,10 +24,14 @@
 
 package table;
 
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 import data.CPC;
 import data.FramFunction;
@@ -92,8 +96,9 @@ public class FramCPCTable extends JTable {
 			return editor;
 		}
 		else {
-			ComboBoxAutoComplete combo = new ComboBoxAutoComplete(FramFunction.stepTwoDefaultValues);
+			JComboBox combo = new JComboBox(FramFunction.stepTwoDefaultValues);
 			combo.setEditable(true);
+			AutoCompleteDecorator.decorate(combo);
 			return new ComboBoxCellEditor(combo);
 		}
 	}

@@ -23,24 +23,25 @@
   
     <javac srcdir="${src}" destdir="${build}"
     excludes="junitTest/*.java"
+    classpath="third-party-libs/swingx-0.9.1.jar"
+        />
     
-    />
   </target>
   
 	<target name="dist" depends="compile" description="generate the distribution" >
-    <mkdir dir="${dist}"/>
-    
-	<copy todir="${build}">
-	  <fileset dir="${src}"
-	           includes="**/icons/*.GIF" />
-	</copy>
-
-   	<jar jarfile="${dist}/${ant.project.name}-${branch}-rev${svn.revision}.jar" basedir="${build}"> 
-<!--        <zipfileset src="${src}/third-party-libs/commons-lang-2.3.jar" /> -->
-        <manifest>
-                <attribute name="Main-Class" value="gui.GUI" />
-        </manifest>
-    </jar>
+	    <mkdir dir="${dist}"/>
+	    
+		<copy todir="${build}">
+		  <fileset dir="${src}"
+		           includes="**/icons/*.GIF" />
+		</copy>
+	
+	   	<jar jarfile="${dist}/${ant.project.name}-${branch}-rev${svn.revision}.jar" basedir="${build}"> 
+				<zipfileset src="${src}/third-party-libs/swingx-0.9.1.jar" />
+	        <manifest>
+	                <attribute name="Main-Class" value="gui.GUI" />
+	        </manifest>
+	    </jar>
   </target>
 
   <target name="clean" description="clean up" >
